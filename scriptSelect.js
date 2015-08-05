@@ -231,24 +231,31 @@ function SFSelect_changeHandler (src)
 		if (srcName.template==fobj.valuetemplate && srcName.property==fobj.valuefield)
 		{
 			//good, we have a match.
-			if (v.length==0||v[0]=='')
-			{ 
+			if (v.length==0||v[0]==''){ 
 				SFSelect_setDependentValues(srcName, fobj, []);
 			} else
 			{
+
+				var param = {}
+				param['action'] = 'sformsselect';				
+
 				var handler=responseHandler(srcName, fobj);
-				if (fobj.selectquery)
-				{
+				if (fobj.selectquery){
 					var query = fobj.selectquery.replace("@@@@", v.join('||'));
-					sajax_do_call("QueryExecution",
-							[ query ], handler);
-				} else
-				{
-					var query = fobj.selectfunction.replace("@@@@",
-							v.join(","));
-					sajax_do_call("FunctionExecution",
-							[ query ], handler);
+					param['query'] = query;
+					param['approach'] = 'smw';
+
+				} else {
+					var query = fobj.selectfunction.replace("@@@@", v.join(","));
+					param['query'] = query;
+					param['approach'] = 'function';
 				}
+
+				var posting = jQuery.get( wgScriptPath + "/api.php", param );
+				posting.done(function( data ) {
+					//TODO: We should do something with handler and values here
+				}).fail( function( data ) { console.log("Error!");});
+
 			}
 
 		}

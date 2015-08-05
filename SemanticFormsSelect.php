@@ -18,7 +18,10 @@ call_user_func( function() {
 	//$wgAjaxExportList[] = "QueryExecution";
 	//$wgAjaxExportList[] = "FunctionExecution";
 	$wgExtensionFunctions[] = "SFSelect_formSetup";
-	
+
+	$GLOBALS['wgAutoloadClasses']['SemanticFormsSelect'] = dirname(__FILE__) . '/SemanticFormsSelect.class.php';
+	$GLOBALS['wgAutoloadClasses']['ApiSemanticFormsSelect'] = dirname(__FILE__) . '/SemanticFormsSelect.api.php';
+
 	// api modules
 	$GLOBALS['wgAPIModules']['sformsselect'] = 'ApiSemanticFormsSelect';
 

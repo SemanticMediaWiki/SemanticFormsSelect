@@ -5,6 +5,12 @@ class ApiSemanticFormsSelect extends ApiBase {
 
 		$params = $this->extractRequestParams();
 
+		if ( $params['approach'] == 'smw' ) {
+			$json = SemanticFormsSelect::QueryExecution( $params['query']);
+		} else {
+			$json = SemanticFormsSelect::FunctionExecution( $params['query']);
+		}
+
 		return true;
 
 	}
