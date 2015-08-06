@@ -282,7 +282,7 @@ jQuery(function()
 	for (var i=0; i<SFSelect_fobjs.length; i++)
 	{
 		var fobj=SFSelect_fobjs[i];
-		var valuepat=valuepat = ":input[name^='" + fobj.valuetemplate + "'][name$='["
+		var valuepat= ":input[name^='" + fobj.valuetemplate + "'][name$='["
 		+ fobj.valuefield + "]'], :input[name^='" + fobj.valuetemplate
 		+ "'][name$='[" + fobj.valuefield + "][]']";
 		if (objs==null)

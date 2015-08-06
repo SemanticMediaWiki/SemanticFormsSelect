@@ -97,7 +97,7 @@ class SemanticFormsSelect {
 			$values=array_unique($values);
 		} else {
 			if ($wgScriptSelectCount==0) {
-				$wgOut->addModules('ext.sf_select.scriptselect');	
+				$wgOut->addModules('ext.sf_select.scriptselect');
 				$script.="var SFSelect_fobjs=[]; var selectobj=null;\n";
 			}
 			$wgScriptSelectCount++;
