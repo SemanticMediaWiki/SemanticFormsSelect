@@ -17,7 +17,7 @@ call_user_func( function() {
 
 	//$wgAjaxExportList[] = "QueryExecution";
 	//$wgAjaxExportList[] = "FunctionExecution";
-	$wgExtensionFunctions[] = "SFSelect_formSetup";
+	$GLOBALS['wgExtensionFunctions'][] = "SFSelect_formSetup";
 
 	$GLOBALS['wgAutoloadClasses']['SemanticFormsSelect'] = dirname(__FILE__) . '/SemanticFormsSelect.classes.php';
 	$GLOBALS['wgAutoloadClasses']['ApiSemanticFormsSelect'] = dirname(__FILE__) . '/SemanticFormsSelect.api.php';
@@ -26,7 +26,7 @@ call_user_func( function() {
 	$GLOBALS['wgAPIModules']['sformsselect'] = 'ApiSemanticFormsSelect';
 
 	$GLOBALS['wgSF_SelectDir'] = dirname(__FILE__) ;
-	$GLOBALS['wgSF_SelectScriptPath']  = $wgScriptPath . '/extensions/'.basename($GLOBALS['wgSF_SelectDir']);
+	$GLOBALS['wgSF_SelectScriptPath']  = $GLOBALS['wgScriptPath'] . '/extensions/'.basename($GLOBALS['wgSF_SelectDir']);
 	$GLOBALS['wgScriptSelectCount']=0;
 	
 	$GLOBALS['wgSF_Select_debug']=0;
