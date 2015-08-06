@@ -2,7 +2,7 @@
 
 class SemanticFormsSelect {
 
-	function QueryExecution($query) {
+	public static function QueryExecution($query) {
 		/*@var wgParser Parser */
 		global $wgParser, $wgSF_Select_debug;
 		
@@ -36,7 +36,7 @@ class SemanticFormsSelect {
 	}
 	
 	
-	function FunctionExecution($f) {
+	public static function FunctionExecution($f) {
 		global $wgParser, $wgSF_Select_debug;
 		
 		$wgParser->firstCallInit();
@@ -59,7 +59,7 @@ class SemanticFormsSelect {
 	}
 	
 	
-	function SF_Select ($cur_value, $input_name, $is_mandatory, $is_disabled, $other_args) {
+	public static function SF_Select ($cur_value, $input_name, $is_mandatory, $is_disabled, $other_args) {
 		global $wgOut, $wgScriptPath,$wgSF_SelectDir, $wgScriptSelectCount, $sfgFieldNum, $wgUser, $wgParser,$wgSF_SelectScriptPath;
 		$selectField=array();
 		$values=null;

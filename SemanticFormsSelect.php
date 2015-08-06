@@ -19,20 +19,20 @@ call_user_func( function() {
 	//$wgAjaxExportList[] = "FunctionExecution";
 	$wgExtensionFunctions[] = "SFSelect_formSetup";
 
-	$GLOBALS['wgAutoloadClasses']['SemanticFormsSelect'] = dirname(__FILE__) . '/SemanticFormsSelect.class.php';
+	$GLOBALS['wgAutoloadClasses']['SemanticFormsSelect'] = dirname(__FILE__) . '/SemanticFormsSelect.classes.php';
 	$GLOBALS['wgAutoloadClasses']['ApiSemanticFormsSelect'] = dirname(__FILE__) . '/SemanticFormsSelect.api.php';
 
 	// api modules
 	$GLOBALS['wgAPIModules']['sformsselect'] = 'ApiSemanticFormsSelect';
 
 	$GLOBALS['wgSF_SelectDir'] = dirname(__FILE__) ;
-	$GLOBALS['wgSF_SelectScriptPath']  = $wgScriptPath . '/extensions/'.basename($wgSF_SelectDir);
+	$GLOBALS['wgSF_SelectScriptPath']  = $wgScriptPath . '/extensions/'.basename($GLOBALS['wgSF_SelectDir']);
 	$GLOBALS['wgScriptSelectCount']=0;
 	
 	$GLOBALS['wgSF_Select_debug']=0;
 	
 	$GLOBALS['wgResourceModules']['ext.sf_select.scriptselect'] = array(
-		'localBasePath' => $wgSF_SelectDir,
+		'localBasePath' => $GLOBALS['wgSF_SelectDir'],
 		'remoteExtPath' => 'SemanticFormsSelect',
 		 'scripts' => array( 'scriptSelect.js' ),
 		 'dependencies' => array('ext.semanticforms.main')
