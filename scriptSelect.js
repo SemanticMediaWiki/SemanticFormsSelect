@@ -271,7 +271,7 @@ function SFSelect_changeHandler (src)
 jQuery(function()
 {
 	//simplify duplicated object.
-	SFSelect_removeDuplicateFobjs();
+	SFSelect_fobjs = SFSelect_removeDuplicateFobjs( SFSelect_fobjs );
 	jQuery("form#sfForm").change(function(event){
 		SFSelect_changeHandler(event.target);
 	});
@@ -279,17 +279,13 @@ jQuery(function()
 	
 	var objs=null;
 	//fields loading at load time. 
-	for (var i=0; i<SFSelect_fobjs.length; i++)
-	{
-		var fobj=SFSelect_fobjs[i];
-		var valuepat= ":input[name^='" + fobj.valuetemplate + "'][name$='["
-		+ fobj.valuefield + "]'], :input[name^='" + fobj.valuetemplate
-		+ "'][name$='[" + fobj.valuefield + "][]']";
-		if (objs==null)
-		{
+	for (var i=0; i<SFSelect_fobjs.length; i++){
+		var fobj= SFSelect_fobjs[i];
+		var valuepat= "input[name=" + fobj.valuetemplate + "\\["+ fobj.valuefield + "\\]]";
+
+		if (objs==null){
 			objs=jQuery(valuepat);
-		} else
-		{
+		} else{
 			objs=objs.add(valuepat);
 		}
 	}
