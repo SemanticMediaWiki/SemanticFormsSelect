@@ -11,8 +11,8 @@ class ApiSemanticFormsSelect extends ApiBase {
 			$json = SemanticFormsSelect::FunctionExecution( $params['query']);
 		}
 
-		var_dump( $json );
-//		$this->getResult()->addValue( null, $this->getModuleName(), array ( 'status' => $output->status, 'msg' => $output->msg ) );
+		$output = json_decode( $json );
+		$this->getResult()->addValue( null, $this->getModuleName(), $output );
 
 		return true;
 
