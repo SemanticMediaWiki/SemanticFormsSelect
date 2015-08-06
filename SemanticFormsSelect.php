@@ -12,7 +12,7 @@ call_user_func( function() {
 		   'author' =>array( '[http://www.mediawiki.org/wiki/User:Jasonzhang Jasonzhang]', 'Toniher'),
 		   'url' => 'https://www.mediawiki.org/wiki/Extension:SemanticFormsSelect', 
 		   'description' => 'Generate a select field in Semantic Form which values are from query',
-		   'version'  => 1.1,
+		   'version'  => 1.2,
 	);
 
 	//$wgAjaxExportList[] = "QueryExecution";
