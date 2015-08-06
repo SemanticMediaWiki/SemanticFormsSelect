@@ -46,7 +46,7 @@ function SFSelect_getSelectFieldPat(nameObj, f )
  * SF form add a fobj for each field in a multiple template.
  * In reality we only need a fobj to reduce the ajax call.
  */
-function SFSelect_removeDuplicateFobjs()
+function SFSelect_removeDuplicateFobjs( SFSelect_fobjs )
 {
 	var newfobjs = [];
 	for(var i=0; i<SFSelect_fobjs.length; i++)
@@ -72,7 +72,8 @@ function SFSelect_removeDuplicateFobjs()
 			newfobjs.push(of);
 		}
 	}
-	SFSelect_fobjs=newfobjs;
+
+	return newfobjs;
 	
 }
 
