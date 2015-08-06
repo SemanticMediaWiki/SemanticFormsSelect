@@ -12,7 +12,11 @@ class ApiSemanticFormsSelect extends ApiBase {
 		}
 
 		$output = json_decode( $json );
-		$this->getResult()->addValue( null, $this->getModuleName(), array ( 'count' => $output->count, 'values' => $output->values ) );
+		
+		$result = $this->getResult();
+		$result->setIndexedTagName( $output->values, 'value' );
+		$result->addValue( $this->getModuleName(), 'values', $output->values );
+		$result->addValue( $this->getModuleName(), 'count', $output->count );
 
 		return true;
 
