@@ -28,9 +28,10 @@ class SemanticFormsSelect {
 		$values=explode(",", $result);
 		$values=array_map("trim", $values);
 		$values=array_unique($values);
+		$count = count( $values );
 		sort($values);
 		array_unshift($values, "");
-		$ret=array( "values"=>$values);
+		$ret=array( "values"=>$values, "count"=>$count );
 		$json= json_encode($ret);
 		return $json;
 	}
