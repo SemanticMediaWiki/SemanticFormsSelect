@@ -271,28 +271,28 @@ function SFSelect_changeHandler (src)
 jQuery(function()
 {
 	//simplify duplicated object.
-	SFSelect_removeDuplicateFobjs();
-	jQuery("form#sfForm").change(function(event){
-		SFSelect_changeHandler(event.target);
-	});
-	
-	
-	var objs=null;
-	//fields loading at load time. 
-	for (var i=0; i<SFSelect_fobjs.length; i++)
-	{
-		var fobj=SFSelect_fobjs[i];
-		var valuepat=valuepat = ":input[name^='" + fobj.valuetemplate + "'][name$='["
-		+ fobj.valuefield + "]'], :input[name^='" + fobj.valuetemplate
-		+ "'][name$='[" + fobj.valuefield + "][]']";
-		if (objs==null)
-		{
-			objs=jQuery(valuepat);
-		} else
-		{
-			objs=objs.add(valuepat);
-		}
-	}
-	objs.trigger("change");
+	//SFSelect_removeDuplicateFobjs();
+	//jQuery("form#sfForm").change(function(event){
+	//	SFSelect_changeHandler(event.target);
+	//});
+	//
+	//
+	//var objs=null;
+	////fields loading at load time. 
+	//for (var i=0; i<SFSelect_fobjs.length; i++)
+	//{
+	//	var fobj=SFSelect_fobjs[i];
+	//	var valuepat=valuepat = ":input[name^='" + fobj.valuetemplate + "'][name$='["
+	//	+ fobj.valuefield + "]'], :input[name^='" + fobj.valuetemplate
+	//	+ "'][name$='[" + fobj.valuefield + "][]']";
+	//	if (objs==null)
+	//	{
+	//		objs=jQuery(valuepat);
+	//	} else
+	//	{
+	//		objs=objs.add(valuepat);
+	//	}
+	//}
+	//objs.trigger("change");
 });
 

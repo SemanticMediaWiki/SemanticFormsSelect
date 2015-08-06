@@ -84,8 +84,7 @@ class SemanticFormsSelect {
 			$query=str_replace("(", "[", $query);
 			$query=str_replace(")", "]", $query);
 			$selectField["function"]=$query;
-			if (strpos($query, '@@@@')===false)
-			{
+			if (strpos($query, '@@@@')===false) {
 				$f=str_replace(";", "|", $query);
 				$values=$wgParser->replaceVariables($f);
 				$staticvalue=true;
@@ -139,7 +138,7 @@ class SemanticFormsSelect {
 			selectfield:"{$selectField['field']}",
 			selectismultiple:{$selectField['ismultiple']},
 			
-	EOF;
+EOF;
 			if (array_key_exists("query", $selectField))
 			{
 				$selectScript.="selectquery:\"{$selectField['query']}\"\n};\n";
