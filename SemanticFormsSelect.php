@@ -42,7 +42,7 @@ call_user_func( function() {
 
 function SFSelect_formSetup() {
 	global $sfgFormPrinter, $wgOut;
-	$sfgFormPrinter->setInputTypeHook('SF_Select','SF_Select',array());
+	$sfgFormPrinter->setInputTypeHook('SF_Select','SemanticFormsSelect::SF_Select',array());
 }
 
 

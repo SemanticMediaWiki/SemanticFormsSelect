@@ -18,8 +18,7 @@ class SemanticFormsSelect {
 		
 		$f=str_replace(";", "|", $params[0]);
 		$params[0]=$wgParser->replaceVariables($f);
-		if ($wgSF_Select_debug)
-		{
+		if ($wgSF_Select_debug) {
 			error_log(implode("|", $params));
 		}
 		
@@ -45,8 +44,7 @@ class SemanticFormsSelect {
 		$wgParser->mOptions=new ParserOptions();
 		
 		$f=str_replace(";", "|", $f);
-		if ($wgSF_Select_debug)
-		{
+		if ($wgSF_Select_debug) {
 			error_log($f);
 		}
 		$values=$wgParser->replaceVariables($f);
@@ -65,24 +63,21 @@ class SemanticFormsSelect {
 		$selectField=array();
 		$values=null;
 		$staticvalue=false;
-		if (array_key_exists("query", $other_args))
-		{
+		if (array_key_exists("query", $other_args)) {
 			$query=$other_args["query"];
 			$query=str_replace("~", "=", $query);
 			$query=str_replace("(", "[", $query);
 			$query=str_replace(")", "]", $query);
 			
 			$selectField["query"]=$query;
-			if (strpos($query, '@@@@')===false)
-			{
+			if (strpos($query, '@@@@')===false) {
 				$params=explode(";", $query);
 				$params[0]=$wgParser->replaceVariables($params[0]);
 				$values=SMWQueryProcessor::getResultFromFunctionParams($params,SMW_OUTPUT_WIKI);
 				$staticvalue=true;
 			}
 			
-		} else if (array_key_exists("function", $other_args))
-		{
+		} else if (array_key_exists("function", $other_args)) {
 			$query=$other_args["function"];
 			$query='{{#'.$query.'}}';
 			$query=str_replace("~", "=", $query);
@@ -97,22 +92,13 @@ class SemanticFormsSelect {
 			}
 		}
 		$script="";
-		if ($staticvalue)
-		{
+		if ($staticvalue) {
 			$values=explode(",", $values);
 			$values=array_map("trim", $values);
 			$values=array_unique($values);
-		} else
-		{
-			if ($wgScriptSelectCount==0)
-			{
-				if ( class_exists( 'ResourceLoader' ) ) 
-				{
-					$wgOut->addModules('ext.sf_select.scriptselect');	
-				} else
-				{
-					$wgOut->addScript( "<script type='text/javascript' src='{$wgSF_SelectScriptPath}/scriptSelect.js'></script>" );
-				}
+		} else {
+			if ($wgScriptSelectCount==0) {
+				$wgOut->addModules('ext.sf_select.scriptselect');	
 				$script.="var SFSelect_fobjs=[]; var selectobj=null;\n";
 			}
 			$wgScriptSelectCount++;
@@ -218,15 +204,13 @@ EOF;
 				$curvalues=array_map("trim", explode(",", $cur_value));
 			}
 			
-		} else
-		{
+		} else {
 			$curvalues=array();
 		}
 		
-			//TODO handle empty value case.
+		//TODO handle empty value case.
 		$ret.="<option></option>";
-		foreach ($curvalues as $cur)
-		{
+		foreach ($curvalues as $cur) {
 			$ret.="<option selected='selected'>$cur</option>";	
 		}
 		if ($staticvalue)
