@@ -232,13 +232,14 @@ function SFSelect_changeHandler (src)
 		if (srcName.template==fobj.valuetemplate && srcName.property==fobj.valuefield)
 		{
 			//good, we have a match.
+			// No values
 			if (v.length==0||v[0]==''){ 
 				SFSelect_setDependentValues(srcName, fobj, []);
-			} else
-			{
-
+			} else {
+				// Values
 				var param = {}
-				param['action'] = 'sformsselect';				
+				param['action'] = 'sformsselect';
+				param['format'] = 'json';
 
 				var handler=responseHandler(srcName, fobj);
 				if (fobj.selectquery){
@@ -254,7 +255,8 @@ function SFSelect_changeHandler (src)
 
 				var posting = jQuery.get( wgScriptPath + "/api.php", param );
 				posting.done(function( data ) {
-					//TODO: We should do something with handler and values here
+					// Let's pass values
+					SFSelect_setDependentValues(srcName, fobj, data["sformsselect"].values);
 				}).fail( function( data ) { console.log("Error!");});
 
 			}
