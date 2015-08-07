@@ -1,7 +1,6 @@
-SemanticFormsSelect MediaWiki Extension
-===================
+# SemanticFormsSelect MediaWiki Extension
 
-see http://www.mediawiki.org/wiki/Extension:SemanticFormsSelect
+see http://www.mediawiki.org/wiki/Extension:SemanticFormsSelect for more information and examples.
 
 Original code from https://code.google.com/p/semanticformsselect/downloads/list
 
@@ -11,10 +10,9 @@ This is an update to make it work with newer MediaWiki versions.
 
 For instance, since AJAX methods are deprecated in newer MediaWiki versions, they have been updated to API ones.
 
-It can still be considered a preliminary alpha versions. Use with caution.
+It can still be considered a preliminary alpha version. Use with caution.
 
 ## TODO
 
-* Check how it works in different multiple template circumstances
 * Check whether it works with extra Semantic Forms options, such as mapping template.
 
