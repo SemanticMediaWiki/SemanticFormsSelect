@@ -119,28 +119,15 @@ function SFSelect_parseName(name)
 	return nameObj;
 }
 
-function responseHandler (nameobj, fobj)
-{
-	return function(request)
-	{
-		var ret = eval("(" + request.responseText + ")");
-		var values = ret.values;
-		SFSelect_setDependentValues(nameobj, fobj, values);
-	};
-}
-
-
 function SFSelect_setDependentValues (nameobj, fobj, values)
 {
 	var selectPat=SFSelect_getSelectFieldPat(nameobj, fobj);
 	jQuery(selectPat).each(function(index, element){
 		//keep selected values;
 		var selectedValues=jQuery(element).val();
-		if (!selectedValues)
-		{
+		if (!selectedValues){
 			selectedValues=[];
-		} else if (!jQuery.isArray(selectedValues))
-		{
+		} else if (!jQuery.isArray(selectedValues)){
 			selectedValues=[selectedValues];
 		}
 
@@ -148,27 +135,21 @@ function SFSelect_setDependentValues (nameobj, fobj, values)
 		//add an empty value so that end user can select none
 		element.options[0]=new Option("");
 		var newselected=[];
-		for(var i=0; i<values.length; i++)
-		{
+		for(var i=0; i<values.length; i++){
 			element.options[i]=new Option(values[i]);
-			if (jQuery.inArray(values[i], selectedValues)!=-1)
-			{
+			if (jQuery.inArray(values[i], selectedValues)!=-1){
 				element.options[i].selected=true;
 				newselected.push(values[i]);
 			}
 		}
-		if (newselected.length==0)
-		{
-			if (fobj.selectrm && fobj.selecttemplate != fobj.valuetemplate&&fobj.selectismultiple)
-			{
+		if (newselected.length==0){
+			if (fobj.selectrm && fobj.selecttemplate != fobj.valuetemplate&&fobj.selectismultiple){
 				jQuery(element).closest("div.multipleTemplateInstance").remove();
-			} else
-			{
+			} else{
 				if (selectedValues.length!=0)
 					jQuery(element).trigger("change");
 			}
-		} else if (!SFSelect_arrayEqual(newselected, selectedValues))
-		{
+		} else if (!SFSelect_arrayEqual(newselected, selectedValues)){
 			jQuery(element).trigger("change");
 		}
 	});
@@ -204,7 +185,8 @@ function SFSelect_arrayEqual(a, b)
  * selectquery or selectfunciton: the query ot function to execute
  * 
  * selectrm:boolean remove the div if the selected value for a field is not valid any more.
- * 
+ *
+ * label: boolean, process ending content () as label in option values.
  */
 function SFSelect_changeHandler (src)
 {
@@ -241,7 +223,6 @@ function SFSelect_changeHandler (src)
 				param['action'] = 'sformsselect';
 				param['format'] = 'json';
 
-				var handler=responseHandler(srcName, fobj);
 				if (fobj.selectquery){
 					var query = fobj.selectquery.replace("@@@@", v.join('||'));
 					param['query'] = query;
