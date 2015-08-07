@@ -119,8 +119,8 @@ function SFSelect_parseName(name)
 	return nameObj;
 }
 
-function SFSelect_setDependentValues (nameobj, fobj, values)
-{
+function SFSelect_setDependentValues (nameobj, fobj, values){
+
 	var selectPat=SFSelect_getSelectFieldPat(nameobj, fobj);
 	jQuery(selectPat).each(function(index, element){
 		//keep selected values;
@@ -135,13 +135,28 @@ function SFSelect_setDependentValues (nameobj, fobj, values)
 		//add an empty value so that end user can select none
 		element.options[0]=new Option("");
 		var newselected=[];
-		for(var i=0; i<values.length; i++){
-			element.options[i]=new Option(values[i]);
-			if (jQuery.inArray(values[i], selectedValues)!=-1){
-				element.options[i].selected=true;
-				newselected.push(values[i]);
+
+		if ( fobj.label ) {
+			var namevalues = SFSelect_processNameValues( values );
+
+			for(var i=0; i<namevalues.length; i++){
+				element.options[i]=new Option(namevalues[i][1], namevalues[i][0]);
+				if (jQuery.inArray(namevalues[i][0], selectedValues)!=-1){
+					element.options[i].selected=true;
+					newselected.push(namevalues[i][0]);
+				}
+			}
+		} else {
+
+			for(var i=0; i<values.length; i++){
+				element.options[i]=new Option(values[i]);
+				if (jQuery.inArray(values[i], selectedValues)!=-1){
+					element.options[i].selected=true;
+					newselected.push(values[i]);
+				}
 			}
 		}
+
 		if (newselected.length==0){
 			if (fobj.selectrm && fobj.selecttemplate != fobj.valuetemplate&&fobj.selectismultiple){
 				jQuery(element).closest("div.multipleTemplateInstance").remove();
@@ -155,6 +170,38 @@ function SFSelect_setDependentValues (nameobj, fobj, values)
 	});
 }
 
+/** Function for turning name values from 'Page (property)' results **/
+
+function SFSelect_processNameValues( values ) {
+
+	var namevalues = [];
+
+	var regex = " (";
+
+	for(var i=0; i<values.length; i++){
+
+		var postval = values[i].split( regex );
+		if ( postval.length < 2 ) {
+			namevalues[i] = [ values[i], values[i] ];
+		} else if ( postval.length === 2 ) {
+			var label = postval[1].replace(/\)\s*$/, "");
+			var value = postval[0];
+
+			namevalues[i] = [ value, label ];
+		} else {
+			var last = postval.length - 1;
+			var label = postval[last].replace(/\)\s*$/, "");
+
+			var slice = postval.slice(0, last-1);
+			var value = slice.join( " (" );
+
+			namevalues[i] = [ value, label ];
+		}
+	}
+
+	return namevalues;
+
+}
 
 function SFSelect_arrayEqual(a, b)
 {
