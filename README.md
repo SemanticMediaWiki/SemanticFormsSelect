@@ -14,5 +14,5 @@ It can still be considered a preliminary alpha version. Use with caution.
 
 ## TODO
 
-* Check whether it works with extra Semantic Forms options, such as mapping template.
+* Allowing other options existing in Semantic Forms, especially "mapping template" parameter.
 
