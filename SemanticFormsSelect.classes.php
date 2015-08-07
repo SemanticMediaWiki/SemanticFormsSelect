@@ -122,12 +122,16 @@ class SemanticFormsSelect {
 			if (array_key_exists('rmdiv', $other_args)){
 				$valuerm='true';
 			}
-		
+			$label = 'false';
+			if (array_key_exists('label', $other_args)){
+				$label='true';
+			}
 			$selectScript=<<<EOF
 			selectobj={
 			valuetemplate:"{$valueField['template']}",
 			valuefield:"{$valueField['field']}",
 			selectrm:$valuerm,
+			label:$label,
 			
 			selecttemplate:"{$selectField['template']}",
 			selectfield:"{$selectField['field']}",
