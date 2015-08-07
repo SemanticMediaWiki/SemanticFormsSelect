@@ -101,11 +101,9 @@ class SemanticFormsSelect {
 				$script.="var SFSelect_fobjs=[]; var selectobj=null;\n";
 			}
 			$wgScriptSelectCount++;
-			if (array_key_exists("part_of_multiple", $other_args))
-			{
+			if (array_key_exists("part_of_multiple", $other_args)){
 				$selectField["ismultiple"]="true";
-			} else
-			{
+			} else{
 				$selectField["ismultiple"]="false";
 			}
 			$index=strpos($input_name, "[");
@@ -114,17 +112,14 @@ class SemanticFormsSelect {
 			$index=strrpos($input_name, "[");
 			$selectField["field"]=substr($input_name, $index+1, strlen($input_name)-$index-2);
 			$valueField=array();
-			if (array_key_exists("sametemplate", $other_args))
-			{
+			if (array_key_exists("sametemplate", $other_args)){
 				$valueField["template"]=$selectField["template"];
-			} else
-			{
+			} else {
 				$valueField["template"]=$other_args["template"];
 			}
 			$valueField["field"]=$other_args["field"];
 			$valuerm='false';
-			if (array_key_exists('rmdiv', $other_args))
-			{
+			if (array_key_exists('rmdiv', $other_args)){
 				$valuerm='true';
 			}
 		
@@ -139,11 +134,9 @@ class SemanticFormsSelect {
 			selectismultiple:{$selectField['ismultiple']},
 			
 EOF;
-			if (array_key_exists("query", $selectField))
-			{
+			if (array_key_exists("query", $selectField)){
 				$selectScript.="selectquery:\"{$selectField['query']}\"\n};\n";
-			} else
-			{
+			} else{
 				$selectScript.="selectfunction:\"{$selectField['function']}\"\n};\n";
 			}
 	
@@ -155,51 +148,40 @@ EOF;
 		}
 		$extraatt="";
 		$is_list=false;
-		if (array_key_exists('is_list', $other_args) && $other_args['is_list']==true)
-		{
+		if (array_key_exists('is_list', $other_args) && $other_args['is_list']==true){
 			$is_list=true;
 		}
-		if ($is_list)
-		{
+		if ($is_list){
 			$extraatt=' multiple="multiple" ';
 		}
-		if(array_key_exists("size", $other_args))
-		{
+		if(array_key_exists("size", $other_args)){
 			$extraatt.=" size=\"{$other_args['size']}\"";
 		}
 		$classes=array();
-		if($is_mandatory)
-		{
+		if($is_mandatory){
 			$classes[]="mandatoryField";
 		}
-		if (array_key_exists("class", $other_args))
-		{
+		if (array_key_exists("class", $other_args)){
 			$classes[]=$other_args['class'];
 		} 
-		if ($classes)
-		{
+		if ($classes){
 			$cstr=implode(" ",$classes);
 			$extraatt.=" class=\"$cstr\"";
 		}
 		$inname=$input_name;
-		if ($is_list)
-		{
+		if ($is_list){
 			$inname.='[]';
 		} 
 		$spanextra=$is_mandatory?'mandatoryFieldSpan':'';
 		$ret="<span class=\"inputSpan $spanextra\"><select name='$inname' id='input_$sfgFieldNum' $extraatt>";
 		$curvalues=null;
-		if ($cur_value)
-		{
-			if ($cur_value==='current user')
-			{
+		if ($cur_value){
+			if ($cur_value==='current user'){
 				$cur_value=$wgUser->getName();
 			}
-			if (is_array($cur_value) )
-			{
+			if (is_array($cur_value) ){
 				$curvalues=$cur_value;
-			} else
-			{
+			} else{
 				$curvalues=array_map("trim", explode(",", $cur_value));
 			}
 			
@@ -212,27 +194,22 @@ EOF;
 		foreach ($curvalues as $cur) {
 			$ret.="<option selected='selected'>$cur</option>";	
 		}
-		if ($staticvalue)
-		{
-			foreach($values as $val)
-			{
-				if(!in_array($val, $curvalues))
-				{
+		if ($staticvalue){
+			foreach($values as $val){
+				if(!in_array($val, $curvalues)){
 					$ret.="<option>$val</option>";	
 				}
 			}
 		}
 		$ret.="</select></span>";
 		$ret.="<span id=\"info_$sfgFieldNum\" class=\"errorMessage\"></span>";
-		if ($other_args["is_list"])
-		{
+		if ($other_args["is_list"]){
 			$hiddenname=$input_name.'[is_list]';
 			$ret.="<input type='hidden' name='$hiddenname' value='1' />";
 		}
 		
 	
-		if (!$staticvalue)
-		{
+		if (!$staticvalue){
 			$wgOut->addInlineScript("$script\n");
 		}
 		//return array($ret, $script);
