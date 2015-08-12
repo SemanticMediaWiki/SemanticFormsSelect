@@ -281,7 +281,7 @@ function SFSelect_changeHandler (src)
 					param['approach'] = 'function';
 				}
 
-				var posting = jQuery.get( wgScriptPath + "/api.php", param );
+				var posting = jQuery.get( mw.config.get('wgScriptPath')  + "/api.php", param );
 				posting.done(function( data ) {
 					// Let's pass values
 					SFSelect_setDependentValues(srcName, fobj, data["sformsselect"].values);
