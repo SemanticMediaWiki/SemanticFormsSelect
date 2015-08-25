@@ -2,7 +2,7 @@
 
 class SemanticFormsSelect {
 
-	public static function QueryExecution($query) {
+	public static function QueryExecution($query, $sep=",") {
 		/*@var wgParser Parser */
 		global $wgParser, $wgSF_Select_debug;
 		
@@ -24,7 +24,7 @@ class SemanticFormsSelect {
 		
 		$result=SMWQueryProcessor::getResultFromFunctionParams($params,SMW_OUTPUT_WIKI);
 	
-		$values=explode(",", $result);
+		$values=explode($sep, $result);
 		$values=array_map("trim", $values);
 		$values=array_unique($values);
 		$count = count( $values );
@@ -36,7 +36,7 @@ class SemanticFormsSelect {
 	}
 	
 	
-	public static function FunctionExecution($f) {
+	public static function FunctionExecution($f, $sep=",") {
 		global $wgParser, $wgSF_Select_debug;
 		
 		$wgParser->firstCallInit();
@@ -48,7 +48,7 @@ class SemanticFormsSelect {
 			error_log($f);
 		}
 		$values=$wgParser->replaceVariables($f);
-		$values=explode(",", $values);
+		$values=explode($sep, $values);
 		$values=array_map("trim", $values);
 		$values=array_unique($values);
 		sort($values);
@@ -126,12 +126,17 @@ class SemanticFormsSelect {
 			if (array_key_exists('label', $other_args)){
 				$label='true';
 			}
+			$sep = ',';
+			if (array_key_exists('sep', $other_args)){
+				$sep = $other_args["sep"];
+			}
 			$selectScript=<<<EOF
 			selectobj={
 			valuetemplate:"{$valueField['template']}",
 			valuefield:"{$valueField['field']}",
 			selectrm:$valuerm,
 			label:$label,
+			sep:"$sep"
 			
 			selecttemplate:"{$selectField['template']}",
 			selectfield:"{$selectField['field']}",

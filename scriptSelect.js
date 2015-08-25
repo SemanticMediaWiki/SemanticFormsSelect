@@ -234,6 +234,8 @@ function SFSelect_arrayEqual(a, b)
  * selectrm:boolean remove the div if the selected value for a field is not valid any more.
  *
  * label: boolean, process ending content () as label in option values.
+ *
+ * sep: Separator for the list of retrieved values, default ','
  */
 function SFSelect_changeHandler (src)
 {
@@ -269,6 +271,7 @@ function SFSelect_changeHandler (src)
 				var param = {}
 				param['action'] = 'sformsselect';
 				param['format'] = 'json';
+				param['sep'] = fobj.sep;
 
 				if (fobj.selectquery){
 					var query = fobj.selectquery.replace("@@@@", v.join('||'));
