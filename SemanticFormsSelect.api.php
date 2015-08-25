@@ -31,6 +31,10 @@ class ApiSemanticFormsSelect extends ApiBase {
 			'query' => array(
 				ApiBase::PARAM_TYPE => 'string',
 				ApiBase::PARAM_REQUIRED => true
+			),
+			'sep' => array(
+				ApiBase::PARAM_TYPE => 'string',
+				ApiBase::PARAM_REQUIRED => false
 			)
 		);
 	}
