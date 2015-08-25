@@ -136,8 +136,7 @@ class SemanticFormsSelect {
 			valuefield:"{$valueField['field']}",
 			selectrm:$valuerm,
 			label:$label,
-			sep:"$sep"
-			
+			sep:"$sep",
 			selecttemplate:"{$selectField['template']}",
 			selectfield:"{$selectField['field']}",
 			selectismultiple:{$selectField['ismultiple']},
