@@ -314,17 +314,22 @@ jQuery(function()
 	
 	
 	var objs=null;
-	//fields loading at load time. 
+	//fields loading at load time.
 	for (var i=0; i<SFSelect_fobjs.length; i++){
+		
 		var fobj= SFSelect_fobjs[i];
 		var valuepat= "input[name=" + fobj.valuetemplate + "\\["+ fobj.valuefield + "\\]]";
 
-		if (objs==null){
+		if ($(valuepat).val()){
 			objs=jQuery(valuepat);
 		} else{
-			objs=objs.add(valuepat);
+			valuepat= "select[name=" + fobj.valuetemplate + "\\["+ fobj.valuefield + "\\]]";
+			objs=jQuery(valuepat);
 		}
+		
+		objs.trigger("change");
+	
 	}
-	objs.trigger("change");
+	
 });
 
