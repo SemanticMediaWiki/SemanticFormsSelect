@@ -289,6 +289,8 @@ function SFSelect_changeHandler (src)
 					// Let's pass values
 					SFSelect_setDependentValues(srcName, fobj, data["sformsselect"].values);
 				}).fail( function( data ) { console.log("Error!");});
+				
+				break; // Avoid loading fobj again
 
 			}
 
