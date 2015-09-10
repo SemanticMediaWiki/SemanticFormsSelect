@@ -1,18 +1,51 @@
 # SemanticFormsSelect MediaWiki Extension
 
-see http://www.mediawiki.org/wiki/Extension:SemanticFormsSelect for more information and examples.
+[![Packagist download count](https://poser.pugx.org/mediawiki/semantic-forms-select/d/total.png)](https://packagist.org/packages/mediawiki/semantic-forms-select)
 
 Original code from https://code.google.com/p/semanticformsselect/downloads/list
 
-## Candidate 1.2 version
+## Requirements
 
-This is an update to make it work with newer MediaWiki versions.
+- PHP 5.3.2 or later
+- MediaWiki 1.23 or later
+- [Semantic MediaWiki][smw] 2.0 or later
+- [Semantic Forms][sf] 2.7 or later
 
-For instance, since AJAX methods are deprecated in newer MediaWiki versions, they have been updated to API ones.
+## Installation
 
-It can still be considered a preliminary alpha version. Use with caution.
+The recommended way to install Semantic Signup is by using [Composer][composer] with an entry in MediaWiki's `composer.json`.
 
-## TODO
+```json
+{
+	"require": {
+		"mediawiki/semantic-forms-select": "~1.2"
+	}
+}
+```
+1. From your MediaWiki installation directory, execute
+   `composer require mediawiki/semantic-forms-select:~1.2`
+2. Navigate to _Special:Version_ on your wiki and verify that the package
+   have been successfully installed.
 
-* Polish different options (such as newly added label)
+## Usage
 
+See http://www.mediawiki.org/wiki/Extension:SemanticFormsSelect for more information and examples.
+
+## Contribution and support
+
+If you want to contribute work to the project please subscribe to the developers mailing list and
+have a look at the contribution guideline.
+
+* [File an issue](https://github.com/SemanticMediaWiki/SemanticFormsSelect/issues)
+* [Submit a pull request](https://github.com/SemanticMediaWiki/SemanticFormsSelect/pulls)
+* Ask a question on [the mailing list](https://semantic-mediawiki.org/wiki/Mailing_list)
+* Ask a question on the #semantic-mediawiki IRC channel on Freenode.
+
+## License
+
+[GNU General Public License, version 2 or later][gpl-licence].
+
+[gpl-licence]: https://www.gnu.org/copyleft/gpl.html
+[smw]: https://github.com/SemanticMediaWiki/SemanticMediaWiki
+[sf]: https://www.mediawiki.org/wiki/Extension:Semantic_Forms
+[composer]: https://getcomposer.org/
