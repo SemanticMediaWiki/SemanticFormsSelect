@@ -13,7 +13,7 @@ Original code from https://code.google.com/p/semanticformsselect/downloads/list
 
 ## Installation
 
-The recommended way to install Semantic Signup is by using [Composer][composer] with an entry in MediaWiki's `composer.json`.
+The recommended way to install Semantic Forms Select is by using [Composer][composer] with an entry in MediaWiki's `composer.json`.
 
 ```json
 {

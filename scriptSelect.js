@@ -131,9 +131,8 @@ function SFSelect_setDependentValues (nameobj, fobj, values){
 			selectedValues=[selectedValues];
 		}
 
-		element.options.length=values.length+1;
-		//add an empty value so that end user can select none
-		element.options[0]=new Option("");
+		element.options.length=values.length;
+
 		var newselected=[];
 
 		if ( fobj.label ) {
