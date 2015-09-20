@@ -4,6 +4,7 @@ namespace SFS;
 
 use Parser;
 use SMWQueryProcessor as QueryProcessor;
+use InvalidArgumentException;
 
 /**
  * @license GNU GPL v2+
@@ -51,11 +52,16 @@ class ApiRequestProcessor {
 	 *
 	 * @return string
 	 */
-	public function getJsonResultValuesFromRequestParameters( array $parameters ) {
+	public function getJsonDecodedResultValuesForRequestParameters( array $parameters ) {
+
+		if ( !isset( $parameters['query'] ) || !isset( $parameters['sep'] ) ) {
+			throw new InvalidArgumentException( 'Missing an query parameter' );
+		}
 
 		$this->parser->firstCallInit();
+		$json = array();
 
-		if ( $parameters['approach'] == 'smw' ) {
+		if ( isset( $parameters['approach'] ) && $parameters['approach'] == 'smw' ) {
 			$json = $this->doProcessQueryFor( $parameters['query'], $parameters['sep'] );
 		} else {
 			$json = $this->doProcessFunctionFor( $parameters['query'], $parameters['sep'] );
@@ -66,18 +72,21 @@ class ApiRequestProcessor {
 		return json_decode( $json );
 	}
 
-	private function doProcessQueryFor( $query, $sep="," ) {
+	private function doProcessQueryFor( $query, $sep = "," ) {
 
-		//wfDebugLog("EPA","query: ".$query);
-		$query = str_replace( array( "&lt;", "&gt;" ), array( "<", ">" ), $query );
+		$query = str_replace(
+			array( "&lt;", "&gt;", "sep=;" ),
+			array( "<", ">", "sep={$sep};" ),
+			$query
+		);
 
 		$params = explode( ";", $query );
+		$f = str_replace( ";", "|", $params[0] );
 
-		$f = str_replace(";", "|", $params[0]);
 		$params[0] = $this->parser->replaceVariables( $f );
 
 		if ( $this->debugFlag ) {
-			error_log( implode("|", $params) );
+			error_log( implode( "|", $params ) );
 		}
 
 		$values = $this->getFormattedValuesFrom(
@@ -91,9 +100,15 @@ class ApiRequestProcessor {
 		) );
 	}
 
-	private function doProcessFunctionFor( $f, $sep="," ) {
+	private function doProcessFunctionFor( $query, $sep = "," ) {
 
-		$f = str_replace(";", "|", $f);
+		$query = str_replace(
+			array( "&lt;", "&gt;", "sep=;" ),
+			array( "<", ">", "sep={$sep};" ),
+			$query
+		);
+
+		$f = str_replace( ";", "|", $query );
 
 		if ( $this->debugFlag ) {
 			error_log( $f );
@@ -111,6 +126,11 @@ class ApiRequestProcessor {
 	}
 
 	private function getFormattedValuesFrom( $sep, $values ) {
+
+		if ( strpos( $values, $sep ) === false ) {
+			return array( $values );
+		}
+
 		$values = explode( $sep, $values );
 		$values = array_map( "trim", $values );
 		$values = array_unique( $values );

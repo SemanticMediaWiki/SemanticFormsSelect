@@ -22,7 +22,7 @@ matrix:
 
 install:
   - bash ./tests/travis/install-mediawiki.sh
-  - bash ./tests/travis/install-semantic-breadcrumb-links.sh
+  - bash ./tests/travis/install-semantic-forms-select.sh
 
 script:
   - bash ./tests/travis/run-tests.sh

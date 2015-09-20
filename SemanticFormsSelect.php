@@ -23,7 +23,7 @@ if ( defined( 'SFS_VERSION' ) ) {
 	return 1;
 }
 
-define( 'SFS_VERSION', '1.2.1' );
+define( 'SFS_VERSION', '1.3.0-alpha' );
 
 //self executing anonymous function to prevent global scope assumptions
 call_user_func( function() {
@@ -41,12 +41,13 @@ call_user_func( function() {
 	//$wgAjaxExportList[] = "QueryExecution";
 	//$wgAjaxExportList[] = "FunctionExecution";
 	$GLOBALS['wgExtensionFunctions'][] = function() {
-		$GLOBALS['sfgFormPrinter']->setInputTypeHook( 'SF_Select','SemanticFormsSelect::SF_Select',array());
+		$GLOBALS['sfgFormPrinter']->setInputTypeHook( 'SF_Select', '\SFS\SemanticFormsSelect::init', array() );
 	};
 
-	$GLOBALS['wgAutoloadClasses']['SemanticFormsSelect'] = __DIR__ . '/SemanticFormsSelect.classes.php';
+	$GLOBALS['wgAutoloadClasses']['SFS\SemanticFormsSelect'] = __DIR__ . '/src/SemanticFormsSelect.php';
 	$GLOBALS['wgAutoloadClasses']['SFS\ApiSemanticFormsSelect'] = __DIR__ . '/src/ApiSemanticFormsSelect.php';
 	$GLOBALS['wgAutoloadClasses']['SFS\ApiRequestProcessor'] = __DIR__ . '/src/ApiRequestProcessor.php';
+	$GLOBALS['wgAutoloadClasses']['SFS\Output'] = __DIR__ . '/src/Output.php';
 
 	// api modules
 	$GLOBALS['wgAPIModules']['sformsselect'] = 'SFS\ApiSemanticFormsSelect';

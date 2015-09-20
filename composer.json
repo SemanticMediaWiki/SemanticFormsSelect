@@ -28,15 +28,12 @@
 	},
 	"extra": {
 		"branch-alias": {
-			"dev-master": "1.x-dev"
+			"dev-master": "1.3.x-dev"
 		}
 	},
 	"autoload": {
 		"files" : [
 			"SemanticFormsSelect.php"
-		],
-		"classmap" : [
-			"SemanticFormsSelect.classes.php"
 		],
 		"psr-4": {
 			"SFS\\": "src/"

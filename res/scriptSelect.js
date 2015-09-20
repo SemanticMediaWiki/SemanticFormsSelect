@@ -41,43 +41,6 @@ function SFSelect_getSelectFieldPat(nameObj, f )
 	return selectpat;
 }
 
-
-/*
- * SF form add a fobj for each field in a multiple template.
- * In reality we only need a fobj to reduce the ajax call.
- */
-function SFSelect_removeDuplicateFobjs( SFSelect_fobjs )
-{
-	var newfobjs = [];
-	for(var i=0; i<SFSelect_fobjs.length; i++)
-	{
-		var found=false;
-		var of=SFSelect_fobjs[i];
-		if (!of.selectismultiple)
-		{
-			newfobjs.push(of);
-			continue;
-		}
-		for (var j=0; j<newfobjs.length; j++)
-		{
-			var nf=newfobjs[j];
-			if (of.selecttemplate==nf.selecttemplate && of.selectfield==nf.selectfield)
-			{
-				found=true;
-				break;
-			}
-		}
-		if (!found)
-		{
-			newfobjs.push(of);
-		}
-	}
-
-	return newfobjs;
-
-}
-
-
 /*
  * Parse the SF field name into an objetc for easy process
  */
@@ -215,109 +178,132 @@ function SFSelect_arrayEqual(a, b)
 	}
 	return true;
 }
-/*
- * fobj has the following fields
- *
- * valuetemplate:string,
- *
- * valuefield:string, value is the form field on which other select element depends on. change on this field will trigger a load event for selectfield.
- *
- * selecttemplate:string
- *
- * selectfield:string
- *
- * selectismultiple:boolean, Whether this template is a multiple template.
- *
- * selectquery or selectfunciton: the query ot function to execute
- *
- * selectrm:boolean remove the div if the selected value for a field is not valid any more.
- *
- * label: boolean, process ending content () as label in option values.
- *
- * sep: Separator for the list of retrieved values, default ','
- */
-function SFSelect_changeHandler (src)
-{
 
-	//console.log("change is called with "+src.name);
-	if (src.tagName.toLowerCase()!='select'&& src.tagName.toLowerCase()!='input')
-	{
-		return;
-	}
-	var v=jQuery(src).val();
-	if (jQuery.isArray(v))
-	{
 
-	} else if (v==null)
-	{
-		v=[];
-	}  else
-	{
-		v=[v];
-	}
-	var srcName=SFSelect_parseName(src.name);
-	for(var i=0; i<SFSelect_fobjs.length; i++)
-	{
-		var fobj=SFSelect_fobjs[i];
-		if (srcName.template==fobj.valuetemplate && srcName.property==fobj.valuefield)
+( function ( $, mw ) {
+
+	'use strict';
+
+	/**
+	 * valuetemplate:string,
+	 * valuefield:string, value is the form field on which other select element depends on. change
+	 *  on this field will trigger a load event for selectfield.
+	 * selecttemplate:string
+	 * selectfield:string
+	 * selectismultiple:boolean, Whether this template is a multiple template.
+	 * selectquery or selectfunciton: the query ot function to execute
+	 * selectrm:boolean remove the div if the selected value for a field is not valid any more.
+	 * label: boolean, process ending content () as label in option values.
+	 * sep: Separator for the list of retrieved values, default ','
+	 */
+	var SFSelect_fobjs = $.parseJSON( mw.config.get( 'sf_select' ) );
+
+	function SFSelect_changeHandler (src ) {
+
+		//console.log("change is called with "+src.name);
+		if (src.tagName.toLowerCase()!='select'&& src.tagName.toLowerCase()!='input')
 		{
-			//good, we have a match.
-			// No values
-			if (v.length==0||v[0]==''){
-				SFSelect_setDependentValues(srcName, fobj, []);
-			} else {
-				// Values
-				var param = {}
-				param['action'] = 'sformsselect';
-				param['format'] = 'json';
-				param['sep'] = fobj.sep;
+			return;
+		}
+		var v=jQuery(src).val();
+		if (jQuery.isArray(v))
+		{
 
-				if (fobj.selectquery){
-					var query = fobj.selectquery.replace("@@@@", v.join('||'));
-					param['query'] = query;
-					param['approach'] = 'smw';
-
+		} else if (v==null)
+		{
+			v=[];
+		}  else
+		{
+			v=[v];
+		}
+		var srcName=SFSelect_parseName(src.name);
+		for(var i=0; i<SFSelect_fobjs.length; i++)
+		{
+			var fobj=SFSelect_fobjs[i];
+			if (srcName.template==fobj.valuetemplate && srcName.property==fobj.valuefield)
+			{
+				//good, we have a match.
+				// No values
+				if (v.length==0||v[0]==''){
+					SFSelect_setDependentValues(srcName, fobj, []);
 				} else {
-					var query = fobj.selectfunction.replace("@@@@", v.join(","));
-					param['query'] = query;
-					param['approach'] = 'function';
+					// Values
+					var param = {}
+					param['action'] = 'sformsselect';
+					param['format'] = 'json';
+					param['sep'] = fobj.sep;
+
+					if (fobj.selectquery){
+						var query = fobj.selectquery.replace("@@@@", v.join('||'));
+						param['query'] = query;
+						param['approach'] = 'smw';
+
+					} else {
+						var query = fobj.selectfunction.replace("@@@@", v.join(","));
+						param['query'] = query;
+						param['approach'] = 'function';
+					}
+
+					var posting = jQuery.get( mw.config.get('wgScriptPath')  + "/api.php", param );
+					posting.done(function( data ) {
+						// Let's pass values
+						SFSelect_setDependentValues(srcName, fobj, data["sformsselect"].values);
+					}).fail( function( data ) { console.log("Error!");});
+
+					break; // Avoid loading fobj again
 				}
-
-				var posting = jQuery.get( mw.config.get('wgScriptPath')  + "/api.php", param );
-				posting.done(function( data ) {
-					// Let's pass values
-					SFSelect_setDependentValues(srcName, fobj, data["sformsselect"].values);
-				}).fail( function( data ) { console.log("Error!");});
-
-				break; // Avoid loading fobj again
-
 			}
+		}
+	}
 
+	/*
+	 * SF form add a fobj for each field in a multiple template.
+	 * In reality we only need a fobj to reduce the ajax call.
+	 */
+	function SFSelect_removeDuplicateFobjs( SFSelect_fobjs ) {
+		var newfobjs = [];
+
+		for(var i=0; i<SFSelect_fobjs.length; i++) {
+			var found=false;
+			var of=SFSelect_fobjs[i];
+			if (!of.selectismultiple)
+			{
+				newfobjs.push(of);
+				continue;
+			}
+			for (var j=0; j<newfobjs.length; j++)
+			{
+				var nf=newfobjs[j];
+				if (of.selecttemplate==nf.selecttemplate && of.selectfield==nf.selectfield)
+				{
+					found=true;
+					break;
+				}
+			}
+			if (!found) {
+				newfobjs.push(of);
+			}
 		}
 
+		return newfobjs;
 	}
-}
 
+	//console.log( SFSelect_fobjs );
 
-/*
- * We expect
- * SFSelect_fobjs is an array
- */
-jQuery(function()
-{
 	//simplify duplicated object.
 	SFSelect_fobjs = SFSelect_removeDuplicateFobjs( SFSelect_fobjs );
-	jQuery("form#sfForm").change(function(event){
-		SFSelect_changeHandler(event.target);
+
+	$( "form#sfForm" ).change( function( event ){
+		SFSelect_changeHandler( event.target );
 	});
 
+	var objs = null;
 
-	var objs=null;
 	//fields loading at load time.
 	for (var i=0; i<SFSelect_fobjs.length; i++){
 
-		var fobj= SFSelect_fobjs[i];
-		var valuepat= "input[name=" + fobj.valuetemplate + "\\["+ fobj.valuefield + "\\]]";
+		var fobj = SFSelect_fobjs[i];
+		var valuepat = "input[name=" + fobj.valuetemplate + "\\["+ fobj.valuefield + "\\]]";
 
 		if ($(valuepat).val()){
 			objs=jQuery(valuepat);
@@ -330,5 +316,4 @@ jQuery(function()
 
 	}
 
-});
-
+}( jQuery, mediaWiki ) );

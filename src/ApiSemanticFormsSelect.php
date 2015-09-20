@@ -32,7 +32,7 @@ class ApiSemanticFormsSelect extends ApiBase {
 		$apiRequestProcessor = new ApiRequestProcessor( $parser );
 		$apiRequestProcessor->setDebugFlag( $GLOBALS['wgSF_Select_debug'] );
 
-		$resultValues = $apiRequestProcessor->getJsonResultValuesFromRequestParameters(
+		$resultValues = $apiRequestProcessor->getJsonDecodedResultValuesForRequestParameters(
 			$this->extractRequestParams()
 		);
 
