@@ -2,62 +2,6 @@
 
 class SemanticFormsSelect {
 
-	public static function QueryExecution($query, $sep=",") {
-		/*@var wgParser Parser */
-		global $wgParser, $wgSF_Select_debug;
-		
-		//wfDebugLog("EPA","query: ".$query);
-		$query=str_replace("&lt;", "<", $query);
-		$query=str_replace("&gt;", ">", $query);
-		$params=explode(";", $query);
-	
-		$wgParser->setTitle(Title::newFromText( 'NO TITLE' ));
-		$wgParser->mOptions=new ParserOptions();
-		$wgParser->firstCallInit();
-	
-		
-		$f=str_replace(";", "|", $params[0]);
-		$params[0]=$wgParser->replaceVariables($f);
-		if ($wgSF_Select_debug) {
-			error_log(implode("|", $params));
-		}
-		
-		$result=SMWQueryProcessor::getResultFromFunctionParams($params,SMW_OUTPUT_WIKI);
-	
-		$values=explode($sep, $result);
-		$values=array_map("trim", $values);
-		$values=array_unique($values);
-		$count = count( $values );
-		sort($values);
-		array_unshift($values, "");
-		$ret=array( "values"=>$values, "count"=>$count );
-		$json= json_encode($ret);
-		return $json;
-	}
-	
-	
-	public static function FunctionExecution($f, $sep=",") {
-		global $wgParser, $wgSF_Select_debug;
-		
-		$wgParser->firstCallInit();
-		$wgParser->setTitle(Title::newFromText( 'NO TITLE' ));
-		$wgParser->mOptions=new ParserOptions();
-		
-		$f=str_replace(";", "|", $f);
-		if ($wgSF_Select_debug) {
-			error_log($f);
-		}
-		$values=$wgParser->replaceVariables($f);
-		$values=explode($sep, $values);
-		$values=array_map("trim", $values);
-		$values=array_unique($values);
-		sort($values);
-		array_unshift($values, "");
-		$ret=array("values"=>$values);
-		return json_encode($ret);
-	}
-	
-	
 	public static function SF_Select ($cur_value, $input_name, $is_mandatory, $is_disabled, $other_args) {
 		global $wgOut, $wgScriptPath,$wgSF_SelectDir, $wgScriptSelectCount, $sfgFieldNum, $wgUser, $wgParser,$wgSF_SelectScriptPath;
 		$selectField=array();
@@ -68,7 +12,7 @@ class SemanticFormsSelect {
 			$query=str_replace("~", "=", $query);
 			$query=str_replace("(", "[", $query);
 			$query=str_replace(")", "]", $query);
-			
+
 			$selectField["query"]=$query;
 			if (strpos($query, '@@@@')===false) {
 				$params=explode(";", $query);
@@ -76,7 +20,7 @@ class SemanticFormsSelect {
 				$values=SMWQueryProcessor::getResultFromFunctionParams($params,SMW_OUTPUT_WIKI);
 				$staticvalue=true;
 			}
-			
+
 		} else if (array_key_exists("function", $other_args)) {
 			$query=$other_args["function"];
 			$query='{{#'.$query.'}}';
@@ -140,18 +84,18 @@ class SemanticFormsSelect {
 			selecttemplate:"{$selectField['template']}",
 			selectfield:"{$selectField['field']}",
 			selectismultiple:{$selectField['ismultiple']},
-			
+
 EOF;
 			if (array_key_exists("query", $selectField)){
 				$selectScript.="selectquery:\"{$selectField['query']}\"\n};\n";
 			} else{
 				$selectScript.="selectfunction:\"{$selectField['function']}\"\n};\n";
 			}
-	
+
 			$selectScript.=<<<EOF
 	SFSelect_fobjs.push(selectobj);
 EOF;
-	
+
 			$script.=$selectScript;
 		}
 		$extraatt="";
@@ -171,7 +115,7 @@ EOF;
 		}
 		if (array_key_exists("class", $other_args)){
 			$classes[]=$other_args['class'];
-		} 
+		}
 		if ($classes){
 			$cstr=implode(" ",$classes);
 			$extraatt.=" class=\"$cstr\"";
@@ -179,7 +123,7 @@ EOF;
 		$inname=$input_name;
 		if ($is_list){
 			$inname.='[]';
-		} 
+		}
 		$spanextra=$is_mandatory?'mandatoryFieldSpan':'';
 		$ret="<span class=\"inputSpan $spanextra\"><select name='$inname' id='input_$sfgFieldNum' $extraatt>";
 		$curvalues=null;
@@ -192,20 +136,20 @@ EOF;
 			} else{
 				$curvalues=array_map("trim", explode(",", $cur_value));
 			}
-			
+
 		} else {
 			$curvalues=array();
 		}
-		
+
 		//TODO handle empty value case.
 		$ret.="<option></option>";
 		foreach ($curvalues as $cur) {
-			$ret.="<option selected='selected'>$cur</option>";	
+			$ret.="<option selected='selected'>$cur</option>";
 		}
 		if ($staticvalue){
 			foreach($values as $val){
 				if(!in_array($val, $curvalues)){
-					$ret.="<option>$val</option>";	
+					$ret.="<option>$val</option>";
 				}
 			}
 		}
@@ -215,8 +159,8 @@ EOF;
 			$hiddenname=$input_name.'[is_list]';
 			$ret.="<input type='hidden' name='$hiddenname' value='1' />";
 		}
-		
-	
+
+
 		if (!$staticvalue){
 			$wgOut->addInlineScript("$script\n");
 		}
