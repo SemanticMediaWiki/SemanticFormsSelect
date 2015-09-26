@@ -26,8 +26,23 @@
 		"mediawiki/semantic-media-wiki": ">=2.0",
 		"mediawiki/semantic-forms": ">=2.7"
 	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "1.3.x-dev"
+		}
+	},
 	"autoload": {
-		"files": ["SemanticFormsSelect.php"],
-		"classmap": ["SemanticFormsSelect.classes.php"]
+		"files" : [
+			"SemanticFormsSelect.php"
+		],
+		"psr-4": {
+			"SFS\\": "src/"
+		}
+	},
+	"config": {
+		"process-timeout": 0
+	},
+	"scripts":{
+		"phpunit": "php ../../tests/phpunit/phpunit.php -c phpunit.xml.dist"
 	}
 }
