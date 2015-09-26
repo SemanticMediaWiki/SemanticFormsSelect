@@ -1,8 +1,13 @@
-# SemanticFormsSelect MediaWiki Extension
+# Semantic Forms Select
 
+[![Build Status](https://secure.travis-ci.org/SemanticMediaWiki/SemanticFormsSelect.svg?branch=master)](http://travis-ci.org/SemanticMediaWiki/SemanticFormsSelect)
+[![Code Coverage](https://scrutinizer-ci.com/g/SemanticMediaWiki/SemanticFormsSelect/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/SemanticMediaWiki/SemanticFormsSelect/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/SemanticMediaWiki/SemanticFormsSelect/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/SemanticMediaWiki/SemanticFormsSelect/?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/mediawiki/semantic-forms-select/version.png)](https://packagist.org/packages/mediawiki/semantic-forms-select)
 [![Packagist download count](https://poser.pugx.org/mediawiki/semantic-forms-select/d/total.png)](https://packagist.org/packages/mediawiki/semantic-forms-select)
+[![Dependency Status](https://www.versioneye.com/php/mediawiki:semantic-forms-select/badge.png)](https://www.versioneye.com/php/mediawiki:semantic-forms-select)
 
-Original code from https://code.google.com/p/semanticformsselect/downloads/list
+Semantic Forms Select (a.k.a. SFS) can generate a select form element with values retrieved from a `#ask` query or a parser function.
 
 ## Requirements
 
@@ -29,7 +34,7 @@ The recommended way to install Semantic Forms Select is by using [Composer][comp
 
 ## Usage
 
-See http://www.mediawiki.org/wiki/Extension:SemanticFormsSelect for more information and examples.
+Please consult the [help](http://www.mediawiki.org/wiki/Extension:SemanticFormsSelect) page for more information and examples.
 
 ## Contribution and support
 
@@ -40,6 +45,8 @@ have a look at the contribution guideline.
 * [Submit a pull request](https://github.com/SemanticMediaWiki/SemanticFormsSelect/pulls)
 * Ask a question on [the mailing list](https://semantic-mediawiki.org/wiki/Mailing_list)
 * Ask a question on the #semantic-mediawiki IRC channel on Freenode.
+
+Original code from https://code.google.com/p/semanticformsselect/downloads/list
 
 ## Tests
 
