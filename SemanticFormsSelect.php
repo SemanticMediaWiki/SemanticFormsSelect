@@ -30,10 +30,10 @@ call_user_func( function() {
 
 	$GLOBALS['wgExtensionCredits'][defined( 'SEMANTIC_EXTENSION_TYPE' ) ? 'semantic' : 'specialpage'][] = array(
 		'path' => __FILE__,
-		'name' => 'SemanticForms Select',
-		'author' =>array( '[http://www.mediawiki.org/wiki/User:Jasonzhang Jasonzhang]', 'Toniher'),
+		'name' => 'Semantic Forms Select',
+		'author' =>array( 'Jason Zhang', 'Toni Hermoso Pulido', '...' ),
 		'url' => 'https://www.mediawiki.org/wiki/Extension:SemanticFormsSelect',
-		'description' => 'Generate a select field in Semantic Form which values are from query',
+		'description' => 'Allows to generate a select field in a semantic form whose values are retrieved from a query',
 		'version'  => SFS_VERSION,
 		'license-name'   => 'GPL-2.0+',
 	);
