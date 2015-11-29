@@ -23,12 +23,12 @@ The recommended way to install Semantic Forms Select is by using [Composer][comp
 ```json
 {
 	"require": {
-		"mediawiki/semantic-forms-select": "~1.2"
+		"mediawiki/semantic-forms-select": "~1.3"
 	}
 }
 ```
 1. From your MediaWiki installation directory, execute
-   `composer require mediawiki/semantic-forms-select:~1.2`
+   `composer require mediawiki/semantic-forms-select:~1.3`
 2. Navigate to _Special:Version_ on your wiki and verify that the package
    have been successfully installed.
 
