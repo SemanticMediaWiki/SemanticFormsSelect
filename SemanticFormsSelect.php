@@ -23,12 +23,14 @@ if ( defined( 'SFS_VERSION' ) ) {
 	return 1;
 }
 
-define( 'SFS_VERSION', '1.3.0-alpha' );
+define( 'SFS_VERSION', '1.3.0' );
 
-//self executing anonymous function to prevent global scope assumptions
+/**
+ * @codeCoverageIgnore
+ */
 call_user_func( function() {
 
-	$GLOBALS['wgExtensionCredits'][defined( 'SEMANTIC_EXTENSION_TYPE' ) ? 'semantic' : 'specialpage'][] = array(
+	$GLOBALS['wgExtensionCredits']['semantic'][] = array(
 		'path' => __FILE__,
 		'name' => 'Semantic Forms Select',
 		'author' =>array( 'Jason Zhang', 'Toni Hermoso Pulido', '...' ),
@@ -38,33 +40,27 @@ call_user_func( function() {
 		'license-name'   => 'GPL-2.0+',
 	);
 
-	//$wgAjaxExportList[] = "QueryExecution";
-	//$wgAjaxExportList[] = "FunctionExecution";
-	$GLOBALS['wgExtensionFunctions'][] = function() {
-		$GLOBALS['sfgFormPrinter']->setInputTypeHook( 'SF_Select', '\SFS\SemanticFormsSelect::init', array() );
-	};
-
-	$GLOBALS['wgAutoloadClasses']['SFS\SemanticFormsSelect'] = __DIR__ . '/src/SemanticFormsSelect.php';
-	$GLOBALS['wgAutoloadClasses']['SFS\ApiSemanticFormsSelect'] = __DIR__ . '/src/ApiSemanticFormsSelect.php';
-	$GLOBALS['wgAutoloadClasses']['SFS\ApiRequestProcessor'] = __DIR__ . '/src/ApiRequestProcessor.php';
-	$GLOBALS['wgAutoloadClasses']['SFS\Output'] = __DIR__ . '/src/Output.php';
-
-	// api modules
+	// Api modules
 	$GLOBALS['wgAPIModules']['sformsselect'] = 'SFS\ApiSemanticFormsSelect';
-
-	$GLOBALS['wgSF_SelectDir'] = dirname(__FILE__) ;
-	$GLOBALS['wgSF_SelectScriptPath']  = $GLOBALS['wgScriptPath'] . '/extensions/'.basename($GLOBALS['wgSF_SelectDir']);
 
 	$GLOBALS['wgScriptSelectCount'] = 0;
 	$GLOBALS['wgSF_Select_debug'] = 0;
 
+	// Register resource files
+	$extensionPathParts = explode( DIRECTORY_SEPARATOR . 'extensions' . DIRECTORY_SEPARATOR , __DIR__, 2 );
+
 	$GLOBALS['wgResourceModules']['ext.sf_select.scriptselect'] = array(
-		'localBasePath' => $GLOBALS['wgSF_SelectDir'],
-		'remoteExtPath' => 'SemanticFormsSelect',
+		'localBasePath' => __DIR__ ,
+		'remoteExtPath' => end( $extensionPathParts ),
+		'position' => 'bottom',
 		'scripts' => array( 'res/scriptSelect.js' ),
 		'dependencies' => array(
 			'ext.semanticforms.main'
 		)
 	);
+
+	$GLOBALS['wgExtensionFunctions'][] = function() {
+		$GLOBALS['sfgFormPrinter']->setInputTypeHook( 'SF_Select', '\SFS\SemanticFormsSelect::init', array() );
+	};
 
 } );

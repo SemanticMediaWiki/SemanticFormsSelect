@@ -48,7 +48,7 @@ class SemanticFormsSelect {
 	}
 
 	public function select ( $cur_value, $input_name, $is_mandatory, $is_disabled, $other_args ) {
-		global $wgScriptPath,$wgSF_SelectDir, $wgScriptSelectCount, $sfgFieldNum, $wgUser,$wgSF_SelectScriptPath;
+		global $wgScriptSelectCount, $sfgFieldNum, $wgUser;
 
 		$selectField = array();
 		$values = null;
