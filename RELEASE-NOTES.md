@@ -1,6 +1,6 @@
 This file contains the RELEASE-NOTES of the Semantic Forms Select (a.k.a. SFS) extension.
 
-### 1.3.0 (2015-11-??)
+### 1.3.0 (2015-11-30)
 
 * Added the `SFS` PHP namespace
 * Added full Composer compatibility and autoloading (PSR-4)
