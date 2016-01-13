@@ -1,14 +1,14 @@
 {
 	"name": "mediawiki/semantic-forms-select",
 	"type": "mediawiki-extension",
-	"description": "Generate a select field in Semantic Form which values are from query",
+	"description": "Allows to generate a select field in Semantic Forms which values are from query",
 	"keywords": [
 		"MediaWiki",
 		"SMW",
 		"Semantic MediaWiki",
 		"Semantic Forms"
 	],
-	"homepage": "https://www.mediawiki.org/wiki/Extension:SemanticFormsSelect",
+	"homepage": "https://www.mediawiki.org/wiki/Extension:Semantic_Forms_Select",
 	"license": "GPL-2.0+",
 	"authors": [
 		{
