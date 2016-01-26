@@ -8,11 +8,11 @@
  */
 
 if ( isset( $wgWikimediaTravisCI ) && $wgWikimediaTravisCI == true ) {
-	if ( is_readable( __DIR__ . '/../../vendor/SemanticForms/SemanticForms.php' ) ) {
-		require_once __DIR__ . '/../../vendor/SemanticForms/SemanticForms.php';
+	if ( is_readable( __DIR__ . '/../../vendor/extensions/SemanticForms/SemanticForms.php' ) ) {
+		require_once __DIR__ . '/../../vendor/extensions/SemanticForms/SemanticForms.php';
 	}
-} elseif ( is_readable( __DIR__ . '/vendor/SemanticForms/SemanticForms.php' ) ) {
-	require_once __DIR__ . '/vendor/SemanticForms/SemanticForms.php';
+} elseif ( is_readable( __DIR__ . '/vendor/extensions/SemanticForms/SemanticForms.php' ) ) {
+	require_once __DIR__ . '/vendor/extensions/SemanticForms/SemanticForms.php';
 }
 
 if ( !defined( 'MEDIAWIKI' ) ) {
