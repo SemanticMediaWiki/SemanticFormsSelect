@@ -7,7 +7,7 @@
  * @defgroup SFS SemanticFormsSelect
  */
 
-if ( isset( $wgWikimediaJenkinsCI ) && $wgWikimediaJenkinsCI == true ) {
+if ( isset( $wgWikimediaTravisCI ) && $wgWikimediaTravisCI == true ) {
 	if ( is_readable( __DIR__ . '/../../vendor/SemanticForms/SemanticForms.php' ) ) {
 		require_once __DIR__ . '/../../vendor/SemanticForms/SemanticForms.php';
 	}
