@@ -32,15 +32,7 @@
 		}
 	},
 	"autoload": {
-		"classmap": [
-			"vendor/SemanticForms/includes/",
-			"vendor/SemanticForms/languages/",
-			"vendor/SemanticForms/skins/",
-			"vendor/SemanticForms/specials/",
-			"vendor/SemanticForms/tests/"
-		],
 		"files" : [
-			"vendor/SemanticForms/SemanticForms.php",
 			"SemanticFormsSelect.php"
 		],
 		"psr-4": {
@@ -52,14 +44,5 @@
 	},
 	"scripts":{
 		"phpunit": "php ../../tests/phpunit/phpunit.php -c phpunit.xml.dist"
-	},
-	"extra": {
-		"merge-plugin": {
-			"include": [
-				"../../composer.local.json",
-				"composer.json"
-			],
-			"merge-dev": false
-		}
 	}
 }
