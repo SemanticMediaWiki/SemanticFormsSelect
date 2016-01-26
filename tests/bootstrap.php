@@ -9,6 +9,7 @@ if ( !is_readable( $autoloaderClassPath = __DIR__ . '/../../SemanticMediaWiki/te
 }
 
 print sprintf( "\n%-20s%s\n", "Semantic Forms Select: ", SFS_VERSION );
+print sprintf( "%-20s%s\n", "Semantic Forms: ", defined( 'SF_VERSION' ) ? SF_VERSION : 'undefined' );
 
 $autoloader = require $autoloaderClassPath;
 $autoloader->addPsr4( 'SFS\\Tests\\', __DIR__ . '/phpunit/Unit' );
