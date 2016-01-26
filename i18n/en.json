@@ -1,0 +1,6 @@
+{
+	"@metadata": {
+		"authors": []
+	},
+	"semanticformsselect-desc": "Allows to generate a select field in a semantic form whose values are retrieved from a query"
+}
