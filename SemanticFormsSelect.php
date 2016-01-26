@@ -31,7 +31,7 @@ $GLOBALS['wgExtensionFunctions'][] = function() {
 	}
 
 	if ( version_compare( $GLOBALS['wgVersion'], '1.26c', '>' ) ) {
-		if ( !ExtensionRegistry::getInstance()->isLoaded( 'SemanticForms' ) ) {
+		if ( !\ExtensionRegistry::getInstance()->isLoaded( 'SemanticForms' ) ) {
 			die( '<b>Error:</b> <a href="https://www.mediawiki.org/wiki/Extension:SemanticFormsSelect">Semantic Forms Selects</a> is a Semantic Forms extension. You need to install <a href="https://www.mediawiki.org/wiki/Extension:Semantic_Forms">Semantic Forms</a> first.' );
 		}
 	}
