@@ -7,11 +7,11 @@
  * @defgroup SFS SemanticFormsSelect
  */
 
-/*if ( isset( $wgWikimediaTravisCI ) && $wgWikimediaTravisCI == true ) {
-	if ( is_readable( __DIR__ . '/../../vendor/extensions/SemanticForms/SemanticForms.php' ) ) {
-		require_once __DIR__ . '/../../vendor/extensions/SemanticForms/SemanticForms.php';
+if ( isset( $wgWikimediaTravisCI ) && $wgWikimediaTravisCI == true ) {
+	if ( is_readable( __DIR__ . '/../../extensions/SemanticForms/SemanticForms.php' ) ) {
+		require_once __DIR__ . '/../../extensions/SemanticForms/SemanticForms.php';
 	}
-} else */if ( is_readable( __DIR__ . '/extensions/SemanticForms/SemanticForms.php' ) ) {
+} elseif ( is_readable( __DIR__ . '/extensions/SemanticForms/SemanticForms.php' ) ) {
 	require_once __DIR__ . '/extensions/SemanticForms/SemanticForms.php';
 }
 
