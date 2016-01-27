@@ -11,7 +11,6 @@ matrix:
   include:
     - env: DB=mysql; MW=master;
       php: 7
-      
     - env: DB=mysql; MW=1.26.2;
       php: 7
     - env: DB=mysql; MW=1.25.5; TYPE=coverage
