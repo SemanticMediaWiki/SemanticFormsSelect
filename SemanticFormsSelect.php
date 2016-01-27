@@ -34,6 +34,7 @@ if ( defined( 'SFS_VERSION' ) ) {
 
 define( 'SFS_VERSION', '1.3.0' );
 
+if ( version_compare( $GLOBALS['wgVersion'], '1.27c', '>' ) ) {
 if ( function_exists( 'wfLoadExtension' ) ) {
 	wfLoadExtension( 'SemanticFormsSelect' );
 	// Keep i18n globals so mergeMessageFileList.php doesn't break
@@ -43,6 +44,7 @@ if ( function_exists( 'wfLoadExtension' ) ) {
 		'see https://www.mediawiki.org/wiki/Extension_registration for more details.'
 	); */
 	return;
+}
 }
 
 /**
