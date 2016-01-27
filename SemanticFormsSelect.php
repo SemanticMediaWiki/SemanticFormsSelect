@@ -10,8 +10,8 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	die( 'This file is part of the SemanticFormsSelect extension, it is not a valid entry point.' );
 }
 
-if ( is_readable( __DIR__ . '/extensions/SemanticForms/SemanticForms.php' ) ) {
-	require_once __DIR__ . '/extensions/SemanticForms/SemanticForms.php';
+if ( is_readable( __DIR__ . '/../../extensions/SemanticForms/SemanticForms.php' ) ) {
+	require_once __DIR__ . '/../../extensions/SemanticForms/SemanticForms.php';
 }
 
 if ( version_compare( $GLOBALS[ 'wgVersion' ], '1.23c', '<' ) ) {
