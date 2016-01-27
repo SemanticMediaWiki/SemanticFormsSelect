@@ -20,7 +20,7 @@ if ( isset( $wgWikimediaTravisCI ) && $wgWikimediaTravisCI == true ) {
 }
 
 $GLOBALS['wgExtensionFunctions'][] = function() {
-	if ( version_compare( $GLOBALS['wgVersion'], '1.27c', '>' ) ) {
+	if ( version_compare( $GLOBALS['wgVersion'], '1.26c', '>' ) ) {
 		if ( !ExtensionRegistry::getInstance()->isLoaded( 'SemanticForms' ) ) {
 			die( '<b>Error:</b> <a href="https://www.mediawiki.org/wiki/Extension:SemanticFormsSelect">Semantic Forms Selects</a> is a Semantic Forms extension. You need to install <a href="https://www.mediawiki.org/wiki/Extension:Semantic_Forms">Semantic Forms</a> first.' );
 		}
@@ -35,16 +35,16 @@ if ( defined( 'SFS_VERSION' ) ) {
 define( 'SFS_VERSION', '1.3.0' );
 
 if ( version_compare( $GLOBALS['wgVersion'], '1.27c', '>' ) ) {
-if ( function_exists( 'wfLoadExtension' ) ) {
-	wfLoadExtension( 'SemanticFormsSelect' );
-	// Keep i18n globals so mergeMessageFileList.php doesn't break
-	$GLOBALS['wgMessagesDirs']['SemanticFormsSelect'] = __DIR__ . '/i18n';
-	/* wfWarn(
-		'Deprecated PHP entry point used for SemanticFormsSelect extension. Please use wfLoadExtension instead, ' .
-		'see https://www.mediawiki.org/wiki/Extension_registration for more details.'
-	); */
-	return;
-}
+	if ( function_exists( 'wfLoadExtension' ) ) {
+		wfLoadExtension( 'SemanticFormsSelect' );
+		// Keep i18n globals so mergeMessageFileList.php doesn't break
+		$GLOBALS['wgMessagesDirs']['SemanticFormsSelect'] = __DIR__ . '/i18n';
+		/* wfWarn(
+			'Deprecated PHP entry point used for SemanticFormsSelect extension. Please use wfLoadExtension instead, ' .
+			'see https://www.mediawiki.org/wiki/Extension_registration for more details.'
+		); */
+		return;
+	}
 }
 
 /**
