@@ -26,6 +26,7 @@ cd mw
 if [ -f composer.json ]
 then
   composer self-update
+  composer update
   composer install --prefer-source
 fi
 
