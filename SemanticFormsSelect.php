@@ -13,7 +13,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 if ( version_compare( $GLOBALS[ 'wgVersion' ], '1.23c', '<' ) ) {
 	die( '<b>Error:</b> This version of <a href="https://github.com/SemanticMediaWiki/SemanticFormsSelect/">SemanticFormsSelect</a> is only compatible with MediaWiki 1.23 or above. You need to upgrade MediaWiki first.' );
 }
-if ( version_compare( $GLOBALS[ 'wgVersion' ], '1.27c', '>' ) ) {
+if ( version_compare( $GLOBALS[ 'wgVersion' ], '1.26c', '>' ) ) {
 	if ( !ExtensionRegistry::getInstance()->isLoaded( 'SemanticForms' ) ) {
 		die( '<b>Error:</b> You need to install <a href="https://www.mediawiki.org/wiki/Extension:SemanticForms">SemanticForms</a> first.' );
 	}
