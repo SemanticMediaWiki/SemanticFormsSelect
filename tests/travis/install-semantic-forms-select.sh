@@ -23,9 +23,10 @@ function installToMediaWikiRoot {
 	else
 		composer init
 		composer require "mediawiki/semantic-forms-select:dev-master" --prefer-source --update-with-dependencies
-
 		cd extensions
 		cd SemanticFormsSelect
+		
+		composer require "mediawiki/semantic-forms-select:dev-master" --prefer-source --update-with-dependencies
 
 		# Pull request number, "false" if it's not a pull request
 		# After the install via composer an additional get fetch is carried out to
