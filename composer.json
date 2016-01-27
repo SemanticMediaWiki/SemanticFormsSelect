@@ -32,9 +32,6 @@
 		}
 	},
 	"autoload": {
-		"files" : [
-			"SemanticFormsSelect.php"
-		],
 		"psr-4": {
 			"SFS\\": "src/"
 		}

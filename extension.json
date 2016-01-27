@@ -1,0 +1,53 @@
+{
+	"@Note": "When updating this file please also update SemanticFormsSelect.php with the same changes.",
+	"load_composer_autoloader": true,
+	"name": "Semantic Forms Select",
+	"version": "1.3.0",
+	"author": [
+		"Jason Zhang",
+		"Toni Hermoso Pulido",
+		"..."
+	],
+	"url": "https://www.mediawiki.org/wiki/Extension:SemanticFormsSelect",
+	"descriptionmsg": "semanticformsselect-desc",
+	"type": "semantic",
+	"requires": {
+		"MediaWiki": ">= 1.27.0"
+	},
+	"license-name": "GPL-2.0+",
+	"callback": "SFS\\SemanticFormsSelectHooks::onCallback",
+	"ExtensionFunctions": [
+		"SFS\\SemanticFormsSelectHooks::onExtensionFunction"
+	],
+	"APIModules": {
+		"sformsselect": "SFS\\ApiSemanticFormsSelect"
+	},
+	"MessagesDirs": {
+		"SemanticFormsSelect": [
+			"i18n"
+		]
+	},
+	"AutoloadClasses": {
+		"SFS\\SemanticFormsSelectHooks": "src/SemanticFormsSelect.hooks.php"
+	},
+	"ResourceModules": {
+		"ext.sf_select.scriptselect": {
+			"position": "bottom",
+			"scripts": [
+				"res/scriptSelect.js"
+			],
+			"dependencies": [
+				"ext.semanticforms.main"
+			]
+		}
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "",
+		"remoteExtPath": "SemanticFormsSelect"
+	},
+	"config": {
+		"ScriptSelectCount": 0,
+		"SF_Select_debug": 0
+	},
+	"manifest_version": 1
+}
