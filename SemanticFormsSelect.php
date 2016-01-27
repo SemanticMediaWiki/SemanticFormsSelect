@@ -16,8 +16,8 @@ if ( version_compare( $GLOBALS[ 'wgVersion' ], '1.23', 'lt' ) ) {
 
 if ( !ExtensionRegistry::getInstance()->isLoaded( 'SemanticForms' ) ) {
 	die( '<b>Error:</b> You need to install <a href="https://www.mediawiki.org/wiki/Extension:SemanticForms">SemanticForms</a> first.' );
-} elseif ( version_compare( SF_VERSION, '2.8', 'lt' ) ) {
-die( '<b>Error:</b> This version of <a href="https://github.com/SemanticMediaWiki/SemanticFormsSelect/">SemanticFormsSelect</a> is only compatible with Semantic Forms 2.8 or above. You need to upgrade <a href="https://www.mediawiki.org/wiki/Extension:Semantic_Forms">Semantic Forms</a> first.' );
+} elseif ( version_compare( 'SF_VERSION', '2.8', '<' ) ) {
+	die( '<b>Error:</b> This version of <a href="https://github.com/SemanticMediaWiki/SemanticFormsSelect/">SemanticFormsSelect</a> is only compatible with Semantic Forms 2.8 or above. You need to upgrade <a href="https://www.mediawiki.org/wiki/Extension:Semantic_Forms">Semantic Forms</a> first.' );
 }
 
 // Do not initialize more than once.
