@@ -10,7 +10,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	die( 'This file is part of the SemanticFormsSelect extension, it is not a valid entry point.' );
 }
 
-if ( file_exists( __DIR__ . '/vendor/autoload.php' ) {
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require_once( __DIR__ . '/vendor/autoload.php' );
 }
 
