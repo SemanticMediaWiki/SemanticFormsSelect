@@ -27,6 +27,8 @@ function installToMediaWikiRoot {
 		cd extensions
 		cd SemanticFormsSelect
 
+composer update
+
 		# Pull request number, "false" if it's not a pull request
 		# After the install via composer an additional get fetch is carried out to
 		# update th repository to make sure that the latests code changes are
