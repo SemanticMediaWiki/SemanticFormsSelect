@@ -27,6 +27,7 @@ function installToMediaWikiRoot {
 		cd extensions
 		cd SemanticFormsSelect
 
+		composer init --stability dev
 composer require "mediawiki/semantic-forms:dev-master" --prefer-source --dev
 
 		# Pull request number, "false" if it's not a pull request
