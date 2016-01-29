@@ -22,6 +22,7 @@ function installToMediaWikiRoot {
 		composer require 'mediawiki/semantic-forms-select='$SMT --prefer-source --update-with-dependencies
 	else
 composer update
+composer require "mediawiki/semantic-forms-select:dev-master" --prefer-source --dev
 		cd extensions
 		cd SemanticFormsSelect
 composer update --dev
