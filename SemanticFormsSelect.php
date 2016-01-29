@@ -65,8 +65,8 @@ call_user_func( function() {
 		)
 	);
 
-	$GLOBALS['wgExtensionFunctions'][] = function() {
+	// $GLOBALS['wgExtensionFunctions'][] = function() {
 		$GLOBALS['sfgFormPrinter']->setInputTypeHook( 'SF_Select', '\SFS\SemanticFormsSelect::init', array() );
-	};
+	// };
 
 } );
