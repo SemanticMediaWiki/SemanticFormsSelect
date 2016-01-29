@@ -25,7 +25,6 @@
 		"composer/installers": "1.*,>=1.0.1",
 		"mediawiki/semantic-media-wiki": ">=2.0",
 		"mediawiki/semantic-forms": "dev-master"
-
 	},
 	"extra": {
 		"branch-alias": {
