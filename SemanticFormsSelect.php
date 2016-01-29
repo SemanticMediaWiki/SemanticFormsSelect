@@ -10,8 +10,8 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	die( 'This file is part of the SemanticFormsSelect extension, it is not a valid entry point.' );
 }
 
-if ( file_exists( __DIR__ . '/../../vendor/autoload.php' ) ) {
-	require_once( __DIR__ . '/../../vendor/autoload.php' );
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+	require_once( __DIR__ . '/vendor/autoload.php' );
 }
 
 if ( version_compare( $GLOBALS[ 'wgVersion' ], '1.23', 'lt' ) ) {
@@ -19,7 +19,7 @@ if ( version_compare( $GLOBALS[ 'wgVersion' ], '1.23', 'lt' ) ) {
 }
 
 $GLOBALS['wgExtensionFunctions'][] = function() {
-	if ( version_compare( SF_VERSION, '2.8', '<' ) ) {
+	if ( version_compare( SF_VERSION, '6.8', '<' ) ) {
 		die( '<b>Error:</b> This version of <a href="https://github.com/SemanticMediaWiki/SemanticFormsSelect/">SemanticFormsSelect</a> is only compatible with Semantic Forms 2.8 or above. You need to upgrade <a href="https://www.mediawiki.org/wiki/Extension:Semantic_Forms">Semantic Forms</a> first.' );
 	}
 };
