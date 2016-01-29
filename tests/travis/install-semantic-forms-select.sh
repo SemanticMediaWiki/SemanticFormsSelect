@@ -23,7 +23,7 @@ function installToMediaWikiRoot {
 	else
 composer update
 composer init --stability dev
-composer update "mediawiki/semantic-forms-select:dev-master" --prefer-source --dev
+composer install "mediawiki/semantic-forms-select:dev-master" --prefer-source --dev
 		cd extensions
 		cd SemanticFormsSelect
 composer update --dev
