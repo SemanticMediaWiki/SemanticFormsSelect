@@ -34,7 +34,7 @@ define( 'SFS_VERSION', '1.3.0' );
 /**
  * @codeCoverageIgnore
  */
-// call_user_func( function() {
+call_user_func( function() {
 
 	$GLOBALS['wgExtensionCredits']['semantic'][] = array(
 		'path' => __FILE__,
@@ -69,4 +69,4 @@ define( 'SFS_VERSION', '1.3.0' );
 		$GLOBALS['sfgFormPrinter']->setInputTypeHook( 'SF_Select', '\SFS\SemanticFormsSelect::init', array() );
 	};
 
-// } );
+} );
