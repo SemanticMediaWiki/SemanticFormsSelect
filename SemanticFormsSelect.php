@@ -14,6 +14,10 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require_once( __DIR__ . '/vendor/autoload.php' );
 }
 
+if ( file_exists( __DIR__ . '/../extensions/SemanticForms/SemanticForms.php' ) ) {
+	require_once( __DIR__ . '/../extensions/SemanticForms/SemanticForms.php' );
+}
+
 if ( version_compare( $GLOBALS[ 'wgVersion' ], '1.23', 'lt' ) ) {
 	die( '<b>Error:</b> This version of <a href="https://github.com/SemanticMediaWiki/SemanticFormsSelect/">SemanticFormsSelect</a> is only compatible with MediaWiki 1.23 or above. You need to upgrade MediaWiki first.' );
 }
