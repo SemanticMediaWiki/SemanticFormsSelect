@@ -14,8 +14,15 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require_once( __DIR__ . '/vendor/autoload.php' );
 }
 
-if ( file_exists( __DIR__ . '/../extensions/SemanticForms/SemanticForms.php' ) ) {
-	require_once( __DIR__ . '/../extensions/SemanticForms/SemanticForms.php' );
+// A workaround to stay compatible with the 3.4.x release.
+if ( defined( 'SMW_VERSION' ) ) {
+	$GLOBALS['wgExtensionFunctions'][] = function() {
+		// This global variable is needed so that other extensions can
+		// hook into it to add their own input types.
+		$GLOBALS['sfgFormPrinter'] = new StubObject( 'sfgFormPrinter', 'SFFormPrinter' );
+	};
+} else {
+	$GLOBALS['sfgFormPrinter'] = new StubObject( 'sfgFormPrinter', 'SFFormPrinter' );
 }
 
 if ( version_compare( $GLOBALS[ 'wgVersion' ], '1.23', 'lt' ) ) {
