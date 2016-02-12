@@ -20,14 +20,14 @@ if ( version_compare( $GLOBALS[ 'wgVersion' ], '1.23', 'lt' ) ) {
 
 $GLOBALS['wgExtensionFunctions'][] = function() {
 	if ( version_compare( $GLOBALS[ 'wgVersion' ], '1.26c', '<' ) ) {
-		if ( version_compare( 'SF_VERSION', '2.8', '<' ) ) {
+		if ( version_compare( SF_VERSION, '2.8', '<' ) ) {
 			die( '<b>Error:</b> This version of <a href="https://github.com/SemanticMediaWiki/SemanticFormsSelect/">SemanticFormsSelect</a> is only compatible with Semantic Forms 2.8 or above. You need to upgrade <a href="https://www.mediawiki.org/wiki/Extension:Semantic_Forms">Semantic Forms</a> first.' );
 		}
 	}
 };
 
 // A workaround to stay compatible with the 3.4.x release.
-/*if ( defined( 'SMW_VERSION' ) ) {
+if ( defined( 'SMW_VERSION' ) ) {
 	$GLOBALS['wgExtensionFunctions'][] = function() {
 		// This global variable is needed so that other extensions can
 		// hook into it to add their own input types.
@@ -35,7 +35,7 @@ $GLOBALS['wgExtensionFunctions'][] = function() {
 	};
 } else {
 	$GLOBALS['sfgFormPrinter'] = new StubObject( 'sfgFormPrinter', 'SFFormPrinter' );
-}*/
+}
 
 // Do not initialize more than once.
 if ( defined( 'SFS_VERSION' ) ) {
