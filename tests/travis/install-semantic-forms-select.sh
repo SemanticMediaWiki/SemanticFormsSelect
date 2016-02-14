@@ -19,10 +19,11 @@ function installToMediaWikiRoot {
 
 	if [ "$SFS" != "" ]
 	then
-		composer require 'mediawiki/semantic-forms-select='$SMT --prefer-source --dev --update-with-dependencies
+		composer require 'mediawiki/semantic-forms-select='$SMT --prefer-source --update-with-dependencies
 	else
 		composer init --stability dev
 		composer require "mediawiki/semantic-forms-select:dev-master" --prefer-source --dev --update-with-dependencies
+		composer require "mediawiki/semantic-forms:dev-master" --prefer-source --dev --update-with-dependencies
 
 		cd extensions
 		cd SemanticFormsSelect
