@@ -10,8 +10,8 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	die( 'This file is part of the SemanticFormsSelect extension, it is not a valid entry point.' );
 }
 
-if ( file_exists( __DIR__ . '/../../vendor/autoload.php' ) ) {
-	require_once( __DIR__ . '/../../vendor/autoload.php' );
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+	require_once( __DIR__ . '/vendor/autoload.php' );
 }
 
 if ( version_compare( $GLOBALS[ 'wgVersion' ], '1.23', 'lt' ) ) {
@@ -25,17 +25,6 @@ $GLOBALS['wgExtensionFunctions'][] = function() {
 		}
 	}
 };
-
-// A workaround to stay compatible with the 3.4.x release.
-if ( defined( 'SMW_VERSION' ) ) {
-	$GLOBALS['wgExtensionFunctions'][] = function() {
-		// This global variable is needed so that other extensions can
-		// hook into it to add their own input types.
-		$GLOBALS['sfgFormPrinter'] = new StubObject( 'sfgFormPrinter', 'SFFormPrinter' );
-	};
-} else {
-	$GLOBALS['sfgFormPrinter'] = new StubObject( 'sfgFormPrinter', 'SFFormPrinter' );
-}
 
 // Do not initialize more than once.
 if ( defined( 'SFS_VERSION' ) ) {
