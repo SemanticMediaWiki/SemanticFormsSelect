@@ -9,7 +9,6 @@ env:
 matrix:
   fast_finish: true
   include:
-
     - env: DB=mysql; MW=master;
       php: 7
     - env: DB=mysql; MW=1.26.2;
