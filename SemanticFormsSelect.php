@@ -1,66 +1,78 @@
 <?php
 
+use SFS\HookRegistry;
+
 /**
  * @see https://github.com/SemanticMediaWiki/SemanticFormsSelect/
- * @link https://www.mediawiki.org/wiki/Extension:SemanticFormsSelect
  *
- * @defgroup SFS SemanticFormsSelect
+ * @defgroup SemanticFormsSelect Semantic Forms Select
  */
 if ( !defined( 'MEDIAWIKI' ) ) {
-	die( 'This file is part of the SemanticFormsSelect extension, it is not a valid entry point.' );
+	die( 'Not an entry point.' );
 }
 
-if ( version_compare( $GLOBALS[ 'wgVersion' ], '1.23', 'lt' ) ) {
-	die( '<b>Error:</b> This version of <a href="https://github.com/SemanticMediaWiki/SemanticFormsSelect/">SemanticFormsSelect</a> is only compatible with MediaWiki 1.23 or above. You need to upgrade MediaWiki first.' );
-}
-
-if ( !defined( 'SF_VERSION' ) || version_compare( SF_VERSION, '2.8', 'lt' ) ) {
-   die( '<b>Error:</b> This version of <a href="https://github.com/SemanticMediaWiki/SemanticFormsSelect/">SemanticFormsSelect</a> is only compatible with Semantic Forms 2.8 or above. You need to upgrade <a href="https://www.mediawiki.org/wiki/Extension:Semantic_Forms">Semantic Forms</a> first.' );
-}
-
-// Do not initialize more than once.
 if ( defined( 'SFS_VERSION' ) ) {
+	// Do not initialize more than once.
 	return 1;
 }
 
-define( 'SFS_VERSION', '1.3.0' );
+SemanticFormsSelect::initExtension();
+
+$GLOBALS['wgExtensionFunctions'][] = function() {
+	SemanticFormsSelect::onExtensionFunction();
+};
 
 /**
  * @codeCoverageIgnore
  */
-call_user_func( function() {
+class SemanticFormsSelect {
 
-	$GLOBALS['wgExtensionCredits']['semantic'][] = array(
-		'path' => __FILE__,
-		'name' => 'Semantic Forms Select',
-		'author' =>array( 'Jason Zhang', 'Toni Hermoso Pulido', '...' ),
-		'url' => 'https://www.mediawiki.org/wiki/Extension:SemanticFormsSelect',
-		'description' => 'Allows to generate a select field in a semantic form whose values are retrieved from a query',
-		'version'  => SFS_VERSION,
-		'license-name'   => 'GPL-2.0+',
-	);
+	/**
+	 * @since 1.0
+	 */
+	public static function initExtension() {
 
-	// Api modules
-	$GLOBALS['wgAPIModules']['sformsselect'] = 'SFS\ApiSemanticFormsSelect';
+		define( 'SFS_VERSION', '1.4.0-alpha' );
 
-	$GLOBALS['wgScriptSelectCount'] = 0;
-	$GLOBALS['wgSF_Select_debug'] = 0;
+		// Api modules
+		$GLOBALS['wgAPIModules']['sformsselect'] = 'SFS\ApiSemanticFormsSelect';
 
-	// Register resource files
-	$extensionPathParts = explode( DIRECTORY_SEPARATOR . 'extensions' . DIRECTORY_SEPARATOR , __DIR__, 2 );
+		$GLOBALS['wgScriptSelectCount'] = 0;
+		$GLOBALS['wgSF_Select_debug'] = 0;
 
-	$GLOBALS['wgResourceModules']['ext.sf_select.scriptselect'] = array(
-		'localBasePath' => __DIR__ ,
-		'remoteExtPath' => end( $extensionPathParts ),
-		'position' => 'bottom',
-		'scripts' => array( 'res/scriptSelect.js' ),
-		'dependencies' => array(
-			'ext.semanticforms.main'
-		)
-	);
+		// Register resource files
+		$GLOBALS['wgResourceModules']['ext.sf_select.scriptselect'] = array(
+			'localBasePath' => __DIR__ ,
+			'remoteExtPath' => 'SemanticFormsSelect',
+			'position' => 'bottom',
+			'scripts' => array( 'res/scriptSelect.js' ),
+			'dependencies' => array(
+				'ext.semanticforms.main'
+			)
+		);
+	}
 
-	$GLOBALS['wgExtensionFunctions'][] = function() {
-		$GLOBALS['sfgFormPrinter']->setInputTypeHook( 'SF_Select', '\SFS\SemanticFormsSelect::init', array() );
-	};
+	/**
+	 * @since 1.0
+	 */
+	public static function onExtensionFunction() {
 
-} );
+		if ( !defined( 'SF_VERSION' ) ) {
+			die( '<b>Error:</b><a href="https://github.com/SemanticMediaWiki/SemanticFormsSelect/">Semantic Forms Select</a> requires the <a href="https://www.mediawiki.org/wiki/Extension:SemanticForms">Semantic Forms</a> extension. Please install and activate this extension first.' );
+		}
+
+		if ( isset( $GLOBALS['sfgFormPrinter'] )) {
+			$GLOBALS['sfgFormPrinter']->setInputTypeHook( 'SF_Select', '\SFS\SemanticFormsSelect::init', array() );
+		}
+	}
+
+	/**
+	 * @since 1.0
+	 *
+	 * @return string|null
+	 */
+	public static function getVersion() {
+		return SFS_VERSION;
+	}
+
+}

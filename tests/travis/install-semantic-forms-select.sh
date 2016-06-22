@@ -21,8 +21,8 @@ function installToMediaWikiRoot {
 	then
 		composer require 'mediawiki/semantic-forms-select='$SMT --prefer-source --update-with-dependencies
 	else
-		composer init
-		composer require "mediawiki/semantic-forms-select:dev-master" --prefer-source --update-with-dependencies
+		composer init --stability dev
+		composer require "mediawiki/semantic-forms-select:dev-master" --prefer-source --dev --update-with-dependencies
 
 		cd extensions
 		cd SemanticFormsSelect
@@ -56,6 +56,8 @@ function updateConfiguration {
 	then
 		echo '$wgLanguageCode = "'$SITELANG'";' >> LocalSettings.php
 	fi
+
+	echo 'wfLoadExtension( "SemanticForms" );' >> LocalSettings.php
 
 	echo 'error_reporting(E_ALL| E_STRICT);' >> LocalSettings.php
 	echo 'ini_set("display_errors", 1);' >> LocalSettings.php
