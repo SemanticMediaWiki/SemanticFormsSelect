@@ -6,23 +6,6 @@ use SFS\HookRegistry;
  * @see https://github.com/SemanticMediaWiki/SemanticFormsSelect/
  *
  * @defgroup SemanticFormsSelect Semantic Forms Select
- */
-if ( !defined( 'MEDIAWIKI' ) ) {
-	die( 'Not an entry point.' );
-}
-
-if ( defined( 'SFS_VERSION' ) ) {
-	// Do not initialize more than once.
-	return 1;
-}
-
-SemanticFormsSelect::initExtension();
-
-$GLOBALS['wgExtensionFunctions'][] = function() {
-	SemanticFormsSelect::onExtensionFunction();
-};
-
-/**
  * @codeCoverageIgnore
  */
 class SemanticFormsSelect {
@@ -32,7 +15,7 @@ class SemanticFormsSelect {
 	 */
 	public static function initExtension() {
 
-		define( 'SFS_VERSION', '1.4.0-alpha' );
+		define( 'SFS_VERSION', true );
 
 		// Api modules
 		$GLOBALS['wgAPIModules']['sformsselect'] = 'SFS\ApiSemanticFormsSelect';
@@ -72,7 +55,13 @@ class SemanticFormsSelect {
 	 * @return string|null
 	 */
 	public static function getVersion() {
-		return SFS_VERSION;
+		$extensionData = ExtensionRegistry::getInstance()->getAllThings();
+
+		if ( isset( $extensionData['Semantic Forms Select'] ) ) {
+			return $extensionData['Semantic Forms Select']['version'];
+		}
+
+		return null;
 	}
 
 }
