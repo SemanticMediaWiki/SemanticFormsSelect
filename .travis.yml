@@ -3,24 +3,15 @@ sudo: false
 
 language: php
 
-env:
-  - THENEEDFORTHIS=FAIL
-
 matrix:
   fast_finish: true
   include:
-    - env: DB=mysql; MW=1.26.2;
-      php: 7
-    - env: DB=mysql; MW=1.25.5; TYPE=coverage
+    - env: DB=mysql; MW=1.26.3; TYPE=coverage
       php: 5.6
-    - env: DB=sqlite; MW=1.23.13;
-      php: 5.4
-    - env: DB=mysql; MW=1.25.5
+    - env: DB=sqlite; MW=REL1_27;
+      php: 5.5
+    - env: DB=mysql; MW=1.26.3
       php: hhvm
-  exclude:
-    - env: THENEEDFORTHIS=FAIL
-  allow_failures:
-    - env: THENEEDFORTHIS=FAIL
 
 install:
   - bash ./tests/travis/install-mediawiki.sh
@@ -41,3 +32,7 @@ notifications:
       - "chat.freenode.net#semantic-mediawiki"
     on_success: change
     on_failure: always
+
+cache:
+  directories:
+    - $HOME/.composer/cache
