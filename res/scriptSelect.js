@@ -123,7 +123,7 @@ function SFSelect_setDependentValues (nameobj, fobj, values){
 			if (fobj.selectrm && fobj.selecttemplate != fobj.valuetemplate&&fobj.selectismultiple){
 				jQuery(element).closest("div.multipleTemplateInstance").remove();
 			} else{
-				if (selectedValues.length!=0)
+				if (selectedValues.length!=0 || values.length === 1)
 					jQuery(element).trigger("change");
 			}
 		} else if (!SFSelect_arrayEqual(newselected, selectedValues)){
