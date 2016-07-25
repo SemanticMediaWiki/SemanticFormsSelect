@@ -303,12 +303,12 @@ function SFSelect_arrayEqual(a, b)
 	for (var i=0; i<SFSelect_fobjs.length; i++){
 
 		var fobj = SFSelect_fobjs[i];
-		var valuepat = "input[name=" + fobj.valuetemplate + "\\["+ fobj.valuefield + "\\]]";
+		var valuepat = "input[name='" + fobj.valuetemplate + "\\["+ fobj.valuefield + "\\]']";
 
 		if ($(valuepat).val()){
 			objs=jQuery(valuepat);
 		} else{
-			valuepat= "select[name=" + fobj.valuetemplate + "\\["+ fobj.valuefield + "\\]]";
+			valuepat= "select[name='" + fobj.valuetemplate + "\\["+ fobj.valuefield + "\\]']";
 			objs=jQuery(valuepat);
 		}
 
