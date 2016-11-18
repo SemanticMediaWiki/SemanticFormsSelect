@@ -18,7 +18,7 @@ Semantic Forms Select (a.k.a. SFS) can generate a select form element with value
 
 ## Installation
 
-The recommended way to install Semantic Forms Select is by using [Composer][composer] with an entry in MediaWiki's `composer.json`.
+The recommended way to install Semantic Forms Select is by using [Composer][composer] with an entry in MediaWiki's `composer.json`, and activating it in the `LocalSettings.php`.
 
 ```json
 {
@@ -29,7 +29,8 @@ The recommended way to install Semantic Forms Select is by using [Composer][comp
 ```
 1. From your MediaWiki installation directory, execute
    `composer require mediawiki/semantic-forms-select:~2.0`
-2. Navigate to _Special:Version_ on your wiki and verify that the package
+2. In your `LocalSettings.php`, add `wfLoadExtension( 'SemanticFormsSelect' );`
+3. Navigate to _Special:Version_ on your wiki and verify that the package
    have been successfully installed.
 
 ## Usage
