@@ -57,7 +57,7 @@ function updateConfiguration {
 		echo '$wgLanguageCode = "'$SITELANG'";' >> LocalSettings.php
 	fi
 
-	echo 'wfLoadExtension( "SemanticForms" );' >> LocalSettings.php
+	echo 'wfLoadExtension( "PageForms" );' >> LocalSettings.php
 
 	echo 'error_reporting(E_ALL| E_STRICT);' >> LocalSettings.php
 	echo 'ini_set("display_errors", 1);' >> LocalSettings.php
