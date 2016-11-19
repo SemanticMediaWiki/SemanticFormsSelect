@@ -67,7 +67,11 @@ class SemanticFormsSelect {
 	 */
 	public static function onExtensionFunction() {
 
+<<<<<<< HEAD
 		if ( !defined( 'PF_VERSION' ) ) {
+=======
+		if ( !defined( 'SF_VERSION' ) ) {
+>>>>>>> Replace SemanticForms with PageForms (#38)
 			die( '<b>Error:</b><a href="https://github.com/SemanticMediaWiki/SemanticFormsSelect/">Semantic Forms Select</a> requires the <a href="https://www.mediawiki.org/wiki/Extension:PageForms">Semantic Forms</a> extension. Please install and activate this extension first.' );
 		}
 
