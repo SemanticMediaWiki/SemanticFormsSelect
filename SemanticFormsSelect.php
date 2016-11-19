@@ -2,6 +2,7 @@
 
 use SFS\HookRegistry;
 
+
 /**
  * @see https://github.com/SemanticMediaWiki/SemanticFormsSelect/
  *
