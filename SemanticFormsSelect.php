@@ -57,7 +57,7 @@ class SemanticFormsSelect {
 			'position' => 'bottom',
 			'scripts' => array( 'res/scriptSelect.js' ),
 			'dependencies' => array(
-				'ext.semanticforms.main'
+				'ext.pageforms.main'
 			)
 		);
 	}
@@ -68,11 +68,11 @@ class SemanticFormsSelect {
 	public static function onExtensionFunction() {
 
 		if ( !defined( 'SF_VERSION' ) ) {
-			die( '<b>Error:</b><a href="https://github.com/SemanticMediaWiki/SemanticFormsSelect/">Semantic Forms Select</a> requires the <a href="https://www.mediawiki.org/wiki/Extension:SemanticForms">Semantic Forms</a> extension. Please install and activate this extension first.' );
+			die( '<b>Error:</b><a href="https://github.com/SemanticMediaWiki/SemanticFormsSelect/">Semantic Forms Select</a> requires the <a href="https://www.mediawiki.org/wiki/Extension:PageForms">Semantic Forms</a> extension. Please install and activate this extension first.' );
 		}
 
-		if ( isset( $GLOBALS['sfgFormPrinter'] )) {
-			$GLOBALS['sfgFormPrinter']->setInputTypeHook( 'SF_Select', '\SFS\SemanticFormsSelect::init', array() );
+		if ( isset( $GLOBALS['wgPageFormsFormPrinter'] )) {
+			$GLOBALS['wgPageFormsFormPrinter']->setInputTypeHook( 'SF_Select', '\SFS\SemanticFormsSelect::init', array() );
 		}
 	}
 
