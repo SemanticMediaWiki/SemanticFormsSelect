@@ -57,7 +57,11 @@ function updateConfiguration {
 		echo '$wgLanguageCode = "'$SITELANG'";' >> LocalSettings.php
 	fi
 
-	echo 'wfLoadExtension( "SemanticForms" );' >> LocalSettings.php
+	if ( version_compare( $GLOBALS['wgVersion'], '1.28c', '>' ) ) {
+		echo 'wfLoadExtension( "SemanticForms" );' >> LocalSettings.php
+	} else {
+		echo 'require_once __DIR__ . "/extensions/SemanticForms/SemanticForms.php";' >> LocalSettings.php
+	}
 
 	echo 'error_reporting(E_ALL| E_STRICT);' >> LocalSettings.php
 	echo 'ini_set("display_errors", 1);' >> LocalSettings.php
