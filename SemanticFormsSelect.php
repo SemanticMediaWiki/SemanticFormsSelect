@@ -32,7 +32,7 @@ class SemanticFormsSelect {
 	 */
 	public static function initExtension() {
 
-		define( 'SFS_VERSION', '1.4.0-alpha' );
+		define( 'SFS_VERSION', '2.0.0-alpha' );
 
 		$GLOBALS['wgExtensionCredits']['semantic'][] = array(
 			'path' => __FILE__,
