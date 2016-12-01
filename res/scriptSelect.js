@@ -293,7 +293,7 @@ function SFSelect_arrayEqual(a, b)
 	//simplify duplicated object.
 	SFSelect_fobjs = SFSelect_removeDuplicateFobjs( SFSelect_fobjs );
 
-	$( "form#sfForm" ).change( function( event ){
+	$( "form#pfForm" ).change( function( event ){
 		SFSelect_changeHandler( event.target );
 	});
 
