@@ -1,8 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
-			"Kghbln"
+			"Kghbln",
+			"Mwjames"
 		]
 	},
-	"sfs-desc": "{{desc|name=Whats Nearby|url=https://www.mediawiki.org/wiki/Extension:SemanticFormsSelect}}"
+	"sfs-desc": "{{desc|name=SemanticFormsSelect|url=https://www.mediawiki.org/wiki/Extension:SemanticFormsSelect}}"
 }
