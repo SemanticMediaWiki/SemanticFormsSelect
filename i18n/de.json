@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kghbln"
+		]
+	},
+	"sfs-desc": "Ermöglicht Eingabefelder innerhalb eines Formulars, deren zur Auswahl stehenden Werte mit einer semantischen Abfrage ermittelt werden"
+}
