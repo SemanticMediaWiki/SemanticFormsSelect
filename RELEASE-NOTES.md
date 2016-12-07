@@ -4,9 +4,10 @@ This file contains the RELEASE-NOTES of the Semantic Forms Select (a.k.a. SFS) e
 
 Not yet released.
 
-* Dropped support for MediaWiki 1.24 and lower
+* Dropped support for MediaWiki 1.26 and lower
 * Dropped support for PHP 5.4 and lower
 * Dropped support for the Semantic Forms extension
+* Added support for the Page Forms extension
 * #29 Added support for I18n (by James Hong Kong)
 * #29 Made internal code improvements (by James Hong Kong)
 * #30 Migrated to MediaWiki 1.25 extension registration method
