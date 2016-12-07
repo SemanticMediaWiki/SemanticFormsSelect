@@ -15,7 +15,7 @@ class SemanticFormsSelect {
 	 */
 	public static function initExtension() {
 
-		define( 'SFS_VERSION', '2.0.0-alpha' );
+		define( 'SFS_VERSION', '2.0.0' );
 
 		// Api modules
 		$GLOBALS['wgAPIModules']['sformsselect'] = 'SFS\ApiSemanticFormsSelect';
@@ -28,7 +28,9 @@ class SemanticFormsSelect {
 			'localBasePath' => __DIR__ ,
 			'remoteExtPath' => 'SemanticFormsSelect',
 			'position' => 'bottom',
-			'scripts' => array( 'res/scriptSelect.js' ),
+			'scripts' => array(
+				'res/scriptSelect.js'
+			),
 			'dependencies' => array(
 				'ext.pageforms.main'
 			)

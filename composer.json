@@ -1,22 +1,29 @@
 {
 	"name": "mediawiki/semantic-forms-select",
 	"type": "mediawiki-extension",
-	"description": "Generate a select field in Semantic Form which values are from query",
+	"description": "Allows to generate a select field in a form whose values are retrieved from a query",
 	"keywords": [
 		"MediaWiki",
 		"SMW",
 		"Semantic MediaWiki",
-		"Semantic Forms"
+		"Page Forms"
 	],
 	"homepage": "https://www.mediawiki.org/wiki/Extension:SemanticFormsSelect",
 	"license": "GPL-2.0+",
 	"authors": [
 		{
-			"name": "Jasonzhang",
+			"name": "Jason Zhang",
 			"role": "Creator"
 		},
 		{
 			"name": "Toni Hermoso Pulido",
+			"role": "Developer"
+		},
+		{
+			"name": "James Hong Kong",
+			"role": "Developer"
+		{
+			"name": "Thomas Mulhall",
 			"role": "Developer"
 		}
 	],
