@@ -18,7 +18,7 @@ Semantic Forms Select (a.k.a. SFS) can generate a select form element with value
 
 ## Installation
 
-The recommended way to install Semantic Forms Select is by using [Composer][composer] with an entry in MediaWiki's `composer.json`.
+The recommended way to install Semantic Forms Select is by using [Composer][composer] with an entry in MediaWiki's `composer.json` or alternatively `composer.local.json`.
 
 ```json
 {
@@ -27,14 +27,19 @@ The recommended way to install Semantic Forms Select is by using [Composer][comp
 	}
 }
 ```
-1. From your MediaWiki installation directory, execute
+1. From your MediaWiki installation directory, execute  
    `composer require mediawiki/semantic-forms-select:~2.0`
-2. Navigate to _Special:Version_ on your wiki and verify that the package
-   have been successfully installed.
+2. Add the following line to your "LocalSettings.php" file:  
+   `wfLoadExtension( 'SemanticFormsSelect' );`
+3. Navigate to _Special:Version_ on your wiki and verify that the extension
+   has been successfully installed.
+   
+Note that the required extensions Semantic MediaWiki and Page Forms must be installed first according to the installation
+instructions provided with them.
 
 ## Usage
 
-Please consult the [help](http://www.mediawiki.org/wiki/Extension:SemanticFormsSelect) page for more information and examples.
+Please consult the [help](https://www.mediawiki.org/wiki/Extension:SemanticFormsSelect) page for more information and examples.
 
 ## Contribution and support
 
@@ -43,7 +48,7 @@ have a look at the contribution guideline.
 
 * [File an issue](https://github.com/SemanticMediaWiki/SemanticFormsSelect/issues)
 * [Submit a pull request](https://github.com/SemanticMediaWiki/SemanticFormsSelect/pulls)
-* Ask a question on [the mailing list](https://semantic-mediawiki.org/wiki/Mailing_list)
+* Ask a question on [the mailing list](https://www.semantic-mediawiki.org/wiki/Mailing_list)
 * Ask a question on the #semantic-mediawiki IRC channel on Freenode.
 
 Original code from https://code.google.com/p/semanticformsselect/downloads/list
