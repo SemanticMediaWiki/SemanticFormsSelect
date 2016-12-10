@@ -18,6 +18,7 @@ if ( !class_exists( 'SemanticFormsSelect' ) || ( $version = SemanticFormsSelect:
 }
 
 print sprintf( "\n%-20s%s\n", "Semantic Forms Select: ", $version );
+print sprintf( "%-20s%s\n", "Page Forms: ", SemanticFormsSelect::getVersion( 'PageForms' ) );
 
 $autoloader = require $autoloaderClassPath;
 $autoloader->addPsr4( 'SFS\\Tests\\', __DIR__ . '/phpunit/Unit' );

@@ -54,10 +54,21 @@ class SemanticFormsSelect {
 	/**
 	 * @since 1.0
 	 *
+	 * @param string $dependency
+	 *
 	 * @return string|null
 	 */
-	public static function getVersion() {
-		return is_string( SFS_VERSION ) ? SFS_VERSION : null;
+	public static function getVersion( $dependency = null ) {
+
+		if ( $dependency === null && defined( 'SFS_VERSION' ) ) {
+			return SFS_VERSION;
+		}
+
+		if ( $dependency === 'PageForms' && defined( 'PF_VERSION' ) ) {
+			return PF_VERSION;
+		}
+
+		return null;
 	}
 
 }
