@@ -29,7 +29,7 @@ The recommended way to install Semantic Forms Select is by using [Composer][comp
 ```
 1. From your MediaWiki installation directory, execute  
    `composer require mediawiki/semantic-forms-select:~2.0`
-2. Add the following line to your "LocalSettings.php" file _after the PageForms loading line_:
+2. Add the following line to your "LocalSettings.php" file _after the inclusion of Semantic MediaWiki and Page Forms_:  
    `wfLoadExtension( 'SemanticFormsSelect' );`
 3. Navigate to _Special:Version_ on your wiki and verify that the extension
    has been successfully installed.
