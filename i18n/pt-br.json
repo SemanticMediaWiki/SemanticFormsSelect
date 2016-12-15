@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"!Silent"
+		]
+	},
+	"sfs-desc": "Permite gerar um campo de seleção em um formulário cujos valores são recuperados de uma consulta"
+}
