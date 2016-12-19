@@ -2,7 +2,7 @@ This file contains the RELEASE-NOTES of the Semantic Forms Select (a.k.a. SFS) e
 
 ### 2.0.0
 
-Not yet released.
+Released on December 19, 2016.
 
 * Dropped support for MediaWiki 1.26 and lower
 * Dropped support for PHP 5.4 and lower
@@ -10,16 +10,17 @@ Not yet released.
 * Added support for the Page Forms extension
 * #29 Added support for I18n (by James Hong Kong)
 * #29 Made internal code improvements (by James Hong Kong)
-* #30 Migrated to MediaWiki 1.25 extension registration method
+* #30 Migrated to MediaWiki 1.25 extension registration method (by James Hong Kong)
 * #31 Fixed missing input not being populated when parent input only has one value (by Pierre Rudloff)
 * #34 Added escaping for spaces in template names (by Pierre Rudloff)
 * #42, #45 Migrated extension to use the Page Forms extension instead of the Semantic Forms extension (by Thomas Mulhall and Sébastien Beyou)
+* #50 Internal code changes regarding bootstrap (by James Hong Kong)
 * Provided translation updates (by TranslateWiki.net community)
 * Updated testing environment (by Thomas Mulhall and James Hong Kong)
 
 ### 1.3.0
 
-Released on November 30, 2015
+Released on November 30, 2015.
 
 * Added the `SFS` PHP namespace (by James Hong Kong)
 * Added full Composer compatibility and autoloading (PSR-4) (by James Hong Kong)
@@ -31,13 +32,13 @@ Released on November 30, 2015
 
 ### 1.2.2
 
-Released on September 18, 2015
+Released on September 18, 2015.
 
 * Fixed options filling in internal script (by Toni Hermoso Pulido)
 
 ### 1.2.0
 
-Released on September 11, 2015
+Released on September 11, 2015.
 
 * Dropped support for MediaWiki 1.22 and earlier (by Toni Hermoso Pulido)
 * Dropped support for PHP 5.2 and earlier (by Toni Hermoso Pulido)
@@ -49,12 +50,12 @@ Released on September 11, 2015
 
 ### 1.1.0
 
-Released on Febrary 23, 2013
+Released on Febrary 23, 2013.
 
 * Various improvements (by Jason Zhang)
 
 ### 1.0.0
 
-Released on January 17, 2012
+Released on January 17, 2012.
 
 * Initial release (by Jason Zhang)
