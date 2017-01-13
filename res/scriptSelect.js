@@ -123,7 +123,7 @@ function SFSelect_setDependentValues (nameobj, fobj, values){
 			if (fobj.selectrm && fobj.selecttemplate != fobj.valuetemplate&&fobj.selectismultiple){
 				jQuery(element).closest("div.multipleTemplateInstance").remove();
 			} else{
-				if (selectedValues.length!=0)
+				if (selectedValues.length!=0 || values.length === 1)
 					jQuery(element).trigger("change");
 			}
 		} else if (!SFSelect_arrayEqual(newselected, selectedValues)){
@@ -293,7 +293,7 @@ function SFSelect_arrayEqual(a, b)
 	//simplify duplicated object.
 	SFSelect_fobjs = SFSelect_removeDuplicateFobjs( SFSelect_fobjs );
 
-	$( "form#sfForm" ).change( function( event ){
+	$( "form#pfForm" ).change( function( event ){
 		SFSelect_changeHandler( event.target );
 	});
 
@@ -303,12 +303,12 @@ function SFSelect_arrayEqual(a, b)
 	for (var i=0; i<SFSelect_fobjs.length; i++){
 
 		var fobj = SFSelect_fobjs[i];
-		var valuepat = "input[name=" + fobj.valuetemplate + "\\["+ fobj.valuefield + "\\]]";
+		var valuepat = "input[name='" + fobj.valuetemplate + "\\["+ fobj.valuefield + "\\]']";
 
 		if ($(valuepat).val()){
 			objs=jQuery(valuepat);
 		} else{
-			valuepat= "select[name=" + fobj.valuetemplate + "\\["+ fobj.valuefield + "\\]]";
+			valuepat= "select[name='" + fobj.valuetemplate + "\\["+ fobj.valuefield + "\\]']";
 			objs=jQuery(valuepat);
 		}
 

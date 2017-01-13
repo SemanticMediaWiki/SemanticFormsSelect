@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Toniher"
+		]
+	},
+	"sfs-desc": "Permet generar un camp select en un formulari amb els valors retornats d'una consulta"
+}

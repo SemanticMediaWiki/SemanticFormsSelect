@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Seb35"
+		]
+	},
+	"sfs-desc": "Permet de générer une liste déroulante dans un formulaire, liste dont les valeurs proviennent d’une requête"
+}

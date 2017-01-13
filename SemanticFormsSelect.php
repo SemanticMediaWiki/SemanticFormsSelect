@@ -6,23 +6,6 @@ use SFS\HookRegistry;
  * @see https://github.com/SemanticMediaWiki/SemanticFormsSelect/
  *
  * @defgroup SemanticFormsSelect Semantic Forms Select
- */
-if ( !defined( 'MEDIAWIKI' ) ) {
-	die( 'Not an entry point.' );
-}
-
-if ( defined( 'SFS_VERSION' ) ) {
-	// Do not initialize more than once.
-	return 1;
-}
-
-SemanticFormsSelect::initExtension();
-
-$GLOBALS['wgExtensionFunctions'][] = function() {
-	SemanticFormsSelect::onExtensionFunction();
-};
-
-/**
  * @codeCoverageIgnore
  */
 class SemanticFormsSelect {
@@ -32,7 +15,7 @@ class SemanticFormsSelect {
 	 */
 	public static function initExtension() {
 
-		define( 'SFS_VERSION', '1.4.0-alpha' );
+		define( 'SFS_VERSION', '2.0.0' );
 
 
 		$GLOBALS['wgExtensionCredits']['semantic'][] = array(
@@ -56,9 +39,11 @@ class SemanticFormsSelect {
 			'localBasePath' => __DIR__ ,
 			'remoteExtPath' => 'SemanticFormsSelect',
 			'position' => 'bottom',
-			'scripts' => array( 'res/scriptSelect.js' ),
+			'scripts' => array(
+				'res/scriptSelect.js'
+			),
 			'dependencies' => array(
-				'ext.semanticforms.main'
+				'ext.pageforms.main'
 			)
 		);
 	}
@@ -68,22 +53,33 @@ class SemanticFormsSelect {
 	 */
 	public static function onExtensionFunction() {
 
-		if ( !defined( 'SF_VERSION' ) ) {
-			die( '<b>Error:</b><a href="https://github.com/SemanticMediaWiki/SemanticFormsSelect/">Semantic Forms Select</a> requires the <a href="https://www.mediawiki.org/wiki/Extension:SemanticForms">Semantic Forms</a> extension. Please install and activate this extension first.' );
+		if ( !defined( 'PF_VERSION' ) ) {
+			die( '<b>Error:</b><a href="https://github.com/SemanticMediaWiki/SemanticFormsSelect/">Semantic Forms Select</a> requires the <a href="https://www.mediawiki.org/wiki/Extension:PageForms">Page Forms</a> extension. Please install and activate this extension first.' );
 		}
 
-		if ( isset( $GLOBALS['sfgFormPrinter'] )) {
-			$GLOBALS['sfgFormPrinter']->setInputTypeHook( 'SF_Select', '\SFS\SemanticFormsSelect::init', array() );
+		if ( isset( $GLOBALS['wgPageFormsFormPrinter'] )) {
+			$GLOBALS['wgPageFormsFormPrinter']->setInputTypeHook( 'SF_Select', '\SFS\SemanticFormsSelect::init', array() );
 		}
 	}
 
 	/**
 	 * @since 1.0
 	 *
+	 * @param string $dependency
+	 *
 	 * @return string|null
 	 */
-	public static function getVersion() {
-		return SFS_VERSION;
+	public static function getVersion( $dependency = null ) {
+
+		if ( $dependency === null && defined( 'SFS_VERSION' ) ) {
+			return SFS_VERSION;
+		}
+
+		if ( $dependency === 'PageForms' && defined( 'PF_VERSION' ) ) {
+			return PF_VERSION;
+		}
+
+		return null;
 	}
 
 }

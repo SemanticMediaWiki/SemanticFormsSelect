@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Jon Harald Søby"
+		]
+	},
+	"sfs-desc": "Gjør det mulig å generere et select-felt i et skjema hvis verdier hentes fra en spørring"
+}

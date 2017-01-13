@@ -1,0 +1,32 @@
+{
+	"name": "Semantic Forms Select",
+	"version": "2.0.0",
+	"author": [
+		"Jason Zhang",
+		"James Hong Kong",
+		"Toni Hermoso Pulido",
+		"Thomas Mulhall",
+		"[https://github.com/SemanticMediaWiki/SemanticFormsSelect/graphs/contributors ...]"
+	],
+	"url": "https://www.mediawiki.org/wiki/Extension:SemanticFormsSelect",
+	"descriptionmsg": "sfs-desc",
+	"license-name": "GPL-2.0+",
+	"type": "semantic",
+	"requires": {
+		"MediaWiki": ">= 1.27"
+	},
+	"MessagesDirs": {
+		"SemanticFormsSelect": [
+			"i18n"
+		]
+	},
+	"AutoloadClasses": {
+		"SemanticFormsSelect": "SemanticFormsSelect.php"
+	},
+	"callback": "SemanticFormsSelect::initExtension",
+	"ExtensionFunctions": [
+		"SemanticFormsSelect::onExtensionFunction"
+	],
+	"load_composer_autoloader":true,
+	"manifest_version": 1
+}
