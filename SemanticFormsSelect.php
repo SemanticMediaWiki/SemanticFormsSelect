@@ -18,16 +18,6 @@ class SemanticFormsSelect {
 		define( 'SFS_VERSION', '2.0.1' );
 
 
-		$GLOBALS['wgExtensionCredits']['semantic'][] = array(
-			'path' => __FILE__,
-			'name' => 'Semantic Forms Select',
-			'author' =>array( 'Jason Zhang', 'Toni Hermoso Pulido', 'James Hong Kong', '...' ),
-			'url' => 'https://www.mediawiki.org/wiki/Extension:SemanticFormsSelect',
-			'description' => 'Allows to generate a select field in a semantic form whose values are retrieved from a query',
-			'version'  => SFS_VERSION,
-			'license-name'   => 'GPL-2.0+',
-		);
-
 		// Api modules
 		$GLOBALS['wgAPIModules']['sformsselect'] = 'SFS\ApiSemanticFormsSelect';
 
