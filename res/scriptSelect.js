@@ -85,6 +85,7 @@ function SFSelect_parseName(name)
 function SFSelect_setDependentValues (nameobj, fobj, values){
 
 	var selectPat=SFSelect_getSelectFieldPat(nameobj, fobj);
+	
 	jQuery(selectPat).each(function(index, element){
 		//keep selected values;
 		var selectedValues=jQuery(element).val();
@@ -197,7 +198,7 @@ function SFSelect_arrayEqual(a, b)
 	 * sep: Separator for the list of retrieved values, default ','
 	 */
 	var SFSelect_fobjs = $.parseJSON( mw.config.get( 'sf_select' ) );
-
+	
 	function SFSelect_changeHandler (src ) {
 
 		//console.log("change is called with "+src.name);
@@ -206,52 +207,58 @@ function SFSelect_arrayEqual(a, b)
 			return;
 		}
 		var v=jQuery(src).val();
-		if (jQuery.isArray(v))
-		{
+		if (jQuery.isArray(v)){
 
-		} else if (v==null)
-		{
+		} else if (v==null){
 			v=[];
-		}  else
-		{
+		}  else {
 			v=[v];
 		}
+		
 		var srcName=SFSelect_parseName(src.name);
-		for(var i=0; i<SFSelect_fobjs.length; i++)
-		{
-			var fobj=SFSelect_fobjs[i];
-			if (srcName.template==fobj.valuetemplate && srcName.property==fobj.valuefield)
-			{
-				//good, we have a match.
-				// No values
-				if (v.length==0||v[0]==''){
-					SFSelect_setDependentValues(srcName, fobj, []);
+		
+		for(var i=0; i<SFSelect_fobjs.length; i++){
+			
+			SFSelect_prepareQuery( SFSelect_fobjs[i], srcName, v );
+			
+		}
+	}
+	
+	function SFSelect_prepareQuery( fobj, srcName, v ) {
+		
+		if (srcName.template==fobj.valuetemplate && srcName.property==fobj.valuefield) {
+
+			//good, we have a match.
+			// No values
+			if (v.length==0||v[0]==''){
+				SFSelect_setDependentValues(srcName, fobj, []);
+			} else {
+				// Values
+
+				var param = {}
+				param['action'] = 'sformsselect';
+				param['format'] = 'json';
+				param['sep'] = fobj.sep;
+
+				if (fobj.selectquery){
+					var query = fobj.selectquery.replace("@@@@", v.join('||'));
+					param['query'] = query;
+					param['approach'] = 'smw';
+
 				} else {
-					// Values
-					var param = {}
-					param['action'] = 'sformsselect';
-					param['format'] = 'json';
-					param['sep'] = fobj.sep;
-
-					if (fobj.selectquery){
-						var query = fobj.selectquery.replace("@@@@", v.join('||'));
-						param['query'] = query;
-						param['approach'] = 'smw';
-
-					} else {
-						var query = fobj.selectfunction.replace("@@@@", v.join(","));
-						param['query'] = query;
-						param['approach'] = 'function';
-					}
-
-					var posting = jQuery.get( mw.config.get('wgScriptPath')  + "/api.php", param );
-					posting.done(function( data ) {
-						// Let's pass values
-						SFSelect_setDependentValues(srcName, fobj, data["sformsselect"].values);
-					}).fail( function( data ) { console.log("Error!");});
-
-					break; // Avoid loading fobj again
+					var query = fobj.selectfunction.replace("@@@@", v.join(","));
+					param['query'] = query;
+					param['approach'] = 'function';
 				}
+
+				var posting = jQuery.get( mw.config.get('wgScriptPath')  + "/api.php", param );
+				posting.done(function( data ) {
+					// Let's pass values
+					
+					SFSelect_setDependentValues(srcName, fobj, data["sformsselect"].values);
+				}).fail( function( data ) { console.log("Error!");});
+
+				// break; // Avoid loading fobj again
 			}
 		}
 	}
@@ -287,8 +294,6 @@ function SFSelect_arrayEqual(a, b)
 
 		return newfobjs;
 	}
-
-	//console.log( SFSelect_fobjs );
 
 	//simplify duplicated object.
 	SFSelect_fobjs = SFSelect_removeDuplicateFobjs( SFSelect_fobjs );
