@@ -315,7 +315,7 @@ function SFSelect_arrayEqual(a, b)
 		
 		// hack to support multi instance templates: select all "select" items starting with fobj.valuetemplate
 		// example name attribute: name="myTemplate[0a][myField]"
-		valuepat = 'input[name^="' + fobj.valuetemplate + '"]';
+		var valuepat = 'input[name^="' + fobj.valuetemplate + '"]';
 
 		if ($(valuepat).val()){
 			objs=jQuery(valuepat);
