@@ -1,5 +1,13 @@
 This file contains the RELEASE-NOTES of the Semantic Forms Select (a.k.a. SFS) extension.
 
+### 2.1.0
+
+Released on January 19, 2017.
+
+* #54 Fixed select fields no to update for an existing page (by Alexander Gesinn)
+* #56 Fixed issue when multiple `sf_select` have the same parameter in the same page (by Toni Hermoso Pulido)
+* Provided translation updates (by TranslateWiki.net community)
+
 ### 2.0.0
 
 Released on December 19, 2016.
