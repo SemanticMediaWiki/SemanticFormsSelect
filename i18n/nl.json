@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Rcdeboer"
+		]
+	},
+	"sfs-desc": "Maakt het mogelijk een selectieveld in een formulier te genereren waarvan de waarden worden opgehaald uit een query"
+}
