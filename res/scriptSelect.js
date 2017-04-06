@@ -85,7 +85,7 @@ function SFSelect_parseName(name)
 function SFSelect_setDependentValues (nameobj, fobj, values){
 
 	var selectPat=SFSelect_getSelectFieldPat(nameobj, fobj);
-	
+
 	jQuery(selectPat).each(function(index, element){
 		//keep selected values;
 		var selectedValues=jQuery(element).val();
@@ -110,9 +110,9 @@ function SFSelect_setDependentValues (nameobj, fobj, values){
 				}
 			}
 		} else {
-
 			for(var i=0; i<values.length; i++){
 				element.options[i]=new Option(values[i]);
+
 				if (jQuery.inArray(values[i], selectedValues)!=-1){
 					element.options[i].selected=true;
 					newselected.push(values[i]);
@@ -197,37 +197,62 @@ function SFSelect_arrayEqual(a, b)
 	 * label: boolean, process ending content () as label in option values.
 	 * sep: Separator for the list of retrieved values, default ','
 	 */
-	
+
 	// get the objects from PHP using mw.config helper
 	var SFSelect_fobjs = $.parseJSON( mw.config.get( 'sf_select' ) );
-	
-	function SFSelect_changeHandler (src ) {
 
-		//console.log("change is called with "+src.name);
-		if (src.tagName.toLowerCase()!='select'&& src.tagName.toLowerCase()!='input')
-		{
+	function SFSelect_changeHandler(src) {
+
+		// console.log("change is called with "+src.name);
+
+		if (src.tagName.toLowerCase() != 'select' && src.tagName.toLowerCase() != 'input') {
 			return;
 		}
-		var v=jQuery(src).val();
-		if (jQuery.isArray(v)){
 
-		} else if (v==null){
-			v=[];
-		}  else {
-			v=[v];
+		var v = [];
+
+		// Combobox (with or without mapping property)
+		if (jQuery(src).hasClass('pfComboBox')) {
+			var autocompletesettings = jQuery(src).attr('autocompletesettings');
+			if (autocompletesettings !== null) {
+				v.push(Object.keys(mw.config.get('wgPageFormsAutocompleteValues')[autocompletesettings])[jQuery(src).select2('data').id - 1]);
+			}
 		}
-		
-		var srcName=SFSelect_parseName(src.name);
-		
-		for(var i=0; i<SFSelect_fobjs.length; i++){
-			
-			SFSelect_prepareQuery( SFSelect_fobjs[i], srcName, v );
-			
+
+		// Tokens (with or without mapping property)
+		else if (jQuery(src).hasClass('pfTokens')) {
+			var autocompletesettings = jQuery(src).attr('autocompletesettings');
+			if (autocompletesettings !== null) {
+				var select2Data = jQuery(src).select2('data');
+				select2Data.forEach(function (i) {
+					v.push(Object.keys(mw.config.get('wgPageFormsAutocompleteValues')[autocompletesettings])[i.id - 1]);
+				});
+			}
+		}
+
+		else {
+			v = jQuery(src).val();
+
+			if (jQuery.isArray(v)) {
+
+			} else if (v == null) {
+				v = [];
+			} else {
+				v = [v];
+			}
+		}
+
+		var srcName = SFSelect_parseName(src.name);
+
+		for (var i = 0; i < SFSelect_fobjs.length; i++) {
+
+			SFSelect_prepareQuery(SFSelect_fobjs[i], srcName, v);
+
 		}
 	}
-	
+
 	function SFSelect_prepareQuery( fobj, srcName, v ) {
-		
+
 		if (srcName.template==fobj.valuetemplate && srcName.property==fobj.valuefield) {
 
 			//good, we have a match.
@@ -256,7 +281,7 @@ function SFSelect_arrayEqual(a, b)
 				var posting = jQuery.get( mw.config.get('wgScriptPath')  + "/api.php", param );
 				posting.done(function( data ) {
 					// Let's pass values
-					
+
 					SFSelect_setDependentValues(srcName, fobj, data["sformsselect"].values);
 				}).fail( function( data ) { console.log("Error!");});
 
@@ -300,6 +325,7 @@ function SFSelect_arrayEqual(a, b)
 	//simplify duplicated object.
 	SFSelect_fobjs = SFSelect_removeDuplicateFobjs( SFSelect_fobjs );
 
+	// register change handler
 	$( "form#pfForm" ).change( function( event ){
 		SFSelect_changeHandler( event.target );
 	});
@@ -310,9 +336,9 @@ function SFSelect_arrayEqual(a, b)
 	for (var i=0; i<SFSelect_fobjs.length; i++){
 
 		var fobj = SFSelect_fobjs[i];
-		
+
 		//var valuepat = "input[name='" + fobj.valuetemplate + "\\["+ fobj.valuefield + "\\]']";
-		
+
 		// hack to support multi instance templates: select all "select" items starting with fobj.valuetemplate
 		// example name attribute: name="myTemplate[0a][myField]"
 		var valuepat = 'input[name^="' + fobj.valuetemplate + '"]';
@@ -321,11 +347,11 @@ function SFSelect_arrayEqual(a, b)
 			objs=jQuery(valuepat);
 		} else{
 			//valuepat= "select[name='" + fobj.valuetemplate + "\\["+ fobj.valuefield + "\\]']";
-			
+
 			// hack to support multi instance templates: select all "select" items starting with fobj.valuetemplate
 			// example name attribute: name="myTemplate[0a][myField]"
 			valuepat = 'select[name^="' + fobj.valuetemplate + '"]';
-			
+
 			objs=jQuery(valuepat);
 		}
 
