@@ -83,7 +83,6 @@ function SFSelect_parseName(name)
 }
 
 function SFSelect_setDependentValues (nameobj, fobj, values){
-
 	var selectPat=SFSelect_getSelectFieldPat(nameobj, fobj);
 
 	jQuery(selectPat).each(function(index, element){
@@ -203,58 +202,72 @@ function SFSelect_arrayEqual(a, b)
 
 	function SFSelect_changeHandler(src) {
 
-		// console.log("change is called with "+src.name);
+		//console.log("change is called for " + src.name);
 
 		if (src.tagName.toLowerCase() != 'select' && src.tagName.toLowerCase() != 'input') {
 			return;
 		}
 
 		var v = [];
+		var select2Data = jQuery(src).select2('data');
+		var value_initial = jQuery(src).attr('data-value-initial');
 
-		// Combobox (with or without mapping property)
-		if (jQuery(src).hasClass('pfComboBox')) {
-			var autocompletesettings = jQuery(src).attr('autocompletesettings');
-			if (autocompletesettings !== null) {
-				v.push(Object.keys(mw.config.get('wgPageFormsAutocompleteValues')[autocompletesettings])[jQuery(src).select2('data').id - 1]);
-			}
-		}
+		// field empty?
+		if (jQuery(src).val()) {
 
-		// Tokens (with or without mapping property)
-		else if (jQuery(src).hasClass('pfTokens')) {
-			var autocompletesettings = jQuery(src).attr('autocompletesettings');
-			if (autocompletesettings !== null) {
-				var select2Data = jQuery(src).select2('data');
-				select2Data.forEach(function (i) {
-					v.push(Object.keys(mw.config.get('wgPageFormsAutocompleteValues')[autocompletesettings])[i.id - 1]);
-				});
-			}
-		}
+			// do we have a version of Page Forms that supports 'value-initial'?
+			if (typeof value_initial === 'string') {
 
-		else {
-			v = jQuery(src).val();
+				// if select2('data') exists
+				if ((select2Data.hasOwnProperty('id') && select2Data.hasOwnProperty('text')) || (select2Data[0].hasOwnProperty('id') && select2Data[0].hasOwnProperty('text'))) {
+					console.log('data exists');
 
-			if (jQuery.isArray(v)) {
+					// Combobox
+					// lookup values in wgPageFormsAutocompleteValues
+					if (jQuery(src).hasClass('pfComboBox')) {
+						var autocompletesettings = jQuery(src).attr('autocompletesettings');
+						if (autocompletesettings !== null) {
+							v.push(Object.keys(mw.config.get('wgPageFormsAutocompleteValues')[autocompletesettings])[select2Data.id - 1]);
+						}
+					}
 
-			} else if (v == null) {
-				v = [];
-			} else {
-				v = [v];
+					// Tokens
+					else if (jQuery(src).hasClass('pfTokens')) {
+						var autocompletesettings = jQuery(src).attr('autocompletesettings');
+						if (autocompletesettings !== null) {
+							select2Data.forEach(function (i) {
+								v.push(i.id);
+							});
+						}
+					}
+
+				} else {	// if select2('data') does not exist, use initial value
+					v = value_initial.split(';');
+				}
+
+			} else {	// Page Forms does not support 'value-initial' -> old behaviour without support for mapping
+				v = jQuery(src).val().split(';');
+
+				if (jQuery.isArray(v)) {
+
+				} else if (v == null) {
+					v = [];
+				} else {
+					v = [v];
+				}
 			}
 		}
 
 		var srcName = SFSelect_parseName(src.name);
 
 		for (var i = 0; i < SFSelect_fobjs.length; i++) {
-
 			SFSelect_prepareQuery(SFSelect_fobjs[i], srcName, v);
-
 		}
 	}
 
 	function SFSelect_prepareQuery( fobj, srcName, v ) {
 
 		if (srcName.template==fobj.valuetemplate && srcName.property==fobj.valuefield) {
-
 			//good, we have a match.
 			// No values
 			if (v.length==0||v[0]==''){
@@ -281,7 +294,6 @@ function SFSelect_arrayEqual(a, b)
 				var posting = jQuery.get( mw.config.get('wgScriptPath')  + "/api.php", param );
 				posting.done(function( data ) {
 					// Let's pass values
-
 					SFSelect_setDependentValues(srcName, fobj, data["sformsselect"].values);
 				}).fail( function( data ) { console.log("Error!");});
 
@@ -332,31 +344,31 @@ function SFSelect_arrayEqual(a, b)
 
 	var objs = null;
 
-	//populate Select fields at load time
+	// populate Select fields at load time
 	for (var i=0; i<SFSelect_fobjs.length; i++){
 
 		var fobj = SFSelect_fobjs[i];
-
 		//var valuepat = "input[name='" + fobj.valuetemplate + "\\["+ fobj.valuefield + "\\]']";
 
-		// hack to support multi instance templates: select all "select" items starting with fobj.valuetemplate
+		// support multi instance templates: select all "input" items starting with fobj.valuetemplate
+		// and containing fobj.valuefield
 		// example name attribute: name="myTemplate[0a][myField]"
-		var valuepat = 'input[name^="' + fobj.valuetemplate + '"]';
+		var valuepat = 'input[name^="' + fobj.valuetemplate + '"]' + '[name*="' + fobj.valuefield + '"]';
 
 		if ($(valuepat).val()){
-			objs=jQuery(valuepat);
-		} else{
+			// get Select fields, skipping 'map_fields'
+			objs=jQuery(valuepat).not('input[name*=map_field]');
+		} else {
 			//valuepat= "select[name='" + fobj.valuetemplate + "\\["+ fobj.valuefield + "\\]']";
 
-			// hack to support multi instance templates: select all "select" items starting with fobj.valuetemplate
+			// support multi instance templates: select all "select" items starting with fobj.valuetemplate
+			// and containing fobj.valuefield
 			// example name attribute: name="myTemplate[0a][myField]"
-			valuepat = 'select[name^="' + fobj.valuetemplate + '"]';
+			var valuepat = 'select[name^="' + fobj.valuetemplate + '"]' + '[name*="' + fobj.valuefield + '"]';
 
-			objs=jQuery(valuepat);
+			objs=jQuery(valuepat).not('select[name*=map_field]');
 		}
-
 		objs.trigger("change");
-
 	}
 
 }( jQuery, mediaWiki ) );
