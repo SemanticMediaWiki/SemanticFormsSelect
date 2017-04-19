@@ -220,7 +220,6 @@ function SFSelect_arrayEqual(a, b)
 
 				// if select2('data') exists
 				if ((select2Data.hasOwnProperty('id') && select2Data.hasOwnProperty('text')) || (select2Data[0].hasOwnProperty('id') && select2Data[0].hasOwnProperty('text'))) {
-					console.log('data exists');
 
 					// Combobox
 					// lookup values in wgPageFormsAutocompleteValues
