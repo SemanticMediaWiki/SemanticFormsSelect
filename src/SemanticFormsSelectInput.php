@@ -232,9 +232,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 		}
 
 		if ( !$staticvalue ) {
-			$item = Output::addToHeadItem( ['Foo', 'Bar'] );
-MWDebug::log($item);
-			//			$item = Output::addToHeadItem( $data );
+			$item = Output::addToHeadItem( $data );
 			//$wgOut->addJsConfigVars('sf_select', array(json_encode( $data )));
 		}
 
