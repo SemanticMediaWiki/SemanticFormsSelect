@@ -1,11 +1,12 @@
 {
 	"name": "Semantic Forms Select",
-	"version": "2.1.0",
+	"version": "3.0.0-alpha",
 	"author": [
 		"Jason Zhang",
 		"James Hong Kong",
 		"Toni Hermoso Pulido",
 		"Thomas Mulhall",
+		"Alexander Gesinn",
 		"[https://github.com/SemanticMediaWiki/SemanticFormsSelect/graphs/contributors ...]"
 	],
 	"url": "https://www.mediawiki.org/wiki/Extension:SemanticFormsSelect",
@@ -15,18 +16,45 @@
 	"requires": {
 		"MediaWiki": ">= 1.27"
 	},
+	"AutoloadClasses": {
+		"SemanticFormsSelectHooks": "SemanticFormsSelect.hooks.php",
+		"SemanticFormsSelectInput": "src/SemanticFormsSelectInput.php",
+		"ApiSemanticFormsSelect": "src/ApiSemanticFormsSelect.php",
+		"ApiRequestProcessor": "src/ApiSemanticFormsSelectRequestProcessor.php"
+	},
+	"config": {
+		"wgScriptSelectCount": 0,
+		"wgSF_Select_debug": 0
+	},
+	"APIModules": {
+		"sformsselect": "ApiSemanticFormsSelect"
+	},
 	"MessagesDirs": {
 		"SemanticFormsSelect": [
 			"i18n"
 		]
 	},
-	"AutoloadClasses": {
-		"SemanticFormsSelect": "SemanticFormsSelect.php"
+	"ResourceModules": {
+		"ext.sf_select.scriptselect": {
+			"scripts": [
+				"res/scriptSelect.js"
+			],
+			"dependencies": [
+				"ext.pageforms.main",
+				"ext.pageforms.select2"
+			],
+			"position": "bottom"
+		}
 	},
-	"callback": "SemanticFormsSelect::initExtension",
-	"ExtensionFunctions": [
-		"SemanticFormsSelect::onExtensionFunction"
-	],
+	"ResourceFileModulePaths": {
+		"localBasePath": "",
+		"remoteExtPath": "SemanticFormsSelect"
+	},
+	"Hooks": {
+		"ParserFirstCallInit": [
+			"SemanticFormsSelectHooks::onSemanticFormsSelectSetup"
+		]
+	},
 	"load_composer_autoloader":true,
 	"manifest_version": 1
 }

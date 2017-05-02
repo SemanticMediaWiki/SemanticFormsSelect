@@ -15,7 +15,7 @@ use InvalidArgumentException;
  * @author mwjames
  */
 
-class ApiRequestProcessor {
+class ApiSemanticFormsSelectRequestProcessor {
 
 	/**
 	 * @var Parser
