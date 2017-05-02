@@ -1,6 +1,6 @@
 <?php
 
-namespace SFS;
+//namespace SFS;	# for some reason, this was not working with API registration via extension.json
 
 use ApiBase;
 use Parser;
@@ -29,7 +29,7 @@ class ApiSemanticFormsSelect extends ApiBase {
 		$parser->mOptions = new ParserOptions();
 		$parser->mOutput = new ParserOutput();
 
-		$apiRequestProcessor = new ApiRequestProcessor( $parser );
+		$apiRequestProcessor = new SFS\ApiSemanticFormsSelectRequestProcessor( $parser );
 		$apiRequestProcessor->setDebugFlag( $GLOBALS['wgSF_Select_debug'] );
 
 		$resultValues = $apiRequestProcessor->getJsonDecodedResultValuesForRequestParameters(

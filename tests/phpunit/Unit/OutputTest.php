@@ -16,19 +16,17 @@ use SFS\Output;
 class OutputTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCanConstruct() {
-
-		$this->assertInstanceOf(
-			'\SFS\Output',
-			new Output()
-		);
+		$this->assertInstanceOf( '\SFS\Output', new Output() );
 	}
 
 	public function testAddToHeadItem() {
+		$data = array();
+		$data['Foo'] = 'Bar';
+		$data['Spam'] = 'Eggs';
 
-		$this->assertContains(
-			'mw.config.set({"Foo":"\"Bar\""})',
-			Output::addToHeadItem( 'Foo', 'Bar' )
-		);
+		$ret = Output::addToHeadItem( $data );
+
+		$this->assertArrayHasKey( 'Foo', $ret );
+		$this->assertArrayHasKey( 'Spam', $ret );
 	}
-
 }

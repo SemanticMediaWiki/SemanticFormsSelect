@@ -1,6 +1,6 @@
 <?php
 
-use SFS\HookRegistry;
+//use SFS\HookRegistry;
 
 /**
  * @see https://github.com/SemanticMediaWiki/SemanticFormsSelect/
@@ -13,41 +13,47 @@ class SemanticFormsSelect {
 	/**
 	 * @since 1.0
 	 */
-	public static function initExtension() {
 
-		define( 'SFS_VERSION', '2.1.0-alpha' );
-
-		// Api modules
-		$GLOBALS['wgAPIModules']['sformsselect'] = 'SFS\ApiSemanticFormsSelect';
-
-		$GLOBALS['wgScriptSelectCount'] = 0;
-		$GLOBALS['wgSF_Select_debug'] = 0;
-
-		// Register resource files
-		$GLOBALS['wgResourceModules']['ext.sf_select.scriptselect'] = array(
-			'localBasePath' => __DIR__ ,
-			'remoteExtPath' => 'SemanticFormsSelect',
-			'position' => 'bottom',
-			'scripts' => array(
-				'res/scriptSelect.js'
-			),
-			'dependencies' => array(
-				'ext.pageforms.main'
-			)
-		);
-	}
+//	public static function initExtension() {
+//
+//		define( 'SFS_VERSION', '2.1.0-alpha' );
+//
+//		// TODO: move this to extension.json
+//
+//		// Api modules
+//		$GLOBALS['wgAPIModules']['sformsselect'] = 'SFS\ApiSemanticFormsSelect';
+//
+//		//$GLOBALS['wgScriptSelectCount'] = 0;
+//		//$GLOBALS['wgSF_Select_debug'] = 0;
+//
+//		// Register resource files
+///*		$GLOBALS['wgResourceModules']['ext.sf_select.scriptselect'] = array(
+//			'localBasePath' => __DIR__ ,
+//			'remoteExtPath' => 'SemanticFormsSelect',
+//			'position' => 'bottom',
+//			'scripts' => array(
+//				'res/scriptSelect.js'
+//			),
+//			'dependencies' => array(
+//				'ext.pageforms.main'
+//			)
+//		);*/
+//	}
 
 	/**
 	 * @since 1.0
 	 */
 	public static function onExtensionFunction() {
+		global $wgOut;
 
 		if ( !defined( 'PF_VERSION' ) ) {
 			die( '<b>Error:</b><a href="https://github.com/SemanticMediaWiki/SemanticFormsSelect/">Semantic Forms Select</a> requires the <a href="https://www.mediawiki.org/wiki/Extension:PageForms">Page Forms</a> extension. Please install and activate this extension first.' );
 		}
 
 		if ( isset( $GLOBALS['wgPageFormsFormPrinter'] )) {
-			$GLOBALS['wgPageFormsFormPrinter']->setInputTypeHook( 'SF_Select', '\SFS\SemanticFormsSelect::init', array() );
+			//$GLOBALS['wgPageFormsFormPrinter']->setInputTypeHook( 'SF_Select', '\SFS\SemanticFormsSelect::init', array() );
+			$GLOBALS['wgPageFormsFormPrinter']->registerInputType( '\SFS\SemanticFormsSelectInput' );
+//			$wgOut->addModuleScripts( 'ext.sf_select.scriptselect' );
 		}
 	}
 
