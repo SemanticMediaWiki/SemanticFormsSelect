@@ -28,7 +28,7 @@ class SelectField {
 	private $mValueField = "";
 	private $mSelectRemove = false;
 	private $mLabel = false;
-	private $mDelimiter = "";
+	private $mDelimiter = ",";
 
 	/**
 	 * Convenience function to process all parameters at once
@@ -119,7 +119,6 @@ class SelectField {
 		$index = strrpos( $input_name, "[" );
 		$this->mSelectField = substr( $input_name, $index + 1, strlen( $input_name ) - $index - 2 );
 		$this->mData['selectfield'] = $this->mSelectField;
-		MWDebug::log( $this->mData['selectfield'] );
 	}
 
 	/**
@@ -165,8 +164,16 @@ class SelectField {
 	 * @param array $other_args
 	 */
 	public function setDelimiter ( Array $other_args ) {
-		$this->mDelimiter = array_key_exists( 'delimiter', $other_args ) ? $other_args['delimiter'] : ',';
+		$this->mDelimiter = array_key_exists( 'delimiter', $other_args ) ? $other_args['delimiter'] : $GLOBALS[wgPageFormsListSeparator];
 		$this->mData['sep'] = $this->mDelimiter;
+	}
+
+	/**
+	 * getDelimiter
+	 * @return string
+	 */
+	public function getDelimiter() {
+		return $this->mDelimiter;
 	}
 
 	/**
@@ -182,7 +189,8 @@ class SelectField {
 	 * @param string $values (comma separated, fully parsed list of values)
 	 */
 	private function setValues( $values ) {
-		$values = explode( ",", $values );
+		//$values = explode( ",", $values );
+		$values = explode( $this->mDelimiter, $values );
 		$values = array_map( "trim", $values );
 		$values = array_unique( $values );
 		$this->mValues = $values;

@@ -236,21 +236,17 @@ function SFSelect_arrayEqual(a, b) {
 
             } else {	// Page Forms does not support 'value-initial' -> old behaviour without support for mapping
                 console.log('value-initial not supported');
-                v = jQuery(src).val().split(';');
 
-                if (jQuery.isArray(v)) {
-
-                } else if (v == null) {
-                    v = [];
+                if (jQuery.isArray(jQuery(src).val())) {
+                    v = jQuery(src).val();
                 } else {
-                    v = [v];
+                    //split and trim
+                    v = $.map(jQuery(src).val().split(";"), $.trim);
                 }
             }
         }
 
         var srcName = SFSelect_parseName(src.name);
-
-        console.log(v);
 
         for (var i = 0; i < SFSelect_fobjs.length; i++) {
             SFSelect_prepareQuery(SFSelect_fobjs[i], srcName, v);
@@ -261,7 +257,6 @@ function SFSelect_arrayEqual(a, b) {
      * prepareQuery
      */
     function SFSelect_prepareQuery(fobj, srcName, v) {
-
         if (srcName.template == fobj.valuetemplate && srcName.property == fobj.valuefield) {
             //good, we have a match.
             // No values

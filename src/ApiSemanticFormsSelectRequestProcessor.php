@@ -5,6 +5,7 @@ namespace SFS;
 use Parser;
 use SMWQueryProcessor as QueryProcessor;
 use InvalidArgumentException;
+use MWDebug;
 
 /**
  * @license GNU GPL v2+
@@ -135,7 +136,8 @@ class ApiSemanticFormsSelectRequestProcessor {
 		$values = array_map( "trim", $values );
 		$values = array_unique( $values );
 
-		sort( $values );
+		// TODO: sorting here will destroy any sort defined in the query, e.g. in case sorting for labels (instead of mainlable)
+		//sort( $values );
 		array_unshift( $values, "" );
 
 		return $values;

@@ -23,8 +23,8 @@
 		"ApiRequestProcessor": "src/ApiSemanticFormsSelectRequestProcessor.php"
 	},
 	"config": {
-		"wgScriptSelectCount": 0,
-		"wgSF_Select_debug": 0
+		"ScriptSelectCount": 0,
+		"SF_Select_debug": true
 	},
 	"APIModules": {
 		"sformsselect": "ApiSemanticFormsSelect"

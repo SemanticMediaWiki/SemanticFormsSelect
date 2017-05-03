@@ -141,6 +141,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 
 		$spanextra = $is_mandatory ? 'mandatoryFieldSpan' : '';
 		$ret = "<span class=\"inputSpan $spanextra\"><select name='$inname' id='input_$sfgFieldNum' $extraatt>";
+
 		$curvalues = null;
 		if ( $cur_value ) {
 			if ( $cur_value === 'current user' ) {
@@ -149,8 +150,8 @@ class SemanticFormsSelectInput extends PFFormInput {
 			if ( is_array( $cur_value ) ) {
 				$curvalues = $cur_value;
 			} else {
-				// TODO: this needs to take the separator into account (could be something else than ',')
-				$curvalues = array_map( "trim", explode( ",", $cur_value ) );
+				// delimiter for $cur_value is always ',' - PF seems to ignore $wgPageFormsListSeparator
+				$curvalues = array_map( "trim", explode( ',', $cur_value ) );
 			}
 
 		} else {
