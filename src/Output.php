@@ -34,7 +34,7 @@ class Output {
 	 *
 	 */
 	public static function commitToParserOutput() {
-		global $wgOut;
+		global $wgOut;	# is there a better way to get $output/$parser without using a global? (testability!)
 
 		// to be used in JS like:
 		// var SFSelect_fobjs = $.parseJSON( mw.config.get( 'sf_select' ) );

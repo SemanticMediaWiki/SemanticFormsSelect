@@ -24,8 +24,13 @@ class SemanticFormsSelectInput extends PFFormInput {
 	 */
 	private static $data = array();
 
+	private $mSelectField;
+
 	public function __construct( $inputNumber, $curValue, $inputName, $disabled, $otherArgs ) {
 		parent::__construct( $inputNumber, $curValue, $inputName, $disabled, $otherArgs );
+
+		// SelectField is a simple value object - we accept creating it in the constructor
+		$this->mSelectField = new SelectField();
 	}
 
 	public static function getName() {
@@ -53,11 +58,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 	 * This is currently just a wrapper for getHTML().
 	 */
 	public function getHtmlText() {
-		return self::getHTML(
-			$this->mCurrentValue,
-			$this->mInputName,
-			$this->mIsMandatory,
-			$this->mIsDisabled,
+		return self::getHTML( $this->mCurrentValue, $this->mInputName, $this->mIsMandatory, $this->mIsDisabled,
 			$this->mOtherArgs );
 	}
 
@@ -65,87 +66,66 @@ class SemanticFormsSelectInput extends PFFormInput {
 	 * Returns the HTML code to be included in the output page for this input.
 	 * @deprecated use getHtmlText() instead
 	 *
-	 * @param $cur_value
-	 * @param $input_name
-	 * @param $is_mandatory
-	 * @param $is_disabled
-	 * @param $other_args
+	 * @param    string $cur_value A single value or a list of values with separator
+	 * @param    string $input_name Name of the input including the template, e.g. Building[Part Of Site]
+	 * @param            $is_mandatory
+	 * @param            $is_disabled
+	 * @param            $other_args
 	 * @return string
 	 */
-	public function getHTML( $cur_value, $input_name, $is_mandatory, $is_disabled, $other_args ) {
+	public function getHTML( $cur_value = "", $input_name = "", $is_mandatory, $is_disabled, $other_args ) {
 		global # $wgScriptSelectCount,
-		$wgScriptSelectCount, $sfgFieldNum, $wgUser, $wgParser;
+		$sfgFieldNum, $wgUser, $wgParser;
 
 		$selectField = array();
-		$values = null;
-		$staticvalue = false;
+		// $values = null;
 		$data = array();
 
 		if ( array_key_exists( "query", $other_args ) ) {
-			$query = $other_args["query"];
-			$query = str_replace( array( "~", "(", ")" ), array( "=", "[", "]" ), $query );
-
-			$selectField["query"] = $query;
-
-			// unparametrized query
-			if ( strpos( $query, '@@@@' ) === false ) {
-				$params = explode( ";", $query );
-
-				// there is no need to run the parser, $query has been parsed already
-				//$params[0] = $wgParser->replaceVariables( $params[0] );
-
-				$values = QueryProcessor::getResultFromFunctionParams( $params, SMW_OUTPUT_WIKI );
-
-				$staticvalue = true;
-			}
-
+			$this->mSelectField->setQuery( $other_args );
 		} elseif ( array_key_exists( "function", $other_args ) ) {
-			$query = $other_args["function"];
-			$query = '{{#' . $query . '}}';
-			$query = str_replace( array( "~", "(", ")" ), array( "=", "[", "]" ), $query );
-
-			$selectField["function"] = $query;
-
-			// unparametrized function
-			if ( strpos( $query, '@@@@' ) === false ) {
-				$f = str_replace( ";", "|", $query );
-
-				$values = $wgParser->replaceVariables( $f );
-
-				$staticvalue = true;
-			}
+			$this->mSelectField->setFunction( $other_args );
 		}
 
-		if ( $staticvalue ) {
-			$values = explode( ",", $values );
-			$values = array_map( "trim", $values );
-			$values = array_unique( $values );
+		if ( $this->mSelectField->hasStaticValues() ) {
+//			$values = explode( ",", $this->mSelectField->getValues() );
+//			$values = array_map( "trim", $values );
+//			$values = array_unique( $values );
+
+//			$values = $this->mSelectField->getValues();
 		} else {
 
-			if ( $wgScriptSelectCount == 0 ) {
-				// this has been moved to getResourceModuleNames()
-				//Output::addModule( 'ext.sf_select.scriptselect' );
-			}
+//			if ( $wgScriptSelectCount == 0 ) {
+			// this has been moved to getResourceModuleNames()
+			//Output::addModule( 'ext.sf_select.scriptselect' );
+//			}
 			// $wgScriptSelectCount ++;
 
 			$data["selectismultiple"] = array_key_exists( "part_of_multiple", $other_args );
+			$this->mSelectField->setSelectIsMultiple( $other_args );
 
 			$index = strpos( $input_name, "[" );
 			$data['selecttemplate'] = substr( $input_name, 0, $index );
+			$this->mSelectField->setSelectTemplate( $input_name );
 
-			// Does hit work for multiple template?
+			// Does this work for multiple template?
 			$index = strrpos( $input_name, "[" );
 			$data['selectfield'] = substr( $input_name, $index + 1, strlen( $input_name ) - $index - 2 );
+			$this->mSelectField->setSelectField( $input_name );
 
 			$valueField = array();
 			$data["valuetemplate"] =
 				array_key_exists( "sametemplate", $other_args ) ? $data['selecttemplate'] : $other_args["template"];
+
 			$data["valuefield"] = $other_args["field"];
 
 			$data['selectrm'] = array_key_exists( 'rmdiv', $other_args );
 			$data['label'] = array_key_exists( 'label', $other_args );
+
+			// TODO: use 'delimiter'?
 			$data['sep'] = array_key_exists( 'sep', $other_args ) ? $other_args["sep"] : ',';
 
+			// TODO: use SelectField class (data already contains case specific parameters)
 			if ( array_key_exists( "query", $selectField ) ) {
 				$data['selectquery'] = $selectField['query'];
 			} else {
@@ -201,6 +181,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 			if ( is_array( $cur_value ) ) {
 				$curvalues = $cur_value;
 			} else {
+				// TODO: this needs to take the separator into account (could be something else than ',')
 				$curvalues = array_map( "trim", explode( ",", $cur_value ) );
 			}
 
@@ -215,8 +196,8 @@ class SemanticFormsSelectInput extends PFFormInput {
 			$ret .= "<option selected='selected'>$cur</option>";
 		}
 
-		if ( $staticvalue ) {
-			foreach ( $values as $val ) {
+		if ( $this->mSelectField->hasStaticValues() ) {
+			foreach ( $this->mSelectField->getValues() as $val ) {
 				if ( !in_array( $val, $curvalues ) ) {
 					$ret .= "<option>$val</option>";
 				}
