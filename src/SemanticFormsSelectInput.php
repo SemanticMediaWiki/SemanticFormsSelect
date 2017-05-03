@@ -74,73 +74,34 @@ class SemanticFormsSelectInput extends PFFormInput {
 	 * @return string
 	 */
 	public function getHTML( $cur_value = "", $input_name = "", $is_mandatory, $is_disabled, Array $other_args ) {
-		global # $wgScriptSelectCount,
-		$sfgFieldNum, $wgUser, $wgParser;
+		global $sfgFieldNum, $wgUser;
 
-		$selectField = array();
-		// $values = null;
-		$data = array();
+		// shortcut to the SelectField object
+		$selectField = $this->mSelectField;
 
 		if ( array_key_exists( "query", $other_args ) ) {
-			$this->mSelectField->setQuery( $other_args );
+			$selectField->setQuery( $other_args );
 		} elseif ( array_key_exists( "function", $other_args ) ) {
-			$this->mSelectField->setFunction( $other_args );
+			$selectField->setFunction( $other_args );
 		}
 
-		if ( $this->mSelectField->hasStaticValues() ) {
-//			$values = explode( ",", $this->mSelectField->getValues() );
-//			$values = array_map( "trim", $values );
-//			$values = array_unique( $values );
+		// parameters are only required if values needs to be retrieved dynamically
+		if ( !$selectField->hasStaticValues() ) {
+			$selectField->setDelimiter( $other_args );
+			$selectField->setSelectIsMultiple( $other_args );
+			$selectField->setSelectTemplate( $input_name );
+			$selectField->setSelectField( $input_name );
+			$selectField->setValueTemplate( $other_args );
+			$selectField->setValueField( $other_args );
+			$selectField->setSelectRemove( $other_args );
+			$selectField->setLabel( $other_args );
 
-//			$values = $this->mSelectField->getValues();
-		} else {
-
-//			if ( $wgScriptSelectCount == 0 ) {
-			// this has been moved to getResourceModuleNames()
-			//Output::addModule( 'ext.sf_select.scriptselect' );
-//			}
-			// $wgScriptSelectCount ++;
-
-			$valueField = array();
-
-			// TODO: use 'delimiter'?
-			$data['sep'] = array_key_exists( 'sep', $other_args ) ? $other_args["sep"] : ',';
-			$this->mSelectField->setDelimiter( $other_args );
-
-			$data["selectismultiple"] = array_key_exists( "part_of_multiple", $other_args );
-			$this->mSelectField->setSelectIsMultiple( $other_args );
-
-			$index = strpos( $input_name, "[" );
-			$data['selecttemplate'] = substr( $input_name, 0, $index );
-			$this->mSelectField->setSelectTemplate( $input_name );
-
-			// Does this work for multiple template?
-			$index = strrpos( $input_name, "[" );
-			$data['selectfield'] = substr( $input_name, $index + 1, strlen( $input_name ) - $index - 2 );
-			$this->mSelectField->setSelectField( $input_name );
-
-			$data["valuetemplate"] =
-				array_key_exists( "sametemplate", $other_args ) ? $data['selecttemplate'] : $other_args["template"];
-			$this->mSelectField->setValueTemplate( $other_args );
-
-			$data["valuefield"] = $other_args["field"];
-			$this->mSelectField->setValueField( $other_args );
-
-			$data['selectrm'] = array_key_exists( 'rmdiv', $other_args );
-			$this->mSelectField->setSelectRemove( $other_args );
-
-			$data['label'] = array_key_exists( 'label', $other_args );
-			$this->mSelectField->setLabel( $other_args );
-
-			// TODO: use SelectField class (data already contains case specific parameters)
-//			if ( array_key_exists( "query", $selectField ) ) {
-//				$data['selectquery'] = $selectField['query'];
-//			} else {
-//				$data['selectfunction'] = $selectField['function'];
-//			}
-
-			self::$data[] = $data;
+			$item = Output::addToHeadItem( $selectField->getData() );
 		}
+
+		Output::commitToParserOutput();
+
+		// prepare the html input tag
 
 		$extraatt = "";
 		$is_list = false;
@@ -203,8 +164,8 @@ class SemanticFormsSelectInput extends PFFormInput {
 			$ret .= "<option selected='selected'>$cur</option>";
 		}
 
-		if ( $this->mSelectField->hasStaticValues() ) {
-			foreach ( $this->mSelectField->getValues() as $val ) {
+		if ( $selectField->hasStaticValues() ) {
+			foreach ( $selectField->getValues() as $val ) {
 				if ( !in_array( $val, $curvalues ) ) {
 					$ret .= "<option>$val</option>";
 				}
@@ -219,12 +180,6 @@ class SemanticFormsSelectInput extends PFFormInput {
 			$ret .= "<input type='hidden' name='$hiddenname' value='1' />";
 		}
 
-		if ( !$this->mSelectField->hasStaticValues() ) {
-			$item = Output::addToHeadItem( $data );
-			//$wgOut->addJsConfigVars('sf_select', array(json_encode( $data )));
-		}
-
-		Output::commitToParserOutput();
 		return $ret;
 	}
 }

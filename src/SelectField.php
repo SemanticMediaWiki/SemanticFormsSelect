@@ -15,13 +15,12 @@ use MWDebug;
 class SelectField {
 
 	//private $mSelectField = array();
-	private $mQuery = "";
-	private $mFunction = "";
-
 	private $mValues = null;
 	private $mHasStaticValues = false;
 
 	private $mData = array();    # array with all parameters
+	private $mQuery = "";
+	private $mFunction = "";
 	private $mSelectIsMultiple = false;
 	private $mSelectTemplate = "";
 	private $mSelectField = "";
@@ -40,6 +39,15 @@ class SelectField {
 		} elseif ( array_key_exists( "function", $other_args ) ) {
 			$this->setFunction( $other_args );
 		}
+	}
+
+	/**
+	 * getData
+	 *
+	 * @return array Array with all parameters
+	 */
+	public function getData() {
+		return $this->mData;
 	}
 
 	public function setQuery( $other_args ) {
