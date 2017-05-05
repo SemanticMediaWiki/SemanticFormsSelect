@@ -14,6 +14,8 @@ use MWDebug;
 
 class SelectField {
 
+	private $mParser = null;
+
 	//private $mSelectField = array();
 	private $mValues = null;
 	private $mHasStaticValues = false;
@@ -29,6 +31,10 @@ class SelectField {
 	private $mSelectRemove = false;
 	private $mLabel = false;
 	private $mDelimiter = ",";
+
+	public function __construct( & $parser) {
+		$this->mParser = $parser;
+	}
 
 	/**
 	 * Convenience function to process all parameters at once
@@ -72,7 +78,7 @@ class SelectField {
 	}
 
 	public function setFunction( $other_args ) {
-		global $wgParser;
+		#global $wgParser;
 
 		$function = $other_args["function"];
 		$function = '{{#' . $function . '}}';
@@ -86,7 +92,7 @@ class SelectField {
 		if ( strpos( $function, '@@@@' ) === false ) {
 			$f = str_replace( ";", "|", $function );
 
-			$this->setValues( $wgParser->replaceVariables( $f ) );
+			$this->setValues( $this->mParser->replaceVariables( $f ) );
 
 			$this->setHasStaticValues( true );
 		}

@@ -30,7 +30,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 		parent::__construct( $inputNumber, $curValue, $inputName, $disabled, $otherArgs );
 
 		// SelectField is a simple value object - we accept creating it in the constructor
-		$this->mSelectField = new SelectField();
+		$this->mSelectField = new SelectField( $GLOBALS['wgParser'] );
 	}
 
 	public static function getName() {
