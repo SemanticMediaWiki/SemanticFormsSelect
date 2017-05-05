@@ -192,7 +192,7 @@ function SFSelect_arrayEqual(a, b) {
      */
     function SFSelect_changeHandler(src) {
 
-        // console.log("change is called for " + src.name);
+        //console.log("change is called for " + src.name);
 
         if (src.tagName.toLowerCase() != 'select' && src.tagName.toLowerCase() != 'input') {
             return;
@@ -216,7 +216,15 @@ function SFSelect_arrayEqual(a, b) {
                     if (jQuery(src).hasClass('pfComboBox')) {
                         var autocompletesettings = jQuery(src).attr('autocompletesettings');
                         if (autocompletesettings !== null) {
-                            v.push(Object.keys(mw.config.get('wgPageFormsAutocompleteValues')[autocompletesettings])[select2Data.id - 1]);
+                            // In case of initial page load and label is used, select2Data.id holds a value
+                            // and not an id. In this case, use 'data-value-initial' instead
+                            if (typeof select2Data.id === 'string') {
+                                // change triggered by initial page load
+                                v.push(value_initial);
+                            } else {
+                                // change triggered by user
+                                v.push(Object.keys(mw.config.get('wgPageFormsAutocompleteValues')[autocompletesettings])[select2Data.id - 1]);
+                            }
                         }
                     }
 
@@ -234,8 +242,7 @@ function SFSelect_arrayEqual(a, b) {
                     v = value_initial.split(';');
                 }
 
-            } else {	// Page Forms does not support 'value-initial' -> old behaviour without support for mapping
-                console.log('value-initial not supported');
+            } else {	// Page Forms does not support 'data-value-initial' -> old behaviour without support for mapping
 
                 if (jQuery.isArray(jQuery(src).val())) {
                     v = jQuery(src).val();

@@ -79,6 +79,9 @@ class SemanticFormsSelectInput extends PFFormInput {
 		// shortcut to the SelectField object
 		$selectField = $this->mSelectField;
 
+		// get 'delimiter' before 'query' or 'function'
+		$selectField->setDelimiter( $other_args );
+
 		if ( array_key_exists( "query", $other_args ) ) {
 			$selectField->setQuery( $other_args );
 		} elseif ( array_key_exists( "function", $other_args ) ) {
@@ -87,7 +90,6 @@ class SemanticFormsSelectInput extends PFFormInput {
 
 		// parameters are only required if values needs to be retrieved dynamically
 		if ( !$selectField->hasStaticValues() ) {
-			$selectField->setDelimiter( $other_args );
 			$selectField->setSelectIsMultiple( $other_args );
 			$selectField->setSelectTemplate( $input_name );
 			$selectField->setSelectField( $input_name );

@@ -189,7 +189,6 @@ class SelectField {
 	 * @param string $values (comma separated, fully parsed list of values)
 	 */
 	private function setValues( $values ) {
-		//$values = explode( ",", $values );
 		$values = explode( $this->mDelimiter, $values );
 		$values = array_map( "trim", $values );
 		$values = array_unique( $values );
