@@ -32,7 +32,7 @@ class SelectField {
 	private $mLabel = false;
 	private $mDelimiter = ",";
 
-	public function __construct( & $parser) {
+	public function __construct( & $parser ) {
 		$this->mParser = $parser;
 	}
 
@@ -151,7 +151,7 @@ class SelectField {
 	 * setSelectRemove
 	 * @param array $other_args
 	 */
-	public function setSelectRemove ( Array $other_args ) {
+	public function setSelectRemove( Array $other_args ) {
 		$this->mSelectRemove = array_key_exists( 'rmdiv', $other_args );
 		$this->mData['selectrm'] = $this->mSelectRemove;
 	}
@@ -160,7 +160,7 @@ class SelectField {
 	 * setLabel
 	 * @param array $other_args
 	 */
-	public function setLabel ( Array $other_args ) {
+	public function setLabel( Array $other_args ) {
 		$this->mLabel = array_key_exists( 'label', $other_args );
 		$this->mData['label'] = $this->mLabel;
 	}
@@ -169,8 +169,10 @@ class SelectField {
 	 * setDelimiter
 	 * @param array $other_args
 	 */
-	public function setDelimiter ( Array $other_args ) {
-		$this->mDelimiter = array_key_exists( 'delimiter', $other_args ) ? $other_args['delimiter'] : $GLOBALS[wgPageFormsListSeparator];
+	public function setDelimiter( Array $other_args ) {
+		$this->mDelimiter =
+			array_key_exists( 'delimiter', $other_args ) ? $other_args['delimiter']
+				: $GLOBALS[wgPageFormsListSeparator];
 		$this->mData['sep'] = $this->mDelimiter;
 	}
 
