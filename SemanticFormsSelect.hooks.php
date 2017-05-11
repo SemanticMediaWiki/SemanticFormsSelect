@@ -1,11 +1,13 @@
 <?php
 
+namespace SFS;
+
 /**
  * @license GNU GPL v2+
  * @since 3.0
  * @author: Alexander Gesinn
  */
-class SemanticFormsSelectHooks {
+class Hooks {
 	/**
 	 * Register Page Forms Input Type
 	 *

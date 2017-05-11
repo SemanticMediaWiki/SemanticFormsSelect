@@ -17,10 +17,12 @@
 		"MediaWiki": ">= 1.27"
 	},
 	"AutoloadClasses": {
-		"SemanticFormsSelectHooks": "SemanticFormsSelect.hooks.php",
-		"SemanticFormsSelectInput": "src/SemanticFormsSelectInput.php",
-		"ApiSemanticFormsSelect": "src/ApiSemanticFormsSelect.php",
-		"ApiRequestProcessor": "src/ApiSemanticFormsSelectRequestProcessor.php"
+		"SFS\\Hooks": "SemanticFormsSelect.hooks.php",
+		"SFS\\SemanticFormsSelectInput": "src/SemanticFormsSelectInput.php",
+		"SFS\\Output": "src/Output.php",
+		"SFS\\SelectField": "src/SelectField.php",
+		"SFS\\ApiSemanticFormsSelectRequestProcessor": "src/ApiSemanticFormsSelectRequestProcessor.php",
+		"SFS\\ApiSemanticFormsSelect": "src/ApiSemanticFormsSelect.php"
 	},
 	"config": {
 		"ScriptSelectCount": 0,
@@ -52,7 +54,7 @@
 	},
 	"Hooks": {
 		"ParserFirstCallInit": [
-			"SemanticFormsSelectHooks::onSemanticFormsSelectSetup"
+			"SFS\\Hooks::onSemanticFormsSelectSetup"
 		]
 	},
 	"load_composer_autoloader":true,

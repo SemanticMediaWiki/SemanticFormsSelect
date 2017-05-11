@@ -1,12 +1,5 @@
 <?php
 
-namespace SFS;
-
-use Parser;
-use SMWQueryProcessor as QueryProcessor;
-use InvalidArgumentException;
-use MWDebug;
-
 /**
  * @license GNU GPL v2+
  * @since 1.3
@@ -15,6 +8,13 @@ use MWDebug;
  * @author Toni Hermoso Pulido
  * @author mwjames
  */
+
+namespace SFS;
+
+use Parser;
+use SMWQueryProcessor as QueryProcessor;
+use InvalidArgumentException;
+use MWDebug;
 
 class ApiSemanticFormsSelectRequestProcessor {
 

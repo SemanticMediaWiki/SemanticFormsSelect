@@ -1,12 +1,5 @@
 <?php
 
-namespace SFS;
-
-use SMWQueryProcessor as QueryProcessor;
-use Parser;
-use PFFormInput;
-use MWDebug;
-
 /**
  * @license GNU GPL v2+
  * @since 1.3
@@ -15,6 +8,14 @@ use MWDebug;
  * @author Toni Hermoso Pulido
  * @author Alexander Gesinn
  */
+
+namespace SFS;
+
+use SMWQueryProcessor as QueryProcessor;
+use Parser;
+use PFFormInput;
+use MWDebug;
+
 class SemanticFormsSelectInput extends PFFormInput {
 
 	/**

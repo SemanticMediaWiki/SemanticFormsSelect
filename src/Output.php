@@ -1,9 +1,5 @@
 <?php
 
-namespace SFS;
-
-//use MWDebug;
-
 /**
  * @license GNU GPL v2+
  * @since 1.3
@@ -11,6 +7,11 @@ namespace SFS;
  * @author mwjames
  * @author Alexander Gesinn
  */
+
+namespace SFS;
+
+//use MWDebug;
+
 class Output {
 
 	/**

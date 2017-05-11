@@ -26,6 +26,10 @@
 		{
 			"name": "Thomas Mulhall",
 			"role": "Developer"
+		},
+		{
+			"name": "Alexander Gesinn",
+			"role": "Developer"
 		}
 	],
 	"require": {
