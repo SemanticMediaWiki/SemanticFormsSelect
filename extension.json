@@ -29,7 +29,7 @@
 		"SF_Select_debug": false
 	},
 	"APIModules": {
-		"sformsselect": "ApiSemanticFormsSelect"
+		"sformsselect": "SFS\\ApiSemanticFormsSelect"
 	},
 	"MessagesDirs": {
 		"SemanticFormsSelect": [
