@@ -173,7 +173,7 @@ class SelectField {
 	public function setDelimiter( Array $other_args ) {
 		$this->mDelimiter =
 			array_key_exists( 'delimiter', $other_args ) ? $other_args['delimiter']
-				: $GLOBALS[wgPageFormsListSeparator];
+				: $GLOBALS['wgPageFormsListSeparator'];
 		$this->mData['sep'] = $this->mDelimiter;
 	}
 
