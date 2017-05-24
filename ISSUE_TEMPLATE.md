@@ -4,7 +4,8 @@
 - DB (MySQL etc.):
 - PHP version:
 - SMW version:
-- SRS version:
+- SFS version:
+- PF version:
 - Browsers and versions (if applicable):
 
 ### Issue
