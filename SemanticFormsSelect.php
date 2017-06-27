@@ -15,7 +15,7 @@ class SemanticFormsSelect {
 	 */
 	public static function initExtension() {
 
-		define( 'SFS_VERSION', '2.1.1' );
+		define( 'SFS_VERSION', '2.2.0-alpha' );
 
 		// Api modules
 		$GLOBALS['wgAPIModules']['sformsselect'] = 'SFS\ApiSemanticFormsSelect';
