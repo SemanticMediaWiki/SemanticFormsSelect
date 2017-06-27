@@ -1,5 +1,13 @@
 This file contains the RELEASE-NOTES of the Semantic Forms Select (a.k.a. SFS) extension.
 
+### 2.1.1
+
+Released on June 27, 2017.
+
+* Fixed incorrect version numbering
+* #64 Updated version constraints for requied dependeny Page Forms
+* Provided translation updates (by TranslateWiki.net community)
+
 ### 2.1.0
 
 Released on January 19, 2017.
