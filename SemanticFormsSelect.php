@@ -13,9 +13,10 @@ class SemanticFormsSelect {
 	/**
 	 * @since 1.0
 	 */
-	public static function initExtension() {
+	public static function initExtension( $credits = array() ) {
 
-		define( 'SFS_VERSION', '2.2.0-alpha' );
+		// See https://phabricator.wikimedia.org/T151136 (extension.json)
+		define( 'SFS_VERSION', isset( $credits['version'] ) ? $credits['version'] : '2.2.0-alpha' );
 
 		// Api modules
 		$GLOBALS['wgAPIModules']['sformsselect'] = 'SFS\ApiSemanticFormsSelect';
