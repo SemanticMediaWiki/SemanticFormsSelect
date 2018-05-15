@@ -201,6 +201,7 @@ function SFSelect_arrayEqual(a, b) {
         var v = [];
         var select2Data = jQuery(src).select2('data');
         var value_initial = jQuery(src).attr('data-value-initial');
+		var name = src.name;
 
         // field empty?
         if (jQuery(src).val()) {
@@ -242,18 +243,26 @@ function SFSelect_arrayEqual(a, b) {
                     v = value_initial.split(';');
                 }
 
-            } else {	// Page Forms does not support 'data-value-initial' -> old behaviour without support for mapping
+            } else {
 
+                // Page Forms does not support 'data-value-initial' -> old behaviour without support for mapping
                 if (jQuery.isArray(jQuery(src).val())) {
                     v = jQuery(src).val();
                 } else {
-                    //split and trim
-                    v = $.map(jQuery(src).val().split(";"), $.trim);
+                    if (jQuery(src).attr('type') === "checkbox") {
+                        v = (jQuery(src).is(":checked")) ? ["true"] : ["false"];
+
+                        // cut of [value] component from name
+                        name = src.name.substr(0,src.name.indexOf("[value]"));
+                    } else {
+                        //split and trim
+                        v = $.map(jQuery(src).val().split(";"), $.trim);
+                    }
                 }
             }
         }
 
-        var srcName = SFSelect_parseName(src.name);
+        var srcName = SFSelect_parseName(name);
 
         for (var i = 0; i < SFSelect_fobjs.length; i++) {
             SFSelect_prepareQuery(SFSelect_fobjs[i], srcName, v);
