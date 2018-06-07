@@ -109,8 +109,6 @@ class SemanticFormsSelectInput extends PFFormInput {
 		$extraatt = "";
 		$is_list = false;
 
-		// TODO This needs clean-up
-
 		if ( array_key_exists( 'is_list', $other_args ) && $other_args['is_list'] == true ) {
 			$is_list = true;
 		}
@@ -143,7 +141,8 @@ class SemanticFormsSelectInput extends PFFormInput {
 		// TODO Use Html::
 
 		$spanextra = $is_mandatory ? 'mandatoryFieldSpan' : '';
-		$ret = "<span class=\"inputSpan $spanextra\"><select name='$inname' id='input_$sfgFieldNum' $extraatt>";
+		$is_single_select = (!$is_list) ? 'select-sfs-single' : '' ;
+		$ret = "<span class=\"inputSpan select-sfs $is_single_select $spanextra\"><select name='$inname' id='input_$sfgFieldNum' $extraatt>";
 
 		$curvalues = null;
 		if ( $cur_value ) {

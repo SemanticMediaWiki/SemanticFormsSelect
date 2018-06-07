@@ -41,6 +41,9 @@
 			"scripts": [
 				"res/scriptSelect.js"
 			],
+			"styles": [
+				"res/select2.css"
+			],
 			"dependencies": [
 				"ext.pageforms.main",
 				"ext.pageforms.select2"
