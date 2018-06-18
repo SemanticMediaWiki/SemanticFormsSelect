@@ -171,9 +171,18 @@ class SelectField {
 	 * @param array $other_args
 	 */
 	public function setDelimiter( Array $other_args ) {
-		$this->mDelimiter =
-			array_key_exists( 'delimiter', $other_args ) ? $other_args['delimiter']
-				: $GLOBALS['wgPageFormsListSeparator'];
+		
+		$this->mDelimiter = $GLOBALS['wgPageFormsListSeparator'];
+		
+		if ( array_key_exists( 'sep', $other_args ) ) {
+			$this->mDelimiter = $other_args['sep'];
+		} else {
+			// Adding Backcompatibility
+			if ( array_key_exists( 'delimiter', $other_args ) ) {
+				$this->mDelimiter = $other_args['delimiter'];
+			}
+		}
+
 		$this->mData['sep'] = $this->mDelimiter;
 	}
 

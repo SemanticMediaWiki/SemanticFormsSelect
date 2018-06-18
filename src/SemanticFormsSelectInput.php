@@ -153,7 +153,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 				$curvalues = $cur_value;
 			} else {
 				// delimiter for $cur_value is always ',' - PF seems to ignore $wgPageFormsListSeparator
-				$curvalues = array_map( "trim", explode( ',', $cur_value ) );
+				$curvalues = array_map( "trim", explode( $selectField->getDelimiter(), $cur_value ) );
 			}
 
 		} else {
