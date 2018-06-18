@@ -88,6 +88,10 @@ class SemanticFormsSelectInput extends PFFormInput {
 		} elseif ( array_key_exists( "function", $other_args ) ) {
 			$selectField->setFunction( $other_args );
 		}
+		
+		if ( array_key_exists( "label", $other_args ) ) {
+			$selectField->setLabel( $other_args );
+		}
 
 		// parameters are only required if values needs to be retrieved dynamically
 		if ( !$selectField->hasStaticValues() ) {
@@ -97,7 +101,6 @@ class SemanticFormsSelectInput extends PFFormInput {
 			$selectField->setValueTemplate( $other_args );
 			$selectField->setValueField( $other_args );
 			$selectField->setSelectRemove( $other_args );
-			$selectField->setLabel( $other_args );
 
 			$item = Output::addToHeadItem( $selectField->getData() );
 		}
@@ -160,6 +163,12 @@ class SemanticFormsSelectInput extends PFFormInput {
 			$curvalues = array();
 		}
 
+		
+		$labelArray = array();
+		if ( array_key_exists( "label", $data ) && $curvalues ) {
+			$labelArray = $this->getLabels( $curvalues );
+		}
+
 		// TODO handle empty value case.
 		$ret .= "<option></option>";
 
@@ -184,5 +193,60 @@ class SemanticFormsSelectInput extends PFFormInput {
 		}
 
 		return $ret;
+	}
+	
+		
+	private function getLabels( $labels ) {
+			
+		foreach ( $labels as $label ) {
+			
+			// Check Break
+			$openBr = 0;
+			$doneBr = 0;
+			$num = 0;
+			
+			$labelArr = str_split ( $label );
+			
+			$end = count( $labelArr ) - 1;
+			$iter = $end;
+			
+			$endBr = $end;
+			$startBr = 0;
+			
+			while ( $doneBr == 0 && $iter >= 0 ) {
+			
+				$char = $labelArr[ $iter ];
+				
+				if ( $char == ")" ) {
+					$openBr = $openBr - 1;
+					
+					if ( $num == 0 ) {
+						$endBr = $iter;
+						$num = $num + 1;
+					}
+				}
+				
+				if ( $char == "(" ) {
+					$openBr = $openBr + 1;
+					
+					if ( $num > 0 && $openBr == 0 ) {
+						$startBr = $iter;
+						$doneBr = 1;
+					}
+				}
+				
+				$iter = $iter - 1;
+				
+			}
+			
+			$labelValue = implode( "", array_slice( $labelArr, $startBr+1, $endBr-$startBr-1 ) );			
+			$labelKey = implode( "", array_slice( $labelArr, 0, $startBr-1 ) );
+			
+			
+			$labelArray[ $label ] = [ $labelKey, $labelValue ] ;
+		}
+		
+		return $labelArray;
+		
 	}
 }
