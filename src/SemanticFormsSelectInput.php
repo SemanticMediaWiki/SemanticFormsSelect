@@ -173,13 +173,36 @@ class SemanticFormsSelectInput extends PFFormInput {
 		$ret .= "<option></option>";
 
 		foreach ( $curvalues as $cur ) {
-			$ret .= "<option selected='selected'>$cur</option>";
+			$selected = "";
+			
+			if ( array_key_exists( $cur, $labelArray ) ) {
+				
+				if ( in_array( $labelArray[ $cur ][0], $curvalues ) ) {
+					$selected = " selected='selected'";
+				}
+				
+				$ret.="<option".$selected." value='".$labelArray[ $cur ][0]."'>".$labelArray[ $cur ][1]."</option>";
+				
+			} else {
+				if ( in_array( $cur, $curvalues ) ) {
+					$selected = " selected='selected'";
+				}
+				$ret.="<option".$selected.">$cur</option>";
+			}
 		}
 
 		if ( $selectField->hasStaticValues() ) {
 			foreach ( $selectField->getValues() as $val ) {
 				if ( !in_array( $val, $curvalues ) ) {
-					$ret .= "<option>$val</option>";
+					
+					if ( array_key_exists( $val, $labelArray ) ) {
+				
+						$ret.="<option value='".$labelArray[ $val ][0]."'>".$labelArray[ $val ][1]."</option>";
+				
+					} else {
+					
+						$ret .= "<option>$val</option>";
+					}
 				}
 			}
 		}
