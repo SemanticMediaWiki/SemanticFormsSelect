@@ -166,7 +166,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 		
 		$labelArray = array();
 		if ( array_key_exists( "label", $other_args ) && $curvalues ) {
-			$labelArray = $this->getLabels( $curvalues );
+			// $labelArray = $this->getLabels( $curvalues );
 		}
 
 		// TODO handle empty value case.
@@ -227,60 +227,65 @@ class SemanticFormsSelectInput extends PFFormInput {
 	
 		
 	private function getLabels( $labels ) {
-			
-		foreach ( $labels as $label ) {
-			
-			$labelKey = $label;
-			$labelValue = $label;
-			
-			// Tricky thing if ( ) already in name
-			if ( strpos( $label, ")" ) && strpos( $label, "(" ) ) {
-			
-				// Check Break
-				$openBr = 0;
-				$doneBr = 0;
-				$num = 0;
+		
+		$labelArray = array( );
+
+		if ( is_array( $labels ) ) {
+			foreach ( $labels as $label ) {
 				
-				$labelArr = str_split ( $label );
+				$labelKey = $label;
+				$labelValue = $label;
 				
-				$end = count( $labelArr ) - 1;
-				$iter = $end;
+				// Tricky thing if ( ) already in name
+				if ( strpos( $label, ")" ) && strpos( $label, "(" ) ) {
 				
-				$endBr = $end;
-				$startBr = 0;
-				
-				while ( $doneBr == 0 && $iter >= 0 ) {
-				
-					$char = $labelArr[ $iter ];
+					// Check Break
+					$openBr = 0;
+					$doneBr = 0;
+					$num = 0;
 					
-					if ( $char == ")" ) {
-						$openBr = $openBr - 1;
+					$labelArr = str_split ( $label );
+					
+					$end = count( $labelArr ) - 1;
+					$iter = $end;
+					
+					$endBr = $end;
+					$startBr = 0;
+					
+					while ( $doneBr == 0 && $iter >= 0 ) {
+					
+						$char = $labelArr[ $iter ];
 						
-						if ( $num == 0 ) {
-							$endBr = $iter;
-							$num = $num + 1;
+						if ( $char == ")" ) {
+							$openBr = $openBr - 1;
+							
+							if ( $num == 0 ) {
+								$endBr = $iter;
+								$num = $num + 1;
+							}
 						}
+						
+						if ( $char == "(" ) {
+							$openBr = $openBr + 1;
+							
+							if ( $num > 0 && $openBr == 0 ) {
+								$startBr = $iter;
+								$doneBr = 1;
+							}
+						}
+						
+						$iter = $iter - 1;
+						
 					}
 					
-					if ( $char == "(" ) {
-						$openBr = $openBr + 1;
-						
-						if ( $num > 0 && $openBr == 0 ) {
-							$startBr = $iter;
-							$doneBr = 1;
-						}
-					}
-					
-					$iter = $iter - 1;
-					
+					$labelValue = implode( "", array_slice( $labelArr, $startBr+1, $endBr-$startBr-1 ) );			
+					$labelKey = implode( "", array_slice( $labelArr, 0, $startBr-1 ) );
+				
 				}
 				
-				$labelValue = implode( "", array_slice( $labelArr, $startBr+1, $endBr-$startBr-1 ) );			
-				$labelKey = implode( "", array_slice( $labelArr, 0, $startBr-1 ) );
-			
+				$labelArray[ $label ] = [ $labelKey, $labelValue ] ;
 			}
-			
-			$labelArray[ $label ] = [ $labelKey, $labelValue ] ;
+		
 		}
 		
 		return $labelArray;
