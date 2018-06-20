@@ -165,7 +165,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 
 		
 		$labelArray = array();
-		if ( array_key_exists( "label", $data ) && $curvalues ) {
+		if ( array_key_exists( "label", $other_args ) && $curvalues ) {
 			$labelArray = $this->getLabels( $curvalues );
 		}
 
