@@ -199,18 +199,22 @@ class SemanticFormsSelectInput extends PFFormInput {
 				$labelArray = $this->getLabels( $values );
 			}
 			
-			foreach ( $values as $val ) {
-				if ( !in_array( $val, $curvalues ) ) {
-					
-					if ( array_key_exists( $val, $labelArray ) ) {
+			if ( is_array( $values ) ) {
 				
-						$ret.="<option value='".$labelArray[ $val ][0]."'>".$labelArray[ $val ][1]."</option>";
-				
-					} else {
+				foreach ( $values as $val ) {
+					if ( !in_array( $val, $curvalues ) ) {
+						
+						if ( array_key_exists( $val, $labelArray ) ) {
 					
-						$ret .= "<option>$val</option>";
+							$ret.="<option value='".$labelArray[ $val ][0]."'>".$labelArray[ $val ][1]."</option>";
+					
+						} else {
+						
+							$ret .= "<option>$val</option>";
+						}
 					}
 				}
+			
 			}
 		}
 
