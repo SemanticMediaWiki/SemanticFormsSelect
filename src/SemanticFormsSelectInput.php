@@ -192,7 +192,14 @@ class SemanticFormsSelectInput extends PFFormInput {
 		}
 
 		if ( $selectField->hasStaticValues() ) {
-			foreach ( $selectField->getValues() as $val ) {
+			
+			$values = $selectField->getValues();
+			
+			if ( array_key_exists( "label", $other_args ) && $values ) {
+				$labelArray = $this->getLabels( $values );
+			}
+			
+			foreach ( $values as $val ) {
 				if ( !in_array( $val, $curvalues ) ) {
 					
 					if ( array_key_exists( $val, $labelArray ) ) {
