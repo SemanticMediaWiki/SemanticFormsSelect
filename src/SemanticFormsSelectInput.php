@@ -223,6 +223,9 @@ class SemanticFormsSelectInput extends PFFormInput {
 			
 		foreach ( $labels as $label ) {
 			
+			$labelKey = $label;
+			$labelValue = $label;
+			
 			// Tricky thing if ( ) already in name
 			if ( strpos( $label, ")" ) && strpos( $label, "(" ) ) {
 			
@@ -268,11 +271,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 				$labelValue = implode( "", array_slice( $labelArr, $startBr+1, $endBr-$startBr-1 ) );			
 				$labelKey = implode( "", array_slice( $labelArr, 0, $startBr-1 ) );
 			
-			} else {
-				
-				$labelArray[ $label ] = [ $label, $label ] ;
 			}
-			
 			
 			$labelArray[ $label ] = [ $labelKey, $labelValue ] ;
 		}
