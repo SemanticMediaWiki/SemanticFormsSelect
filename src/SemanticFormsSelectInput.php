@@ -172,25 +172,6 @@ class SemanticFormsSelectInput extends PFFormInput {
 		// TODO handle empty value case.
 		$ret .= "<option></option>";
 
-		foreach ( $curvalues as $cur ) {
-			$selected = "";
-			
-			if ( array_key_exists( $cur, $labelArray ) ) {
-				
-				if ( in_array( $labelArray[ $cur ][0], $curvalues ) ) {
-					$selected = " selected='selected'";
-				}
-				
-				$ret.="<option".$selected." value='".$labelArray[ $cur ][0]."'>".$labelArray[ $cur ][1]."</option>";
-				
-			} else {
-				if ( in_array( $cur, $curvalues ) ) {
-					$selected = " selected='selected'";
-				}
-				$ret.="<option".$selected.">$cur</option>";
-			}
-		}
-
 		if ( $selectField->hasStaticValues() ) {
 			
 			$values = $selectField->getValues();
@@ -202,20 +183,45 @@ class SemanticFormsSelectInput extends PFFormInput {
 			if ( is_array( $values ) ) {
 				
 				foreach ( $values as $val ) {
-					if ( !in_array( $val, $curvalues ) ) {
-						
-						if ( array_key_exists( $val, $labelArray ) ) {
 					
-							$ret.="<option value='".$labelArray[ $val ][0]."'>".$labelArray[ $val ][1]."</option>";
+					$selected = "";
 					
-						} else {
+					if ( in_array( $val, $curvalues ) ) {
 						
-							$ret .= "<option>$val</option>";
-						}
+						$selected = " selected='selected'";
+					}
+											
+					if ( array_key_exists( $val, $labelArray ) ) {
+					
+						$ret.="<option".$selected." value='".$labelArray[ $val ][0]."'>".$labelArray[ $val ][1]."</option>";
+					
+					} else {
+						
+						$ret .= "<option".$selected.">$val</option>";
 					}
 				}
-			
 			}
+		} else {
+			
+			foreach ( $curvalues as $cur ) {
+				$selected = "";
+				
+				if ( array_key_exists( $cur, $labelArray ) ) {
+					
+					if ( in_array( $labelArray[ $cur ][0], $curvalues ) ) {
+						$selected = " selected='selected'";
+					}
+					
+					$ret.="<option".$selected." value='".$labelArray[ $cur ][0]."'>".$labelArray[ $cur ][1]."</option>";
+					
+				} else {
+					if ( in_array( $cur, $curvalues ) ) {
+						$selected = " selected='selected'";
+					}
+					$ret.="<option".$selected.">$cur</option>";
+				}
+			}
+
 		}
 
 		$ret .= "</select></span>";
