@@ -199,12 +199,21 @@ function SFSelect_arrayEqual(a, b) {
         }
 
         var v = [];
-        var select2Data = jQuery(src).select2('data');
-        var value_initial = jQuery(src).attr('data-value-initial');
-		var name = src.name;
+        
+        var selectElement =  jQuery(src);
+        var select2enabled = false;
+        var name = src.name;
+
+        if (typeof selectElement.select2 === "function") { 
+            // safe to use the function
+
+            var select2Data = selectElement.select2('data');
+            var value_initial = selectElement.attr('data-value-initial');
+            select2enabled = true;
+        }
 
         // field empty?
-        if (jQuery(src).val()) {
+        if ( selectElement.val() && select2enabled ) {
 
             // do we have a version of Page Forms that supports 'value-initial'?
             if (typeof value_initial === 'string') {
@@ -214,8 +223,8 @@ function SFSelect_arrayEqual(a, b) {
 
                     // Combobox
                     // lookup values in wgPageFormsAutocompleteValues
-                    if (jQuery(src).hasClass('pfComboBox')) {
-                        var autocompletesettings = jQuery(src).attr('autocompletesettings');
+                    if (selectElement.hasClass('pfComboBox')) {
+                        var autocompletesettings = selectElement.attr('autocompletesettings');
                         if (autocompletesettings !== null) {
                             // In case of initial page load and label is used, select2Data.id holds a value
                             // and not an id. In this case, use 'data-value-initial' instead
@@ -230,8 +239,8 @@ function SFSelect_arrayEqual(a, b) {
                     }
 
                     // Tokens
-                    else if (jQuery(src).hasClass('pfTokens')) {
-                        var autocompletesettings = jQuery(src).attr('autocompletesettings');
+                    else if (selectElement.hasClass('pfTokens')) {
+                        var autocompletesettings = selectElement.attr('autocompletesettings');
                         if (autocompletesettings !== null) {
                             select2Data.forEach(function (i) {
                                 v.push(i.id);
@@ -246,19 +255,34 @@ function SFSelect_arrayEqual(a, b) {
             } else {
 
                 // Page Forms does not support 'data-value-initial' -> old behaviour without support for mapping
-                if (jQuery.isArray(jQuery(src).val())) {
-                    v = jQuery(src).val();
+                if (jQuery.isArray(selectElement.val())) {
+                    v = selectElement.val();
                 } else {
-                    if (jQuery(src).attr('type') === "checkbox") {
-                        v = (jQuery(src).is(":checked")) ? ["true"] : ["false"];
+                    if (selectElement.attr('type') === "checkbox") {
+                        v = (selectElement.is(":checked")) ? ["true"] : ["false"];
 
                         // cut of [value] component from name
                         name = src.name.substr(0,src.name.indexOf("[value]"));
                     } else {
                         //split and trim
-                        v = $.map(jQuery(src).val().split(";"), $.trim);
+                        v = $.map(selectElement.val().split(";"), $.trim);
                     }
                 }
+            }
+        } else {
+            
+            v = selectElement.val();
+
+            if (jQuery.isArray(v)){
+                // That's OK
+            } else if (v==null) {
+                
+                v=[];
+                
+            }  else {
+                
+                v=[v];
+                
             }
         }
 
