@@ -71,11 +71,17 @@ function SFSelect_parseName(name) {
 }
 
 function SFSelect_setDependentValues(nameobj, fobj, values) {
+    
     var selectPat = SFSelect_getSelectFieldPat(nameobj, fobj);
 
     jQuery(selectPat).each(function (index, element) {
         //keep selected values;
         var selectedValues = jQuery(element).val();
+        
+		if ( !selectedValues && fobj.hasOwnProperty("curvalues") ) {
+			selectedValues = fobj.curvalues;
+		}
+		
         if (!selectedValues) {
             selectedValues = [];
         } else if (!jQuery.isArray(selectedValues)) {
@@ -122,34 +128,59 @@ function SFSelect_setDependentValues(nameobj, fobj, values) {
 
 /** Function for turning name values from 'Page (property)' results **/
 
-function SFSelect_processNameValues(values) {
+function SFSelect_processNameValues( values ) {
 
-    var namevalues = [];
+	var namevalues = [];
+	
+	for(var i=0; i<values.length; i++){
 
-    var regex = " (";
+		var openBr = 0;
+		var doneBr = 0;
+		var num = 0;
+		
+		var label = values[i];
+		
+		var labelArr = label.split("");
+		
+		var end = labelArr.length - 1;
+		var iter = end;
+		
+		var endBr = end;
+		var startBr = 0;
+		
+		while ( doneBr === 0 && iter >= 0 ) {
+			
+			var charLabel = labelArr[ iter ];
+							
+			if ( charLabel === ")" ) {
+				openBr = openBr - 1;
+				
+				if ( num === 0 ) {
+					endBr = iter;
+					num = num + 1;
+				}
+			}
+			
+			if ( charLabel === "(" ) {
+				openBr = openBr + 1;
+				
+				if ( num > 0 && openBr === 0 ) {
+					startBr = iter;
+					doneBr = 1;
+				}
+			}
+			
+			iter = iter - 1;
+		}
+		
+		labelValue = ( labelArr.slice( startBr+1, endBr ) ).join("");
+		labelKey = ( labelArr.slice( 0, startBr - 1 ) ).join("");
 
-    for (var i = 0; i < values.length; i++) {
+		namevalues.push( [ labelKey, labelValue ] );
+	
+	}
 
-        var postval = values[i].split(regex);
-        if (postval.length < 2) {
-            namevalues[i] = [values[i], values[i]];
-        } else if (postval.length === 2) {
-            var label = postval[1].replace(/\)\s*$/, "");
-            var value = postval[0];
-
-            namevalues[i] = [value, label];
-        } else {
-            var last = postval.length - 1;
-            var label = postval[last].replace(/\)\s*$/, "");
-
-            var slice = postval.slice(0, last - 1);
-            var value = slice.join(" (");
-
-            namevalues[i] = [value, label];
-        }
-    }
-
-    return namevalues;
+	return namevalues;
 
 }
 
@@ -289,9 +320,62 @@ function SFSelect_arrayEqual(a, b) {
         var srcName = SFSelect_parseName(name);
 
         for (var i = 0; i < SFSelect_fobjs.length; i++) {
-            SFSelect_prepareQuery(SFSelect_fobjs[i], srcName, v);
+            
+			if ( SFSelect_fobjs[i].hasOwnProperty("staticvalue") && SFSelect_fobjs[i].staticvalue ) {
+
+				SFSelect_changeSelected( SFSelect_fobjs[i], srcName );
+
+			} else {
+				
+				SFSelect_prepareQuery( SFSelect_fobjs[i], srcName, v );
+
+			}
         }
     }
+    
+	function SFSelect_changeSelected( fobj, nameobj ) {
+		
+		var selectPat=SFSelect_getSelectFieldPat(nameobj, fobj);
+
+		jQuery(selectPat).each(function(index, element){	
+			//keep selected values;
+			var selectedValues=jQuery(element).val();
+	
+			if ( !selectedValues && fobj.hasOwnProperty("curvalues") ) {
+				selectedValues = fobj.curvalues;
+			}
+			
+			if (!selectedValues){
+				selectedValues=[];
+			} else if (!jQuery.isArray(selectedValues)){
+				selectedValues=[selectedValues];
+			}
+
+			if ( element.options && element.options.length > 0 ) {
+				
+				var options = jQuery.map( element.options ,function(option) {
+					return option.value;});
+			
+				for ( var c = 0; c < selectedValues.length; c++ ) {
+			
+					if ( jQuery.inArray( selectedValues[c], options ) ) {
+
+						var changed = jQuery( element ).attr( "data-changed" );
+						
+						if ( changed ) {
+
+							jQuery( element ).val( selectedValues[c] ).trigger('change');
+
+						}
+						
+					}
+				}
+				
+			}
+	
+		});
+
+	}
 
     /**
      * prepareQuery
