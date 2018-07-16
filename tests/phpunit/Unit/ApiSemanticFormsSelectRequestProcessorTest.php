@@ -13,9 +13,9 @@ use FauxRequest;
  * @group   semantic-forms-select
  *
  * @license GNU GPL v2+
- * @since   1.3
+ * @since   3.0.0
  *
- * @author  mwjames
+ * @author  FelixAba
  */
 class ApiSemanticFormsSelectRequestProcessorTest
 	extends \PHPUnit_Framework_TestCase {

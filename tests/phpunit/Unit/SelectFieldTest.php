@@ -18,7 +18,7 @@ use Title;
 /**
  * @covers \SFS\SelectField
  * @group  semantic-forms-select
- * @author Felix
+ * @author FelixAba
  */
 class SelectFieldTest extends \PHPUnit_Framework_TestCase {
 	private $SelectField;

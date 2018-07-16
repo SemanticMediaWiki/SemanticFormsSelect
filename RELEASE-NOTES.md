@@ -4,8 +4,8 @@ This file contains the RELEASE-NOTES of the Semantic Forms Select (a.k.a. SFS) e
 
 not yet released
 
-* #53 Support "mapping property" / "mapping template" in value field (by Alexander Gesinn), requires changes in PF
-* #62 Make SFS compliant with recent PF versions (by Alexander Gesinn)
+* #53 Support "mapping property" / "mapping template" in value field (by Alexander Gesinn), requires changes in Page Forms (former Semantic Forms extension)
+* #62 Make SFS compliant with recent Page Forms versions (by Alexander Gesinn)
 * refactored SemanticFormsSelectInput class -> moved logic to new SelectField class (by Alexander Gesinn)
 * added Unit Tests (by Felix Ashu)
 

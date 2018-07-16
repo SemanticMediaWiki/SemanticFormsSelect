@@ -130,7 +130,7 @@ class SelectField {
 
 	/**
 	 * setValueTemplate
-	 * @param array $other_args
+	 * @param Array $other_args
 	 */
 	public function setValueTemplate( Array $other_args ) {
 		$this->mValueTemplate =
