@@ -2,12 +2,18 @@ This file contains the RELEASE-NOTES of the Semantic Forms Select (a.k.a. SFS) e
 
 ### 3.0.0
 
-not yet released
-
 * #53 Support "mapping property" / "mapping template" in value field (by Alexander Gesinn), requires changes in Page Forms (former Semantic Forms extension)
 * #62 Make SFS compliant with recent Page Forms versions (by Alexander Gesinn)
 * refactored SemanticFormsSelectInput class -> moved logic to new SelectField class (by Alexander Gesinn)
 * added Unit Tests (by Felix Ashu)
+
+### 2.1.1
+
+Released on June 27, 2017.
+
+* Fixed incorrect version numbering
+* #64 Updated version constraints for requied dependeny Page Forms
+* Provided translation updates (by TranslateWiki.net community)
 
 ### 2.1.0
 

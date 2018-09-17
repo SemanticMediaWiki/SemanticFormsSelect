@@ -5,7 +5,6 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/SemanticMediaWiki/SemanticFormsSelect/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/SemanticMediaWiki/SemanticFormsSelect/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/mediawiki/semantic-forms-select/version.png)](https://packagist.org/packages/mediawiki/semantic-forms-select)
 [![Packagist download count](https://poser.pugx.org/mediawiki/semantic-forms-select/d/total.png)](https://packagist.org/packages/mediawiki/semantic-forms-select)
-[![Dependency Status](https://www.versioneye.com/php/mediawiki:semantic-forms-select/badge.png)](https://www.versioneye.com/php/mediawiki:semantic-forms-select)
 
 Semantic Forms Select (a.k.a. SFS) can generate a select form element with values retrieved from a `#ask` query or a parser function.
 
@@ -13,8 +12,8 @@ Semantic Forms Select (a.k.a. SFS) can generate a select form element with value
 
 - PHP 5.5 or later
 - MediaWiki 1.27 or later
-- [Semantic MediaWiki][smw] 2.0 or later
-- [Page Forms][pf] 4.0.2 or later
+- [Semantic MediaWiki][smw] 2.3 or later
+- [Page Forms][pf] 4.0.2 and 4.1.0
 
 ## Installation
 

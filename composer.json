@@ -9,7 +9,7 @@
 		"Page Forms"
 	],
 	"homepage": "https://www.mediawiki.org/wiki/Extension:SemanticFormsSelect",
-	"license": "GPL-2.0+",
+	"license": "GPL-2.0-or-later",
 	"authors": [
 		{
 			"name": "Jason Zhang",
@@ -36,14 +36,14 @@
 		"php": ">=5.5",
 		"composer/installers": "1.*,>=1.0.1",
 		"mediawiki/semantic-media-wiki": "~2.3|~3.0",
-		"mediawiki/page-forms": ">=4.0"
+		"mediawiki/page-forms": ">=4.0.2"
 	},
 	"require-dev": {
 		"mediawiki/semantic-media-wiki": "@dev"
 	},
 	"extra": {
 		"branch-alias": {
-			"dev-master": "2.1.x-dev"
+			"dev-master": "2.2.x-dev"
 		}
 	},
 	"autoload": {

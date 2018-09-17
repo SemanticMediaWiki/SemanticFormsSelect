@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Chrumps"
+		]
+	},
+	"sfs-desc": "Umożliwia tworzenie pola wyboru w formularzu, którego wartości są pobierane z zapytania"
+}

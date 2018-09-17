@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Hamilton Abreu"
+		]
+	},
+	"sfs-desc": "Permite gerar num formulário um campo de seleção cujos valores são obtidos com uma consulta"
+}
