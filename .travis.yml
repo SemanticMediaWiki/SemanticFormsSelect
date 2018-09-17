@@ -9,7 +9,7 @@ dist: trusty
 matrix:
   fast_finish: true
   include:
-    - env: DB=mysql; MW=REL1_31;
+    - env: DB=mysql; MW=REL1_30; PHPUNIT=5.7.*
       php: 7.0
     - env: DB=mysql; MW=REL1_27; TYPE=coverage
       php: 5.6
