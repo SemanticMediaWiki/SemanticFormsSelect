@@ -25,8 +25,8 @@ class SemanticFormsSelectInputTest extends \PHPUnit_Framework_TestCase {
 		$isMandatory = false;
 		$isDisabled = false;
 
-		$otherArgs = array( 'template' => 'Foo', 'field' => '',
-		                    'function' => 'Bar', 'is_list' => true );
+		$otherArgs = [ 'template' => 'Foo', 'field' => '',
+		                    'function' => 'Bar', 'is_list' => true ];
 
 		$parserOutput = $this->getMockBuilder( '\ParserOutput' )
 			->disableOriginalConstructor()->getMock();
@@ -75,7 +75,7 @@ class SemanticFormsSelectInputTest extends \PHPUnit_Framework_TestCase {
 
 
 	public function testGetResourceModuleNames() {
-		$rsmn = array( 'ext.sf_select.scriptselect' );
+		$rsmn = [ 'ext.sf_select.scriptselect' ];
 
 		$this->assertEquals( $rsmn, $this->SFSInput->getResourceModuleNames() );
 	}

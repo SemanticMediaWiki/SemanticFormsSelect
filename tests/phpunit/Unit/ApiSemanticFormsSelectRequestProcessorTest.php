@@ -42,7 +42,7 @@ class ApiSemanticFormsSelectRequestProcessorTest
 
 	public function testMissingParametersThrowsException() {
 
-		$parameters = array();
+		$parameters = [];
 
 		$this->setExpectedException( 'InvalidArgumentException' );
 		$this->ApiSFSRP->getJsonDecodedResultValuesForRequestParameters(
@@ -52,7 +52,7 @@ class ApiSemanticFormsSelectRequestProcessorTest
 
 	public function testJsonResultValuesFromRequestParameters() {
 
-		$parameters = array( 'query' => 'foo', 'sep' => ',' );
+		$parameters = [ 'query' => 'foo', 'sep' => ',' ];
 
 		$this->assertInternalType(
 			'object',
@@ -65,8 +65,8 @@ class ApiSemanticFormsSelectRequestProcessorTest
 	public function testJsonResultValuesFromRequestParameters_doProcessQueryFor(
 	) {
 
-		$parameters = array( 'approach' => 'smw', 'query' => 'foo, baa, gaah',
-		                     'sep'      => ',' );
+		$parameters = [ 'approach' => 'smw', 'query' => 'foo, baa, gaah',
+		                     'sep'      => ',' ];
 
 		$this->assertInternalType(
 			'object',
@@ -78,7 +78,7 @@ class ApiSemanticFormsSelectRequestProcessorTest
 
 	public function testSetDebugFlag() {
 		$this->ApiSFSRP->setDebugFlag( true );
-		$parameters = array( 'query' => 'foo , function', 'sep' => ',' );
+		$parameters = [ 'query' => 'foo , function', 'sep' => ',' ];
 
 		$this->assertInternalType(
 			'object',
@@ -90,8 +90,8 @@ class ApiSemanticFormsSelectRequestProcessorTest
 
 	public function testSetDebugFlag_doProcessQueryFor() {
 		$this->ApiSFSRP->setDebugFlag( true );
-		$parameters = array( 'approach' => 'smw', 'query' => 'my Query,query2',
-		                     'sep'      => ',' );
+		$parameters = [ 'approach' => 'smw', 'query' => 'my Query,query2',
+		                     'sep'      => ',' ];
 
 		$this->assertInternalType(
 			'object',
@@ -104,9 +104,9 @@ class ApiSemanticFormsSelectRequestProcessorTest
 	public function testGetFormattedValuesFrom() {
 		$sep = ",";
 		$values = "my Query,query2";
-		$result = array( "", "my Query", "query2" );
+		$result = [ "", "my Query", "query2" ];
 		$formattedValues = $this->invokeMethod(
-			$this->ApiSFSRP, 'getFormattedValuesFrom', array( $sep, $values )
+			$this->ApiSFSRP, 'getFormattedValuesFrom', [ $sep, $values ]
 		);
 		$this->assertEquals( $result, $formattedValues );
 	}
@@ -121,7 +121,7 @@ class ApiSemanticFormsSelectRequestProcessorTest
 	 * @return mixed Method return.
 	 */
 	public function invokeMethod( &$object, $methodName,
-		array $parameters = array()
+		array $parameters = []
 	) {
 		$reflection = new \ReflectionClass( get_class( $object ) );
 		$method = $reflection->getMethod( $methodName );

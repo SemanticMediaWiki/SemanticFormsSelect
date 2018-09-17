@@ -17,7 +17,7 @@ class Output {
 	/**
 	 * @var array
 	 */
-	private static $headItems = array();
+	private static $headItems = [];
 
 	/**
 	 * Add an array of SF_Select field parameters as defined in Page Form's field tag.

@@ -23,7 +23,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 	 *
 	 * @var array
 	 */
-	private static $data = array();
+	private static $data = [];
 
 	private $mSelectField;
 
@@ -49,9 +49,9 @@ class SemanticFormsSelectInput extends PFFormInput {
 		 * "mw.loader.state({"ext.sf_select.scriptselect":"loading"});"
 		 */
 
-		return array(
+		return [
 			'ext.sf_select.scriptselect'
-		);
+		];
 	}
 
 	/**
@@ -124,7 +124,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 			$extraatt .= " size=\"{$other_args['size']}\"";
 		}
 
-		$classes = array();
+		$classes = [];
 		if ( $is_mandatory ) {
 			$classes[] = "mandatoryField";
 		}
@@ -160,11 +160,11 @@ class SemanticFormsSelectInput extends PFFormInput {
 			}
 
 		} else {
-			$curvalues = array();
+			$curvalues = [];
 		}
 
 		
-		$labelArray = array();
+		$labelArray = [];
 		if ( array_key_exists( "label", $other_args ) && $curvalues ) {
 			// $labelArray = $this->getLabels( $curvalues );
 		}
@@ -241,7 +241,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 		
 	private function getLabels( $labels ) {
 		
-		$labelArray = array( );
+		$labelArray = [ ];
 
 		if ( is_array( $labels ) ) {
 			foreach ( $labels as $label ) {

@@ -18,7 +18,7 @@ class OutputTest extends \PHPUnit_Framework_TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		$this->data = array();
+		$this->data = [];
 		$this->data['Foo'] = 'Bar';
 		$this->data['Spam'] = 'Eggs';
 	}

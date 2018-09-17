@@ -49,39 +49,39 @@ class ApiSemanticFormsSelect extends ApiBase {
 	 * @see ApiBase::getAllowedParams
 	 */
 	public function getAllowedParams() {
-		return array(
-			'approach' => array(
+		return [
+			'approach' => [
 				ApiBase::PARAM_TYPE => 'string',
 				ApiBase::PARAM_REQUIRED => true
-			),
-			'query' => array(
+			],
+			'query' => [
 				ApiBase::PARAM_TYPE => 'string',
 				ApiBase::PARAM_REQUIRED => true
-			),
-			'sep' => array(
+			],
+			'sep' => [
 				ApiBase::PARAM_TYPE => 'string',
 				ApiBase::PARAM_REQUIRED => false
-			)
-		);
+			]
+		];
 	}
 
 	/**
 	 * @see ApiBase::getDescription
 	 */
 	public function getDescription() {
-		return array(
+		return [
 			'API for providing SemanticFormsSelect values'
-		);
+		];
 	}
 
 	/**
 	 * @see ApiBase::getParamDescription
 	 */
 	public function getParamDescription() {
-		return array(
+		return [
 			'approach' => 'The actual approach: function or smw',
 			'query' => 'The query of the former'
-		);
+		];
 	}
 
 	/**

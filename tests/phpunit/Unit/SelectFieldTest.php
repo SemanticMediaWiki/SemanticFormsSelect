@@ -113,14 +113,14 @@ class SelectFieldTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testSetSelectIsMultiple_keyExistTrue() {
-		$other_args = array( "part_of_multiple" => "bla bla bla" );
+		$other_args = [ "part_of_multiple" => "bla bla bla" ];
 		$this->SelectField->setSelectIsMultiple( $other_args );
 		$this->assertTrue( $this->SelectField->getData()["selectismultiple"] );
 	}
 
 	public function testSetSelectIsMultiple_keyExistFalse() {
 
-		$other_args = array( "Not_part_of_multiple" => "blas blas blas" );
+		$other_args = [ "Not_part_of_multiple" => "blas blas blas" ];
 		$this->SelectField->setSelectIsMultiple( $other_args );
 		$this->assertFalse( $this->SelectField->getData()["selectismultiple"] );
 	}
@@ -201,34 +201,34 @@ class SelectFieldTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testSetSelectRemove_keyExistTrue() {
-		$other_args = array( 'rmdiv' => "Test data" );
+		$other_args = [ 'rmdiv' => "Test data" ];
 		$this->SelectField->setSelectRemove( $other_args );
 		$this->assertTrue( $this->SelectField->getData()["selectrm"] );
 	}
 
 	public function testSetSelectRemove_keyExistFalse() {
 
-		$other_args = array( "no_rmdiv" => "test data" );
+		$other_args = [ "no_rmdiv" => "test data" ];
 		$this->SelectField->setSelectRemove( $other_args );
 		$this->assertFalse( $this->SelectField->getData()["selectrm"] );
 	}
 
 	public function testSetLabel_keyExistTrue() {
-		$other_args = array( 'label' => "Test data" );
+		$other_args = [ 'label' => "Test data" ];
 		$this->SelectField->setLabel( $other_args );
 		$this->assertTrue( $this->SelectField->getData()["label"] );
 	}
 
 	public function testSetLabel_keyExistFalse() {
 
-		$other_args = array( "no_label" => "test data" );
+		$other_args = [ "no_label" => "test data" ];
 		$this->SelectField->setLabel( $other_args );
 		$this->assertArrayHasKey( "label", $this->SelectField->getData() );
 		$this->assertFalse( $this->SelectField->getData()["label"] );
 	}
 
 	public function testSetDelimiter_keyExistTrue() {
-		$other_args = array( "delimiter" => ":" );
+		$other_args = [ "delimiter" => ":" ];
 		$this->SelectField->setDelimiter( $other_args );
 		$this->assertEquals(
 			$this->SelectField->getDelimiter(), $other_args["delimiter"]
@@ -240,7 +240,7 @@ class SelectFieldTest extends \PHPUnit_Framework_TestCase {
 
 	public function testSetWgPageFormsListSeparator_keyExistTrue() {
 
-		$g_args = array( "Global_delimiter" => ";" );
+		$g_args = [ "Global_delimiter" => ";" ];
 		$this->SelectField->setDelimiter( $g_args );
 		$this->assertEquals(
 			$this->SelectField->getDelimiter(), $g_args["Global_delimiter"]

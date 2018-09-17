@@ -24,8 +24,8 @@ class ApiSemanticFormsSelectTest extends \PHPUnit_Framework_TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		$parameters = array( 'action' => 'sformsselect', 'approach' => 'smw',
-		                     'query'  => 'abc', 'sep' => ',' );
+		$parameters = [ 'action' => 'sformsselect', 'approach' => 'smw',
+		                     'query'  => 'abc', 'sep' => ',' ];
 
 		$this->ApiMain = new ApiMain(
 			$this->newRequestContext( $parameters ), true
@@ -44,7 +44,7 @@ class ApiSemanticFormsSelectTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCanConstruct() {
 
-		$apiMain = new ApiMain( $this->newRequestContext( array() ), true );
+		$apiMain = new ApiMain( $this->newRequestContext( [] ), true );
 
 		$instance = new ApiSemanticFormsSelect(
 			$apiMain, 'sformsselect'
@@ -63,13 +63,13 @@ class ApiSemanticFormsSelectTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testGetDescription() {
-		$tdata = array( 'API for providing SemanticFormsSelect values' );
+		$tdata = [ 'API for providing SemanticFormsSelect values' ];
 		$this->assertEquals( $this->ApiSFS->getDescription(), $tdata );
 	}
 
 	public function testGetParamDescription() {
-		$tdata = array( 'approach' => 'The actual approach: function or smw',
-		                'query'    => 'The query of the former' );
+		$tdata = [ 'approach' => 'The actual approach: function or smw',
+		                'query'    => 'The query of the former' ];
 		$this->assertEquals( $this->ApiSFS->getParamDescription(), $tdata );
 	}
 
@@ -79,7 +79,7 @@ class ApiSemanticFormsSelectTest extends \PHPUnit_Framework_TestCase {
 	}
 
 
-	private function newRequestContext( $request = array() ) {
+	private function newRequestContext( $request = [] ) {
 
 		$context = new RequestContext();
 

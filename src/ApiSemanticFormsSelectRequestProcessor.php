@@ -60,7 +60,7 @@ class ApiSemanticFormsSelectRequestProcessor {
 		}
 
 		$this->parser->firstCallInit();
-		$json = array();
+		$json = [];
 
 		if ( isset( $parameters['approach'] ) && $parameters['approach'] == 'smw' ) {
 			$json = $this->doProcessQueryFor( $parameters['query'], $parameters['sep'] );
@@ -76,8 +76,8 @@ class ApiSemanticFormsSelectRequestProcessor {
 	private function doProcessQueryFor( $query, $sep = "," ) {
 
 		$query = str_replace(
-			array( "&lt;", "&gt;", "sep=;" ),
-			array( "<", ">", "sep={$sep};" ),
+			[ "&lt;", "&gt;", "sep=;" ],
+			[ "<", ">", "sep={$sep};" ],
 			$query
 		);
 
@@ -95,17 +95,17 @@ class ApiSemanticFormsSelectRequestProcessor {
 			QueryProcessor::getResultFromFunctionParams( $params, SMW_OUTPUT_WIKI )
 		);
 
-		return json_encode( array(
+		return json_encode( [
 			"values" => $values,
 			"count"  => count( $values )
-		) );
+		] );
 	}
 
 	private function doProcessFunctionFor( $query, $sep = "," ) {
 
 		$query = str_replace(
-			array( "&lt;", "&gt;", "sep=;" ),
-			array( "<", ">", "sep={$sep};" ),
+			[ "&lt;", "&gt;", "sep=;" ],
+			[ "<", ">", "sep={$sep};" ],
 			$query
 		);
 
@@ -120,16 +120,16 @@ class ApiSemanticFormsSelectRequestProcessor {
 			$this->parser->replaceVariables( $f )
 		);
 
-		return json_encode( array(
+		return json_encode( [
 			"values" => $values,
 			"count"  => count( $values )
-		) );
+		] );
 	}
 
 	private function getFormattedValuesFrom( $sep, $values ) {
 
 		if ( strpos( $values, $sep ) === false ) {
-			return array( $values );
+			return [ $values ];
 		}
 
 		$values = explode( $sep, $values );
