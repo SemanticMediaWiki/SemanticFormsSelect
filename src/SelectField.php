@@ -99,68 +99,40 @@ class SelectField {
 		}
 	}
 
-	/**
-	 * setSelectIsMultiple
-	 * @param string[] $other_args
-	 */
 	public function setSelectIsMultiple( Array $other_args ) {
 		$this->mSelectIsMultiple = array_key_exists( "part_of_multiple", $other_args );
 		$this->mData["selectismultiple"] = $this->mSelectIsMultiple;
 	}
 
-	/**
-	 * setSelectTemplate
-	 * @param string $input_name
-	 */
 	public function setSelectTemplate( $input_name = "" ) {
 		$index = strpos( $input_name, "[" );
 		$this->mSelectTemplate = substr( $input_name, 0, $index );
 		$this->mData['selecttemplate'] = $this->mSelectTemplate;
 	}
 
-	/**
-	 * setSelectField
-	 * @param string $input_name
-	 */
 	public function setSelectField( $input_name = "" ) {
 		$index = strrpos( $input_name, "[" );
 		$this->mSelectField = substr( $input_name, $index + 1, strlen( $input_name ) - $index - 2 );
 		$this->mData['selectfield'] = $this->mSelectField;
 	}
 
-	/**
-	 * setValueTemplate
-	 * @param Array $other_args
-	 */
 	public function setValueTemplate( Array $other_args ) {
 		$this->mValueTemplate =
 			array_key_exists( "sametemplate", $other_args ) ? $this->mSelectTemplate : $other_args["template"];
 		$this->mData["valuetemplate"] = $this->mValueTemplate;
 	}
 
-	/**
-	 * setValueField
-	 * @param array $other_args
-	 */
 	public function setValueField( Array $other_args ) {
 		$this->mValueField = $other_args["field"];
 		$this->mData["valuefield"] = $this->mValueField;
 
 	}
 
-	/**
-	 * setSelectRemove
-	 * @param array $other_args
-	 */
 	public function setSelectRemove( Array $other_args ) {
 		$this->mSelectRemove = array_key_exists( 'rmdiv', $other_args );
 		$this->mData['selectrm'] = $this->mSelectRemove;
 	}
 
-	/**
-	 * setLabel
-	 * @param array $other_args
-	 */
 	public function setLabel( Array $other_args ) {
 		$this->mLabel = array_key_exists( 'label', $other_args );
 		$this->mData['label'] = $this->mLabel;
@@ -186,18 +158,10 @@ class SelectField {
 		$this->mData['sep'] = $this->mDelimiter;
 	}
 
-	/**
-	 * getDelimiter
-	 * @return string
-	 */
 	public function getDelimiter() {
 		return $this->mDelimiter;
 	}
 
-	/**
-	 * getValues
-	 * @return string
-	 */
 	public function getValues() {
 		return $this->mValues;
 	}
@@ -213,18 +177,10 @@ class SelectField {
 		$this->mValues = $values;
 	}
 
-	/**
-	 * hasStaticValues
-	 * @return boolean
-	 */
 	public function hasStaticValues() {
 		return $this->mHasStaticValues;
 	}
 
-	/**
-	 * setHasStaticValues
-	 * @param boolean $StaticValues
-	 */
 	private function setHasStaticValues( $StaticValues ) {
 		$this->mHasStaticValues = $StaticValues;
 	}
