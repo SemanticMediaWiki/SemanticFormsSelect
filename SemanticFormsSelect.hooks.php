@@ -23,7 +23,7 @@ class Hooks {
 		}
 
 		if ( isset( $GLOBALS['wgPageFormsFormPrinter'] )) {
-			$GLOBALS['wgPageFormsFormPrinter']->registerInputType( '\SFS\SemanticFormsSelectInput::class' );
+			$GLOBALS['wgPageFormsFormPrinter']->registerInputType( '\SFS\SemanticFormsSelectInput' );
 		}
 
 		return true;
