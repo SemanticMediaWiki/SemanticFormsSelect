@@ -28,9 +28,7 @@
 		"ScriptSelectCount": 0,
 		"SF_Select_debug": false
 	},
-	"APIModules": {
-		"sformsselect": "SFS\\ApiSemanticFormsSelect"
-	},
+	"callback": "SFS\\Hooks::onRegistration",
 	"MessagesDirs": {
 		"SemanticFormsSelect": [
 			"i18n"

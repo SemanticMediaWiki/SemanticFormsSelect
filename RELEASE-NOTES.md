@@ -6,6 +6,8 @@ This file contains the RELEASE-NOTES of the Semantic Forms Select (a.k.a. SFS) e
 * #62 Make SFS compliant with recent Page Forms versions (by Alexander Gesinn)
 * refactored SemanticFormsSelectInput class -> moved logic to new SelectField class (by Alexander Gesinn)
 * added Unit Tests (by Felix Ashu)
+* Dropped support for PHP 5.5
+* Dropped support for Semantic MediaWiki 2.4 and lower
 
 ### 2.1.1
 
