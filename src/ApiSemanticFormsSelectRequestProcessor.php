@@ -1,11 +1,5 @@
 <?php
 
-namespace SFS;
-
-use Parser;
-use SMWQueryProcessor as QueryProcessor;
-use InvalidArgumentException;
-
 /**
  * @license GNU GPL v2+
  * @since 1.3
@@ -15,7 +9,14 @@ use InvalidArgumentException;
  * @author mwjames
  */
 
-class ApiRequestProcessor {
+namespace SFS;
+
+use Parser;
+use SMWQueryProcessor as QueryProcessor;
+use InvalidArgumentException;
+use MWDebug;
+
+class ApiSemanticFormsSelectRequestProcessor {
 
 	/**
 	 * @var Parser
@@ -59,7 +60,7 @@ class ApiRequestProcessor {
 		}
 
 		$this->parser->firstCallInit();
-		$json = array();
+		$json = [];
 
 		if ( isset( $parameters['approach'] ) && $parameters['approach'] == 'smw' ) {
 			$json = $this->doProcessQueryFor( $parameters['query'], $parameters['sep'] );
@@ -75,8 +76,8 @@ class ApiRequestProcessor {
 	private function doProcessQueryFor( $query, $sep = "," ) {
 
 		$query = str_replace(
-			array( "&lt;", "&gt;", "sep=;" ),
-			array( "<", ">", "sep={$sep};" ),
+			[ "&lt;", "&gt;", "sep=;" ],
+			[ "<", ">", "sep={$sep};" ],
 			$query
 		);
 
@@ -94,17 +95,17 @@ class ApiRequestProcessor {
 			QueryProcessor::getResultFromFunctionParams( $params, SMW_OUTPUT_WIKI )
 		);
 
-		return json_encode( array(
+		return json_encode( [
 			"values" => $values,
 			"count"  => count( $values )
-		) );
+		] );
 	}
 
 	private function doProcessFunctionFor( $query, $sep = "," ) {
 
 		$query = str_replace(
-			array( "&lt;", "&gt;", "sep=;" ),
-			array( "<", ">", "sep={$sep};" ),
+			[ "&lt;", "&gt;", "sep=;" ],
+			[ "<", ">", "sep={$sep};" ],
 			$query
 		);
 
@@ -119,23 +120,24 @@ class ApiRequestProcessor {
 			$this->parser->replaceVariables( $f )
 		);
 
-		return json_encode( array(
+		return json_encode( [
 			"values" => $values,
 			"count"  => count( $values )
-		) );
+		] );
 	}
 
 	private function getFormattedValuesFrom( $sep, $values ) {
 
 		if ( strpos( $values, $sep ) === false ) {
-			return array( $values );
+			return [ $values ];
 		}
 
 		$values = explode( $sep, $values );
 		$values = array_map( "trim", $values );
 		$values = array_unique( $values );
 
-		sort( $values );
+		// TODO: sorting here will destroy any sort defined in the query, e.g. in case sorting for labels (instead of mainlable)
+		//sort( $values );
 		array_unshift( $values, "" );
 
 		return $values;

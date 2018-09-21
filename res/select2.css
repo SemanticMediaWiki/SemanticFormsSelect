@@ -1,0 +1,42 @@
+span.select-sfs {
+	margin-bottom: 11px;
+	position: relative;
+	display: inline-block;
+	min-width: 210px;
+}
+
+span.select-sfs-single:after {
+	background-image: url(select2.png);
+	background-image: url(select2.png), linear-gradient(to top,#ccc 0%,#eee 60%);
+	background-image: url(select2.png), -webkit-linear-gradient(center bottom,#ccc 0%,#eee 60%);
+	background-image: url(select2.png), -moz-linear-gradient(center bottom,#ccc 0%,#eee 60%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#eeeeee',endColorstr = '#cccccc',GradientType = 0);
+	height: 100%;
+	width: 19px;
+}
+
+span.select-sfs:after{
+	content: '';
+	right: 0;
+	position: absolute;
+	pointer-events: none;
+	border-radius: 0 4px 4px 0;
+	border: 1px solid #aaa;
+}
+
+span.select-sfs select {
+    padding-top: 2px;
+    font-size: 95%;
+	cursor: pointer;
+	outline: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	display: block;
+	min-width: 450px !important;
+}
+
+span.select-sfs select:not([multiple]) {
+	height: 26px;
+	background-image: linear-gradient(to top,#eee 0%,#fff 50%)
+}

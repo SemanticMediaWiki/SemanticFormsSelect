@@ -9,53 +9,77 @@ use WebRequest;
 use FauxRequest;
 
 /**
- * @covers \SFS\ApiSemanticFormsSelect
- * @group semantic-forms-select
+ * @covers  \SFS\ApiSemanticFormsSelect
+ * @group   semantic-forms-select
  *
  * @license GNU GPL v2+
  * @since   1.3
  *
- * @author mwjames
+ * @author  mwjames
  */
 class ApiSemanticFormsSelectTest extends \PHPUnit_Framework_TestCase {
 
+	private $ApiSFS;
+	private $ApiMain;
+
+	protected function setUp() {
+		parent::setUp();
+		$parameters = [ 'action' => 'sformsselect', 'approach' => 'smw',
+		                     'query'  => 'abc', 'sep' => ',' ];
+
+		$this->ApiMain = new ApiMain(
+			$this->newRequestContext( $parameters ), true
+		);
+		$this->ApiSFS = new ApiSemanticFormsSelect(
+			$this->ApiMain, 'sformsselect'
+		);
+	}
+
+	protected function tearDown() {
+		unset( $this->ApiSFS );
+		unset( $this->ApiMain );
+		parent::tearDown();
+	}
+
+
 	public function testCanConstruct() {
 
-		$apiMain = new ApiMain( $this->newRequestContext( array() ), true );
+		$apiMain = new ApiMain( $this->newRequestContext( [] ), true );
 
 		$instance = new ApiSemanticFormsSelect(
-			$apiMain,
-			'sformsselect'
+			$apiMain, 'sformsselect'
 		);
 
 		$this->assertInstanceOf(
-			'\SFS\ApiSemanticFormsSelect',
-			$instance
+			'\SFS\ApiSemanticFormsSelect', $this->ApiSFS
 		);
 	}
 
 	public function testExecute() {
 
-		$parameters = array(
-			'action'   => 'sformsselect',
-			'approach' => 'smw',
-			'query'    => 'abc',
-			'sep'      => ','
-		);
-
-		$apiMain = new ApiMain( $this->newRequestContext( $parameters ), true );
-
-		$instance = new ApiSemanticFormsSelect(
-			$apiMain,
-			'sformsselect'
-		);
-
 		$this->assertTrue(
-			$instance->execute()
+			$this->ApiSFS->execute()
 		);
 	}
 
-	private function newRequestContext( $request = array() ) {
+	public function testGetDescription() {
+		$tdata = [ 'API for providing SemanticFormsSelect values' ];
+		$this->assertEquals( $this->ApiSFS->getDescription(), $tdata );
+	}
+
+	public function testGetParamDescription() {
+		$tdata = [ 'approach' => 'The actual approach: function or smw',
+		                'query'    => 'The query of the former' ];
+		$this->assertEquals( $this->ApiSFS->getParamDescription(), $tdata );
+	}
+
+	public function testGetVersion() {
+		$tdata = 'SFS\ApiSemanticFormsSelect: 1.1';
+		$this->assertEquals( $this->ApiSFS->getVersion(), $tdata );
+	}
+
+
+	private function newRequestContext( $request = [] ) {
 
 		$context = new RequestContext();
 

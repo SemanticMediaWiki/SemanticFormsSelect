@@ -1,8 +1,13 @@
 This file contains the RELEASE-NOTES of the Semantic Forms Select (a.k.a. SFS) extension.
 
-### 2.2.0
+### 3.0.0
 
-This is not a release yet.
+* #53 Support "mapping property" / "mapping template" in value field (by Alexander Gesinn), requires changes in Page Forms (former Semantic Forms extension)
+* #62 Make SFS compliant with recent Page Forms versions (by Alexander Gesinn)
+* refactored SemanticFormsSelectInput class -> moved logic to new SelectField class (by Alexander Gesinn)
+* added Unit Tests (by Felix Ashu)
+* Dropped support for PHP 5.5
+* Dropped support for Semantic MediaWiki 2.4 and lower
 
 ### 2.1.1
 
