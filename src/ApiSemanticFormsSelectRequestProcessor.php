@@ -73,27 +73,30 @@ class ApiSemanticFormsSelectRequestProcessor {
 		return json_decode( $json );
 	}
 
-	private function doProcessQueryFor( $query, $sep = "," ) {
+	private function doProcessQueryFor( $querystr, $sep = "," ) {
 
-		$query = str_replace(
+		$querystr = str_replace(
 			[ "&lt;", "&gt;", "sep=;" ],
 			[ "<", ">", "sep={$sep};" ],
-			$query
+			$querystr
 		);
 
-		$params = explode( ";", $query );
-		$f = str_replace( ";", "|", $params[0] );
+		$rawparams = explode( ";", $querystr );
+		$f = str_replace( ";", "|", $rawparams[0] );
 
-		$params[0] = $this->parser->replaceVariables( $f );
+		$rawparams[0] = $this->parser->replaceVariables( $f );
 
 		if ( $this->debugFlag ) {
-			error_log( implode( "|", $params ) );
+			error_log( implode( "|", $rawparams ) );
 		}
 
-		$values = $this->getFormattedValuesFrom(
-			$sep,
-			QueryProcessor::getResultFromFunctionParams( $params, SMW_OUTPUT_WIKI )
-		);
+		
+		list( $query, $params ) = QueryProcessor::getQueryAndParamsFromFunctionParams( $rawparams, SMW_OUTPUT_WIKI, QueryProcessor::INLINE_QUERY, false );
+			
+		$result = QueryProcessor::getResultFromQuery( $query, $params, SMW_OUTPUT_WIKI, QueryProcessor::INLINE_QUERY );
+		
+		
+		$values = $this->getFormattedValuesFrom( $sep, $result );
 
 		return json_encode( [
 			"values" => $values,
