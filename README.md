@@ -10,10 +10,10 @@ Semantic Forms Select (a.k.a. SFS) can generate a select form element with value
 
 ## Requirements
 
-- PHP 5.5 or later
+- PHP 5.6 or later
 - MediaWiki 1.27 or later
-- [Semantic MediaWiki][smw] 2.3 or later
-- [Page Forms][pf] 4.0.2 and 4.1.0
+- [Semantic MediaWiki][smw] 2.5 or later
+- [Page Forms][pf] 4.0.2 or later
 
 ## Installation
 
@@ -22,7 +22,7 @@ The recommended way to install Semantic Forms Select is by using [Composer][comp
 ```json
 {
 	"require": {
-		"mediawiki/semantic-forms-select": "~2.1"
+		"mediawiki/semantic-forms-select": "~3.0"
 	}
 }
 ```
