@@ -30,6 +30,10 @@
 		{
 			"name": "Alexander Gesinn",
 			"role": "Developer"
+		},
+		{
+			"name": "Felix Ashu",
+			"role": "Developer"
 		}
 	],
 	"require": {
@@ -43,7 +47,7 @@
 	},
 	"extra": {
 		"branch-alias": {
-			"dev-master": "2.2.x-dev"
+			"dev-master": "3.0.x-dev"
 		}
 	},
 	"autoload": {

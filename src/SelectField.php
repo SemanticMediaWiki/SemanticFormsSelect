@@ -58,22 +58,26 @@ class SelectField {
 	}
 
 	public function setQuery( $other_args ) {
-		$query = $other_args["query"];
-		$query = str_replace( [ "~", "(", ")" ], [ "=", "[", "]" ], $query );
+		$querystr = $other_args["query"];
+		$querystr = str_replace( [ "~", "(", ")" ], [ "=", "[", "]" ], $querystr );
 
 		//$this->mSelectField["query"] = $query;
-		$this->mQuery = $query;
-		$this->mData['selectquery'] = $query;
+		$this->mQuery = $querystr;
+		$this->mData['selectquery'] = $querystr;
 
 		// unparametrized query
-		if ( strpos( $query, '@@@@' ) === false ) {
-			$params = explode( ";", $query );
+		if ( strpos( $querystr, '@@@@' ) === false ) {
+			$rawparams = explode( ";", $querystr );
 
 			// there is no need to run the parser, $query has been parsed already
 			//$params[0] = $wgParser->replaceVariables( $params[0] );
 
-			$this->mValues = QueryProcessor::getResultFromFunctionParams( $params, SMW_OUTPUT_WIKI );
-
+			list( $query, $params ) = QueryProcessor::getQueryAndParamsFromFunctionParams( $rawparams, SMW_OUTPUT_WIKI, QueryProcessor::INLINE_QUERY, false );
+			
+			$result = QueryProcessor::getResultFromQuery( $query, $params, SMW_OUTPUT_WIKI, QueryProcessor::INLINE_QUERY );
+		
+			$this->mValues = $this->getFormattedValuesFrom( $this->mDelimiter, $result );
+		
 			$this->setHasStaticValues( true );
 		}
 	}
@@ -183,5 +187,24 @@ class SelectField {
 
 	private function setHasStaticValues( $StaticValues ) {
 		$this->mHasStaticValues = $StaticValues;
+	}
+	
+	/** Copied from ApiSemanticFormsSelectRequestProcessor */
+	
+	private function getFormattedValuesFrom( $sep, $values ) {
+
+		if ( strpos( $values, $sep ) === false ) {
+			return [ $values ];
+		}
+
+		$values = explode( $sep, $values );
+		$values = array_map( "trim", $values );
+		$values = array_unique( $values );
+
+		// TODO: sorting here will destroy any sort defined in the query, e.g. in case sorting for labels (instead of mainlable)
+		//sort( $values );
+		// array_unshift( $values, "" ); Unshift no needed here
+
+		return $values;
 	}
 }
