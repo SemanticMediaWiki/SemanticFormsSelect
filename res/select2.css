@@ -32,7 +32,7 @@ span.select-sfs select {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
-	display: block;
+	display: inline-block;
 	min-width: 450px !important;
 }
 
