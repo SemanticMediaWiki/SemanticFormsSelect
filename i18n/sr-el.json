@@ -1,4 +1,6 @@
 {
-	"@metadata": [],
+	"@metadata": {
+		"authors": []
+	},
 	"sfs-desc": "Omogućava generisanje polja za odabir u formi čije vrednosti se vraćaju iz upita"
 }
