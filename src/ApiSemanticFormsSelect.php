@@ -24,8 +24,7 @@ class ApiSemanticFormsSelect extends ApiBase {
 	 * @see ApiBase::execute
 	 */
 	public function execute() {
-
-		$parser = new Parser( $GLOBALS['wgParserConf'] );
+		$parser = $this->getParser();
 		$parser->setTitle( Title::newFromText( 'NO TITLE' ) );
 		$parser->mOptions = new ParserOptions();
 		$parser->mOutput = new ParserOutput();
@@ -89,6 +88,17 @@ class ApiSemanticFormsSelect extends ApiBase {
 	 */
 	public function getVersion() {
 		return __CLASS__ . ': 1.1';
+	}
+
+	// Compatibility helper for MW < 1.32
+	private function getParser(): Parser {
+		if ( class_exists( \MediaWiki\MediaWikiServices::class ) ) {
+			$services = \MediaWiki\MediaWikiServices::getInstance();
+			if ( is_callable( $services, 'getParserFactory' ) ) {
+				return $services->getParserFactory()->create();
+			}
+		}
+		return new Parser( $GLOBALS['wgParserConf'] );
 	}
 
 }
