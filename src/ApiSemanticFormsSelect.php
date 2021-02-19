@@ -27,7 +27,7 @@ class ApiSemanticFormsSelect extends ApiBase {
 		$parser = $this->getParser();
 		$parser->setTitle( Title::newFromText( 'NO TITLE' ) );
 		$parser->mOptions = new ParserOptions();
-		$parser->mOutput = new ParserOutput();
+		$parser->resetOutput();
 
 		$apiRequestProcessor = new \SFS\ApiSemanticFormsSelectRequestProcessor( $parser );
 		$apiRequestProcessor->setDebugFlag( $GLOBALS['wgSF_Select_debug'] );
