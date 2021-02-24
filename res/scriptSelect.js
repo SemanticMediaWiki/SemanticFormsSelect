@@ -215,7 +215,7 @@ function SFSelect_arrayEqual(a, b) {
      */
 
         // get the objects from PHP using mw.config helper
-    var SFSelect_fobjs = $.parseJSON(mw.config.get('sf_select'));
+    var SFSelect_fobjs = JSON.parse(mw.config.get('sf_select'));
 
     /**
      * changeHandler
