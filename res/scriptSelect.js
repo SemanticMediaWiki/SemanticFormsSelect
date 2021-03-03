@@ -235,7 +235,7 @@ function SFSelect_arrayEqual(a, b) {
         var select2enabled = false;
         var name = src.name;
 
-        if (typeof selectElement.select2 === "function") { 
+        if (typeof selectElement.select2 === "function" && selectElement.hasClass('select2-hidden-accessible')) {
             // safe to use the function
 
             var select2Data = selectElement.select2('data');
