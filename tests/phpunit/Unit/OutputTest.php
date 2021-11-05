@@ -2,6 +2,7 @@
 
 namespace SFS\Tests;
 
+use PHPUnit\Framework\TestCase;
 use SFS\Output;
 
 /**
@@ -13,7 +14,7 @@ use SFS\Output;
  *
  * @author  mwjames
  */
-class OutputTest extends \PHPUnit_Framework_TestCase {
+class OutputTest extends TestCase {
 	private $data;
 
 	protected function setUp(): void {
@@ -29,7 +30,7 @@ class OutputTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testCanConstruct() {
-		$this->assertInstanceOf( '\SFS\Output', new Output() );
+		$this->assertInstanceOf( Output::class, new Output() );
 	}
 
 	public function testAddToHeadItem() {

@@ -2,11 +2,12 @@
 
 namespace SFS\Tests;
 
-use SFS\ApiSemanticFormsSelect;
 use ApiMain;
-use RequestContext;
-use WebRequest;
 use FauxRequest;
+use PHPUnit\Framework\TestCase;
+use RequestContext;
+use SFS\ApiSemanticFormsSelect;
+use WebRequest;
 
 /**
  * @covers  \SFS\ApiSemanticFormsSelect
@@ -17,7 +18,7 @@ use FauxRequest;
  *
  * @author  mwjames
  */
-class ApiSemanticFormsSelectTest extends \PHPUnit_Framework_TestCase {
+class ApiSemanticFormsSelectTest extends TestCase {
 
 	private $ApiSFS;
 	private $ApiMain;
@@ -51,7 +52,7 @@ class ApiSemanticFormsSelectTest extends \PHPUnit_Framework_TestCase {
 		);
 
 		$this->assertInstanceOf(
-			'\SFS\ApiSemanticFormsSelect', $this->ApiSFS
+			ApiSemanticFormsSelect::class, $this->ApiSFS
 		);
 	}
 

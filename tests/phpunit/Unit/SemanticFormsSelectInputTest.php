@@ -2,6 +2,9 @@
 
 namespace SFS\Tests;
 
+use Parser;
+use ParserOutput;
+use PHPUnit\Framework\TestCase;
 use SFS\SemanticFormsSelectInput;
 
 /**
@@ -13,7 +16,7 @@ use SFS\SemanticFormsSelectInput;
  *
  * @author  FelixAba
  */
-class SemanticFormsSelectInputTest extends \PHPUnit_Framework_TestCase {
+class SemanticFormsSelectInputTest extends TestCase {
 
 	private $SFSInput;
 
@@ -28,10 +31,10 @@ class SemanticFormsSelectInputTest extends \PHPUnit_Framework_TestCase {
 		$otherArgs = [ 'template' => 'Foo', 'field' => '',
 		                    'function' => 'Bar', 'is_list' => true ];
 
-		$parserOutput = $this->getMockBuilder( '\ParserOutput' )
+		$parserOutput = $this->getMockBuilder( ParserOutput::class )
 			->disableOriginalConstructor()->getMock();
 
-		$parser = $this->getMockBuilder( '\Parser' )
+		$parser = $this->getMockBuilder( Parser::class )
 			->disableOriginalConstructor()->getMock();
 
 		$parser->expects( $this->any() )->method( 'getOutput' )->will(
@@ -50,14 +53,14 @@ class SemanticFormsSelectInputTest extends \PHPUnit_Framework_TestCase {
 	public function testCanConstruct() {
 
 		$this->assertInstanceOf(
-			'\SFS\SemanticFormsSelectInput', $this->SFSInput
+			SemanticFormsSelectInput::class, $this->SFSInput
 		);
 	}
 
 	public function testGetHTMLText() {
 
-		$this->assertInternalType(
-			'string', $this->SFSInput->getHtmlText()
+		$this->assertIsString(
+			$this->SFSInput->getHtmlText()
 		);
 	}
 
@@ -70,7 +73,7 @@ class SemanticFormsSelectInputTest extends \PHPUnit_Framework_TestCase {
 
 	public function testGetParameters() {
 
-		$this->assertInternalType( 'array', $this->SFSInput->getParameters() );
+		$this->assertIsArray( $this->SFSInput->getParameters() );
 	}
 
 
