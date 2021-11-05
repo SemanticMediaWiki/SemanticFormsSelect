@@ -22,7 +22,7 @@ class ApiSemanticFormsSelectTest extends \PHPUnit_Framework_TestCase {
 	private $ApiSFS;
 	private $ApiMain;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$parameters = [ 'action' => 'sformsselect', 'approach' => 'smw',
 		                     'query'  => 'abc', 'sep' => ',' ];
@@ -35,7 +35,7 @@ class ApiSemanticFormsSelectTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		unset( $this->ApiSFS );
 		unset( $this->ApiMain );
 		parent::tearDown();

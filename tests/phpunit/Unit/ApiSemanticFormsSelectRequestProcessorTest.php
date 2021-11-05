@@ -2,11 +2,14 @@
 
 namespace SFS\Tests;
 
-use SFS\ApiSemanticFormsSelectRequestProcessor;
 use ApiMain;
-use RequestContext;
-use WebRequest;
 use FauxRequest;
+use InvalidArgumentException;
+use Parser;
+use PHPUnit\Framework\TestCase;
+use RequestContext;
+use SFS\ApiSemanticFormsSelectRequestProcessor;
+use WebRequest;
 
 /**
  * @covers  \SFS\ApiSemanticFormsSelectRequestProcessor
@@ -17,34 +20,32 @@ use FauxRequest;
  *
  * @author  FelixAba
  */
-class ApiSemanticFormsSelectRequestProcessorTest
-	extends \PHPUnit_Framework_TestCase {
+class ApiSemanticFormsSelectRequestProcessorTest extends TestCase {
 
 	private $ApiSFSRP;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
-		$parser = $this->getMockBuilder( '\Parser' )
+		$parser = $this->getMockBuilder( Parser::class )
 			->disableOriginalConstructor()->getMock();
 		$this->ApiSFSRP = new ApiSemanticFormsSelectRequestProcessor( $parser );
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		unset( $this->ApiSFSRP );
 		parent::tearDown();
 	}
 
 	public function testCanConstruct() {
 		$this->assertInstanceOf(
-			'\SFS\ApiSemanticFormsSelectRequestProcessor', $this->ApiSFSRP
+			ApiSemanticFormsSelectRequestProcessor::class, $this->ApiSFSRP
 		);
 	}
 
 	public function testMissingParametersThrowsException() {
 
 		$parameters = [];
-
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( InvalidArgumentException::class );
 		$this->ApiSFSRP->getJsonDecodedResultValuesForRequestParameters(
 			$parameters
 		);

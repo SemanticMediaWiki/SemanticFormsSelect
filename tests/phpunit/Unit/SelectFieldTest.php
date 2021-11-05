@@ -8,11 +8,10 @@
 
 namespace SFS\Tests;
 
-use       SFS\SelectField;
-
 use Parser;
 use ParserOptions;
 use ParserOutput;
+use SFS\SelectField;
 use Title;
 
 /**
@@ -31,6 +30,21 @@ class SelectFieldTest extends \PHPUnit_Framework_TestCase {
 	private $expected_result_parametrized_seFunction = '{{#[[Category:Building Complex]][[Part Of Site::@@@@]];?Display Title;format=list;sort=Display Title;sep=,;link=none;headers=hide;limit=500}}';
 	private $other_args_function_unparametrized = [ 'function' => 'ask:((Category:Building Complex));?Display Title;format~list;sort~Display Title;sep~@@;link~none;headers~hide;limit~500' ];
 	private $expected_result_unparametrized_seFunction = "Building Complex:86543eab-4112-4616-be50-17dcdc24c346 (OFD.AEXH)@@Building Complex:5b9e26f8-6c57-48ff-a6b8-42a4e50fe472 (OFD.AEXH)@@Building Complex:93b076aa-cbe9-4371-8b61-c17c26f1872f (OFD.AMEXH)@@Building Complex:59577450-1582-4d6e-9621-3ac0531a728e (OFD.EEXH)@@Building Complex:1a9bed0b-67de-4e71-8528-f2b6a8907814 (RContiAve.Sport Complex)@@Building Complex:6a2242ea-7536-4a6d-85d2-f2ba4398ef44 (TB.BC)@@Building Complex:2db51fb1-10b6-4d4c-a152-f512914781ff (TB.BD)";
+
+	protected function setUp(): void {
+		parent::setUp();
+		$this->parser = $GLOBALS['wgParser'];
+		$this->parser->setTitle( Title::newFromText( 'NO TITLE' ) );
+		$this->parser->mOptions = new ParserOptions();
+		$this->parser->resetOutput();
+		$this->parser->clearState();
+		$this->SelectField = new SelectField( $this->parser );
+	}
+
+	protected function tearDown(): void {
+		unset( $this->SelectField );
+		parent::tearDown();
+	}
 
 	public function testCanConstruct() {
 
@@ -249,21 +263,5 @@ class SelectFieldTest extends \PHPUnit_Framework_TestCase {
 			$this->SelectField->getData()["sep"], $g_args["Global_delimiter"]
 		);
 	}
-
-	protected function setUp() {
-		parent::setUp();
-		$this->parser = $GLOBALS['wgParser'];
-		$this->parser->setTitle( Title::newFromText( 'NO TITLE' ) );
-		$this->parser->mOptions = new ParserOptions();
-		$this->parser->resetOutput();
-		$this->parser->clearState();
-		$this->SelectField = new SelectField( $this->parser );
-	}
-
-	protected function tearDown() {
-		unset( $this->SelectField );
-		parent::tearDown();
-	}
-
 
 }
