@@ -69,22 +69,21 @@ class SelectField {
 		if ( strpos( $querystr, '@@@@' ) === false ) {
 			$rawparams = explode( ";", $querystr );
 
-			// there is no need to run the parser, $query has been parsed already
-			//$params[0] = $wgParser->replaceVariables( $params[0] );
+			list( $query, $params ) = QueryProcessor::getQueryAndParamsFromFunctionParams(
+				$rawparams, SMW_OUTPUT_WIKI, QueryProcessor::INLINE_QUERY, false
+			);
 
-			list( $query, $params ) = QueryProcessor::getQueryAndParamsFromFunctionParams( $rawparams, SMW_OUTPUT_WIKI, QueryProcessor::INLINE_QUERY, false );
-			
-			$result = QueryProcessor::getResultFromQuery( $query, $params, SMW_OUTPUT_WIKI, QueryProcessor::INLINE_QUERY );
-		
+			$result = QueryProcessor::getResultFromQuery(
+				$query, $params, SMW_OUTPUT_WIKI, QueryProcessor::INLINE_QUERY
+			);
+
 			$this->mValues = $this->getFormattedValuesFrom( $this->mDelimiter, $result );
-		
+
 			$this->setHasStaticValues( true );
 		}
 	}
 
 	public function setFunction( $other_args ) {
-		#global $wgParser;
-
 		$function = $other_args["function"];
 		$function = '{{#' . $function . '}}';
 		$function = str_replace( [ "~", "(", ")" ], [ "=", "[", "]" ], $function );
@@ -147,9 +146,9 @@ class SelectField {
 	 * @param array $other_args
 	 */
 	public function setDelimiter( Array $other_args ) {
-		
+
 		$this->mDelimiter = $GLOBALS['wgPageFormsListSeparator'];
-		
+
 		if ( array_key_exists( 'sep', $other_args ) ) {
 			$this->mDelimiter = $other_args['sep'];
 		} else {
@@ -188,9 +187,9 @@ class SelectField {
 	private function setHasStaticValues( $StaticValues ) {
 		$this->mHasStaticValues = $StaticValues;
 	}
-	
+
 	/** Copied from ApiSemanticFormsSelectRequestProcessor */
-	
+
 	private function getFormattedValuesFrom( $sep, $values ) {
 
 		if ( strpos( $values, $sep ) === false ) {

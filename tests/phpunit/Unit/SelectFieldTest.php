@@ -8,6 +8,7 @@
 
 namespace SFS\Tests;
 
+use MediaWiki\MediaWikiServices;
 use Parser;
 use ParserOptions;
 use ParserOutput;
@@ -33,7 +34,7 @@ class SelectFieldTest extends \PHPUnit_Framework_TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->parser = $GLOBALS['wgParser'];
+		$this->parser = MediaWikiServices::getInstance()->getParser();
 		$this->parser->setTitle( Title::newFromText( 'NO TITLE' ) );
 		$this->parser->mOptions = new ParserOptions();
 		$this->parser->resetOutput();
@@ -47,8 +48,7 @@ class SelectFieldTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testCanConstruct() {
-
-		$this->assertInstanceOf( '\SFS\SelectField', $this->SelectField );
+		$this->assertInstanceOf( SelectField::class, $this->SelectField );
 	}
 
 	public function testProcessParameters_Query() {

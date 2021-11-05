@@ -15,9 +15,9 @@ use SMWQueryProcessor as QueryProcessor;
 use Parser;
 use PFFormInput;
 use MWDebug;
+use MediaWiki\MediaWikiServices;
 
 class SemanticFormsSelectInput extends PFFormInput {
-
 	/**
 	 * Internal data container
 	 *
@@ -31,7 +31,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 		parent::__construct( $inputNumber, $curValue, $inputName, $disabled, $otherArgs );
 
 		// SelectField is a simple value object - we accept creating it in the constructor
-		$this->mSelectField = new SelectField( $GLOBALS['wgParser'] );
+		$this->mSelectField = new SelectField( MediaWikiServices::getInstance()->getParser() );
 	}
 
 	public static function getName() {
@@ -59,8 +59,10 @@ class SemanticFormsSelectInput extends PFFormInput {
 	 * This is currently just a wrapper for getHTML().
 	 */
 	public function getHtmlText() {
-		return self::getHTML( $this->mCurrentValue, $this->mInputName, $this->mIsMandatory, $this->mIsDisabled,
-			$this->mOtherArgs );
+		return self::getHTML(
+			$this->mCurrentValue, $this->mInputName, $this->mIsMandatory, $this->mIsDisabled,
+			$this->mOtherArgs
+		);
 	}
 
 	/**
@@ -74,7 +76,10 @@ class SemanticFormsSelectInput extends PFFormInput {
 	 * @param    string[] $other_args Array of other field parameters
 	 * @return string
 	 */
-	public function getHTML( $cur_value = "", $input_name = "", $is_mandatory, $is_disabled, Array $other_args ) {
+	public function getHTML(
+		string $cur_value = "", string $input_name = "", bool $is_mandatory, bool $is_disabled,
+		array $other_args
+	) {
 		global $sfgFieldNum, $wgUser;
 
 		// shortcut to the SelectField object
@@ -88,7 +93,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 		} elseif ( array_key_exists( "function", $other_args ) ) {
 			$selectField->setFunction( $other_args );
 		}
-		
+
 		if ( array_key_exists( "label", $other_args ) ) {
 			$selectField->setLabel( $other_args );
 		}
@@ -145,7 +150,8 @@ class SemanticFormsSelectInput extends PFFormInput {
 
 		$spanextra = $is_mandatory ? 'mandatoryFieldSpan' : '';
 		$is_single_select = (!$is_list) ? 'select-sfs-single' : '' ;
-		$ret = "<span class=\"inputSpan select-sfs $is_single_select $spanextra\"><select name='$inname' id='input_$sfgFieldNum' $extraatt>";
+		$ret = "<span class=\"inputSpan select-sfs $is_single_select $spanextra\">"
+			 . "<select name='$inname' id='input_$sfgFieldNum' $extraatt>";
 
 		$curvalues = null;
 		if ( $cur_value ) {
@@ -163,7 +169,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 			$curvalues = [];
 		}
 
-		
+
 		$labelArray = [];
 		if ( array_key_exists( "label", $other_args ) && $curvalues ) {
 			// $labelArray = $this->getLabels( $curvalues );
@@ -173,50 +179,51 @@ class SemanticFormsSelectInput extends PFFormInput {
 		$ret .= "<option></option>";
 
 		if ( $selectField->hasStaticValues() ) {
-			
+
 			$values = $selectField->getValues();
-			
+
 			if ( array_key_exists( "label", $other_args ) && $values ) {
 				$labelArray = $this->getLabels( $values );
 			}
-			
+
 			if ( is_array( $values ) ) {
-				
+
 				foreach ( $values as $val ) {
-					
+
 					$selected = "";
-											
+
 					if ( array_key_exists( $val, $labelArray ) ) {
-					
+
 						if ( in_array( $labelArray[ $val ][0], $curvalues ) ) {
 							$selected = " selected='selected'";
 						}
-						
-						$ret.="<option".$selected." value='".$labelArray[ $val ][0]."'>".$labelArray[ $val ][1]."</option>";
-					
+
+						$ret .= "<option".$selected." value='".$labelArray[ $val ][0]."'>"
+							 . $labelArray[ $val ][1]."</option>";
+
 					} else {
-						
+
 						if ( in_array( $val, $curvalues ) ) {
 							$selected = " selected='selected'";
 						}
 
-						$ret .= "<option".$selected.">$val</option>";
+						$ret .= "<option" . $selected . ">$val</option>";
 					}
 				}
 			}
 		} else {
-			
+
 			foreach ( $curvalues as $cur ) {
 				$selected = "";
-				
+
 				if ( array_key_exists( $cur, $labelArray ) ) {
-					
+
 					if ( in_array( $labelArray[ $cur ][0], $curvalues ) ) {
 						$selected = " selected='selected'";
 					}
-					
+
 					$ret.="<option".$selected." value='".$labelArray[ $cur ][0]."'>".$labelArray[ $cur ][1]."</option>";
-					
+
 				} else {
 					if ( in_array( $cur, $curvalues ) ) {
 						$selected = " selected='selected'";
@@ -237,71 +244,71 @@ class SemanticFormsSelectInput extends PFFormInput {
 
 		return $ret;
 	}
-	
-		
+
+
 	private function getLabels( $labels ) {
-		
+
 		$labelArray = [ ];
 
 		if ( is_array( $labels ) ) {
 			foreach ( $labels as $label ) {
-				
+
 				$labelKey = $label;
 				$labelValue = $label;
-				
+
 				// Tricky thing if ( ) already in name
 				if ( strpos( $label, ")" ) && strpos( $label, "(" ) ) {
-				
+
 					// Check Break
 					$openBr = 0;
 					$doneBr = 0;
 					$num = 0;
-					
+
 					$labelArr = str_split ( $label );
-					
+
 					$end = count( $labelArr ) - 1;
 					$iter = $end;
-					
+
 					$endBr = $end;
 					$startBr = 0;
-					
+
 					while ( $doneBr == 0 && $iter >= 0 ) {
-					
+
 						$char = $labelArr[ $iter ];
-						
+
 						if ( $char == ")" ) {
 							$openBr = $openBr - 1;
-							
+
 							if ( $num == 0 ) {
 								$endBr = $iter;
 								$num = $num + 1;
 							}
 						}
-						
+
 						if ( $char == "(" ) {
 							$openBr = $openBr + 1;
-							
+
 							if ( $num > 0 && $openBr == 0 ) {
 								$startBr = $iter;
 								$doneBr = 1;
 							}
 						}
-						
+
 						$iter = $iter - 1;
-						
+
 					}
-					
-					$labelValue = implode( "", array_slice( $labelArr, $startBr+1, $endBr-$startBr-1 ) );			
+
+					$labelValue = implode( "", array_slice( $labelArr, $startBr+1, $endBr-$startBr-1 ) );
 					$labelKey = implode( "", array_slice( $labelArr, 0, $startBr-1 ) );
-				
+
 				}
-				
+
 				$labelArray[ $label ] = [ $labelKey, $labelValue ] ;
 			}
-		
+
 		}
-		
+
 		return $labelArray;
-		
+
 	}
 }
