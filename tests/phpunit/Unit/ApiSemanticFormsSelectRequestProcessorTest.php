@@ -7,6 +7,7 @@ use FauxRequest;
 use InvalidArgumentException;
 use Parser;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 use RequestContext;
 use SFS\ApiSemanticFormsSelectRequestProcessor;
 use WebRequest;
@@ -79,10 +80,16 @@ class ApiSemanticFormsSelectRequestProcessorTest extends TestCase {
 		$this->ApiSFSRP->setDebugFlag( true );
 		$parameters = [ 'query' => 'foo , function', 'sep' => ',' ];
 
-		$this->assertIsObject(
-			$this->ApiSFSRP->getJsonDecodedResultValuesForRequestParameters(
-				$parameters
-			)
+		$capture = tmpfile();
+		$errHandler = ini_set( 'error_log', stream_get_meta_data( $capture )['uri'] );
+
+		$this->ApiSFSRP->getJsonDecodedResultValuesForRequestParameters( $parameters );
+
+		ini_set( 'error_log', $errHandler );
+		$output = stream_get_contents( $capture );
+
+		$this->assertStringContainsString(
+			$parameters['query'], $output, "proper output"
 		);
 	}
 
@@ -91,10 +98,20 @@ class ApiSemanticFormsSelectRequestProcessorTest extends TestCase {
 		$parameters = [ 'approach' => 'smw', 'query' => 'my Query,query2',
 		                     'sep'      => ',' ];
 
-		$this->assertIsObject(
-			$this->ApiSFSRP->getJsonDecodedResultValuesForRequestParameters(
-				$parameters
-			)
+		$capture = tmpfile();
+		$errHandler = ini_set( 'error_log', stream_get_meta_data( $capture )['uri'] );
+
+		$obj = $this->ApiSFSRP->getJsonDecodedResultValuesForRequestParameters( $parameters );
+
+		ini_set( 'error_log', $errHandler );
+		$output = stream_get_contents( $capture );
+
+		$this->assertIsObject( $obj ); // stdClass, so assertInstanceOf isn't possible
+		$this->assertStringMatchesFormat(
+			"[%d-%c%c%c-%d %d:%d:%d %s]%c%c", $output, "No debug output"
+		);
+		$this->assertStringNotMatchesFormat(
+			"[%d-%c%c%c-%d %d:%d:%d %s]%c%c%c", $output, "No extra debug output"
 		);
 	}
 
@@ -120,7 +137,7 @@ class ApiSemanticFormsSelectRequestProcessorTest extends TestCase {
 	public function invokeMethod( &$object, $methodName,
 		array $parameters = []
 	) {
-		$reflection = new \ReflectionClass( get_class( $object ) );
+		$reflection = new ReflectionClass( get_class( $object ) );
 		$method = $reflection->getMethod( $methodName );
 		$method->setAccessible( true );
 
