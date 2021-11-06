@@ -13,6 +13,7 @@
 namespace SFS;
 
 use ApiBase;
+use MediaWiki\MediaWikiServices;
 use Parser;
 use ParserOptions;
 use ParserOutput;
@@ -29,7 +30,7 @@ class ApiSemanticFormsSelect extends ApiBase {
 		$parser->mOptions = new ParserOptions();
 		$parser->resetOutput();
 
-		$apiRequestProcessor = new \SFS\ApiSemanticFormsSelectRequestProcessor( $parser );
+		$apiRequestProcessor = new ApiSemanticFormsSelectRequestProcessor( $parser );
 		$apiRequestProcessor->setDebugFlag( $GLOBALS['wgSF_Select_debug'] );
 
 		$resultValues = $apiRequestProcessor->getJsonDecodedResultValuesForRequestParameters(
@@ -92,13 +93,8 @@ class ApiSemanticFormsSelect extends ApiBase {
 
 	// Compatibility helper for MW < 1.32
 	private function getParser(): Parser {
-		if ( class_exists( \MediaWiki\MediaWikiServices::class ) ) {
-			$services = \MediaWiki\MediaWikiServices::getInstance();
-			if ( is_callable( $services, 'getParserFactory' ) ) {
-				return $services->getParserFactory()->create();
-			}
-		}
-		return new Parser( $GLOBALS['wgParserConf'] );
+		$services = MediaWikiServices::getInstance();
+		return $services->getParserFactory()->create();
 	}
 
 }
