@@ -254,13 +254,13 @@ class SelectFieldTest extends \PHPUnit_Framework_TestCase {
 
 	public function testSetWgPageFormsListSeparator_keyExistTrue() {
 
-		$g_args = [ "Global_delimiter" => ";" ];
+		$g_args = [ "delimiter" => ";" ];
 		$this->SelectField->setDelimiter( $g_args );
 		$this->assertEquals(
-			$this->SelectField->getDelimiter(), $g_args["Global_delimiter"]
+			$this->SelectField->getDelimiter(), $g_args["delimiter"]
 		);
 		$this->assertEquals(
-			$this->SelectField->getData()["sep"], $g_args["Global_delimiter"]
+			$this->SelectField->getData()["sep"], $g_args["delimiter"]
 		);
 	}
 
