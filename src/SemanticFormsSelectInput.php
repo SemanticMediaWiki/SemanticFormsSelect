@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @since 1.3
  *
  * @author Jason Zhang
@@ -11,11 +11,7 @@
 
 namespace SFS;
 
-use SMWQueryProcessor as QueryProcessor;
-use Parser;
 use PFFormInput;
-use MWDebug;
-use MediaWiki\MediaWikiServices;
 
 class SemanticFormsSelectInput extends PFFormInput {
 	/**
@@ -147,9 +143,8 @@ class SemanticFormsSelectInput extends PFFormInput {
 		}
 
 		// TODO Use Html::
-
 		$spanextra = $is_mandatory ? 'mandatoryFieldSpan' : '';
-		$is_single_select = (!$is_list) ? 'select-sfs-single' : '' ;
+		$is_single_select = ( !$is_list ) ? 'select-sfs-single' : '';
 		$ret = "<span class=\"inputSpan select-sfs $is_single_select $spanextra\">"
 			 . "<select name='$inname' id='input_$sfgFieldNum' $extraatt>";
 
@@ -168,7 +163,6 @@ class SemanticFormsSelectInput extends PFFormInput {
 		} else {
 			$curvalues = [];
 		}
-
 
 		$labelArray = [];
 		if ( array_key_exists( "label", $other_args ) && $curvalues ) {
@@ -198,8 +192,8 @@ class SemanticFormsSelectInput extends PFFormInput {
 							$selected = " selected='selected'";
 						}
 
-						$ret .= "<option".$selected." value='".$labelArray[ $val ][0]."'>"
-							 . $labelArray[ $val ][1]."</option>";
+						$ret .= "<option" . $selected . " value='" . $labelArray[ $val ][0] . "'>"
+							 . $labelArray[ $val ][1] . "</option>";
 
 					} else {
 
@@ -222,13 +216,13 @@ class SemanticFormsSelectInput extends PFFormInput {
 						$selected = " selected='selected'";
 					}
 
-					$ret.="<option".$selected." value='".$labelArray[ $cur ][0]."'>".$labelArray[ $cur ][1]."</option>";
-
+					$ret .= "<option" . $selected . " value='" . $labelArray[ $cur ][0] . "'>"
+						 . $labelArray[ $cur ][1] . "</option>";
 				} else {
 					if ( in_array( $cur, $curvalues ) ) {
 						$selected = " selected='selected'";
 					}
-					$ret.="<option".$selected.">$cur</option>";
+					$ret .= "<option" . $selected . ">$cur</option>";
 				}
 			}
 
@@ -245,10 +239,8 @@ class SemanticFormsSelectInput extends PFFormInput {
 		return $ret;
 	}
 
-
 	private function getLabels( $labels ) {
-
-		$labelArray = [ ];
+		$labelArray = [];
 
 		if ( is_array( $labels ) ) {
 			foreach ( $labels as $label ) {
@@ -264,7 +256,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 					$doneBr = 0;
 					$num = 0;
 
-					$labelArr = str_split ( $label );
+					$labelArr = str_split( $label );
 
 					$end = count( $labelArr ) - 1;
 					$iter = $end;
@@ -298,17 +290,18 @@ class SemanticFormsSelectInput extends PFFormInput {
 
 					}
 
-					$labelValue = implode( "", array_slice( $labelArr, $startBr+1, $endBr-$startBr-1 ) );
-					$labelKey = implode( "", array_slice( $labelArr, 0, $startBr-1 ) );
+					$labelValue = implode( "", array_slice(
+						$labelArr, $startBr + 1, $endBr - $startBr - 1
+					) );
+					$labelKey = implode( "", array_slice( $labelArr, 0, $startBr - 1 ) );
 
 				}
 
-				$labelArray[ $label ] = [ $labelKey, $labelValue ] ;
+				$labelArray[ $label ] = [ $labelKey, $labelValue ];
 			}
 
 		}
 
 		return $labelArray;
-
 	}
 }

@@ -3,7 +3,7 @@
 /**
  * API modules to communicate with the back-end
  *
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @since 1.2
  *
  * @author Jason Zhang

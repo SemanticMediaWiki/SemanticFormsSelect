@@ -2,7 +2,7 @@
 
 /**
  * Represents a Select Field.
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @since 3.0.0
  * @author: Alexander Gesinn
  */
@@ -10,35 +10,71 @@
 namespace SFS;
 
 use SMWQueryProcessor as QueryProcessor;
-use Parser;
-use MWDebug;
 
 class SelectField {
 
 	private $mParser = null;
 
-	//private $mSelectField = array();
+	/**
+	 * @var (mixed|string)[]|null
+	 *
+	 * @psalm-var array<mixed|string>|null
+	 */
 	private $mValues = null;
+
+	/**
+	 * @var bool
+	 */
 	private $mHasStaticValues = false;
 
 	private $mData = [];    # array with all parameters
+
+	/**
+	 * @var string
+	 */
 	private $mQuery = "";
+
+	/**
+	 * @var string
+	 */
 	private $mFunction = "";
+
+	/**
+	 * @var bool
+	 */
 	private $mSelectIsMultiple = false;
+
+	/**
+	 * @var false|string
+	 */
 	private $mSelectTemplate = "";
+
+	/**
+	 * @var false|string
+	 */
 	private $mSelectField = "";
 	private $mValueTemplate = "";
 	private $mValueField = "";
+
+	/**
+	 * @var bool
+	 */
 	private $mSelectRemove = false;
+
+	/**
+	 * @var bool
+	 */
 	private $mLabel = false;
 	private $mDelimiter = ",";
 
-	public function __construct( & $parser ) {
+	public function __construct( &$parser ) {
 		$this->mParser = $parser;
 	}
 
 	/**
 	 * Convenience function to process all parameters at once
+	 *
+	 * @return void
 	 */
 	public function processParameters( $input_name = "", $other_args ) {
 		if ( array_key_exists( "query", $other_args ) ) {
@@ -57,11 +93,13 @@ class SelectField {
 		return $this->mData;
 	}
 
+	/**
+	 * @return void
+	 */
 	public function setQuery( $other_args ) {
 		$querystr = $other_args["query"];
 		$querystr = str_replace( [ "~", "(", ")" ], [ "=", "[", "]" ], $querystr );
 
-		//$this->mSelectField["query"] = $query;
 		$this->mQuery = $querystr;
 		$this->mData['selectquery'] = $querystr;
 
@@ -83,12 +121,14 @@ class SelectField {
 		}
 	}
 
+	/**
+	 * @return void
+	 */
 	public function setFunction( $other_args ) {
 		$function = $other_args["function"];
 		$function = '{{#' . $function . '}}';
 		$function = str_replace( [ "~", "(", ")" ], [ "=", "[", "]" ], $function );
 
-		//$this->mSelectField["function"] = $function;
 		$this->mFunction = $function;
 		$this->mData['selectfunction'] = $function;
 
@@ -102,51 +142,74 @@ class SelectField {
 		}
 	}
 
-	public function setSelectIsMultiple( Array $other_args ) {
+	/**
+	 * @return void
+	 */
+	public function setSelectIsMultiple( array $other_args ) {
 		$this->mSelectIsMultiple = array_key_exists( "part_of_multiple", $other_args );
 		$this->mData["selectismultiple"] = $this->mSelectIsMultiple;
 	}
 
+	/**
+	 * @return void
+	 */
 	public function setSelectTemplate( $input_name = "" ) {
 		$index = strpos( $input_name, "[" );
 		$this->mSelectTemplate = substr( $input_name, 0, $index );
 		$this->mData['selecttemplate'] = $this->mSelectTemplate;
 	}
 
+	/**
+	 * @return void
+	 */
 	public function setSelectField( $input_name = "" ) {
 		$index = strrpos( $input_name, "[" );
 		$this->mSelectField = substr( $input_name, $index + 1, strlen( $input_name ) - $index - 2 );
 		$this->mData['selectfield'] = $this->mSelectField;
 	}
 
-	public function setValueTemplate( Array $other_args ) {
-		$this->mValueTemplate =
-			array_key_exists( "sametemplate", $other_args ) ? $this->mSelectTemplate : $other_args["template"];
+	/**
+	 * @return void
+	 */
+	public function setValueTemplate( array $other_args ) {
+		$this->mValueTemplate = array_key_exists( "sametemplate", $other_args )
+							 ? $this->mSelectTemplate
+							 : $other_args["template"];
 		$this->mData["valuetemplate"] = $this->mValueTemplate;
 	}
 
-	public function setValueField( Array $other_args ) {
+	/**
+	 * @return void
+	 */
+	public function setValueField( array $other_args ) {
 		$this->mValueField = $other_args["field"];
 		$this->mData["valuefield"] = $this->mValueField;
-
 	}
 
-	public function setSelectRemove( Array $other_args ) {
+	/**
+	 * @return void
+	 */
+	public function setSelectRemove( array $other_args ) {
 		$this->mSelectRemove = array_key_exists( 'rmdiv', $other_args );
 		$this->mData['selectrm'] = $this->mSelectRemove;
 	}
 
-	public function setLabel( Array $other_args ) {
+	/**
+	 * @return void
+	 */
+	public function setLabel( array $other_args ) {
 		$this->mLabel = array_key_exists( 'label', $other_args );
 		$this->mData['label'] = $this->mLabel;
 	}
 
 	/**
 	 * setDelimiter
+	 *
 	 * @param array $other_args
+	 *
+	 * @return void
 	 */
-	public function setDelimiter( Array $other_args ) {
-
+	public function setDelimiter( array $other_args ) {
 		$this->mDelimiter = $GLOBALS['wgPageFormsListSeparator'];
 
 		if ( array_key_exists( 'sep', $other_args ) ) {
@@ -165,13 +228,21 @@ class SelectField {
 		return $this->mDelimiter;
 	}
 
+	/**
+	 * @return (mixed|string)[]|null
+	 *
+	 * @psalm-return array<mixed|string>|null
+	 */
 	public function getValues() {
 		return $this->mValues;
 	}
 
 	/**
 	 * setValues
+	 *
 	 * @param string $values (comma separated, fully parsed list of values)
+	 *
+	 * @return void
 	 */
 	private function setValues( $values ) {
 		$values = explode( $this->mDelimiter, $values );
@@ -180,18 +251,32 @@ class SelectField {
 		$this->mValues = $values;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function hasStaticValues() {
 		return $this->mHasStaticValues;
 	}
 
+	/**
+	 * @param true $StaticValues
+	 *
+	 * @return void
+	 */
 	private function setHasStaticValues( $StaticValues ) {
 		$this->mHasStaticValues = $StaticValues;
 	}
 
-	/** Copied from ApiSemanticFormsSelectRequestProcessor */
-
+	/**
+	 * Copied from ApiSemanticFormsSelectRequestProcessor
+	 *
+	 * @param string $values
+	 *
+	 * @return string[]
+	 *
+	 * @psalm-return array<string>
+	 */
 	private function getFormattedValuesFrom( $sep, $values ) {
-
 		if ( strpos( $values, $sep ) === false ) {
 			return [ $values ];
 		}
@@ -200,8 +285,9 @@ class SelectField {
 		$values = array_map( "trim", $values );
 		$values = array_unique( $values );
 
-		// TODO: sorting here will destroy any sort defined in the query, e.g. in case sorting for labels (instead of mainlable)
-		//sort( $values );
+		// TODO: sorting here will destroy any sort defined in the query, e.g. in case sorting for
+		// labels (instead of mainlabel)
+		// sort( $values );
 		// array_unshift( $values, "" ); Unshift no needed here
 
 		return $values;

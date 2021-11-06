@@ -3,7 +3,7 @@
 namespace SFS;
 
 /**
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @since 3.0
  * @author: Alexander Gesinn
  */
@@ -13,11 +13,10 @@ class Hooks {
 	 *
 	 * This is attached to the MediaWiki 'ParserFirstCallInit' hook.
 	 *
-	 * @param $parser Parser
+	 * @param &$parser Parser
 	 * @return bool
 	 */
-	public static function onSemanticFormsSelectSetup ( & $parser ) {
-
+	public static function onSemanticFormsSelectSetup( &$parser ) {
 		if ( !defined( 'PF_VERSION' ) ) {
 			die( '<b>Error:</b><a href="https://github.com/SemanticMediaWiki/SemanticFormsSelect/">Semantic Forms Select</a> requires the <a href="https://www.mediawiki.org/wiki/Extension:PageForms">Page Forms</a> extension. Please install and activate this extension first.' );
 		}
@@ -28,9 +27,8 @@ class Hooks {
 
 		return true;
 	}
-	
-	public static function onRegistration() {
 
+	public static function onRegistration() {
 		if ( isset( $GLOBALS['wgAPIModules'] ) ) {
 			$GLOBALS['wgAPIModules']['sformsselect'] = \SFS\ApiSemanticFormsSelect::class;
 		}
