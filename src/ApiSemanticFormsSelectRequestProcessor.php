@@ -59,7 +59,6 @@ class ApiSemanticFormsSelectRequestProcessor {
 			throw new InvalidArgumentException( 'Missing an query parameter' );
 		}
 
-		$this->parser->firstCallInit();
 		$json = [];
 
 		if ( isset( $parameters['approach'] ) && $parameters['approach'] == 'smw' ) {
@@ -90,12 +89,16 @@ class ApiSemanticFormsSelectRequestProcessor {
 			error_log( implode( "|", $rawparams ) );
 		}
 
-		
-		list( $query, $params ) = QueryProcessor::getQueryAndParamsFromFunctionParams( $rawparams, SMW_OUTPUT_WIKI, QueryProcessor::INLINE_QUERY, false );
-			
-		$result = QueryProcessor::getResultFromQuery( $query, $params, SMW_OUTPUT_WIKI, QueryProcessor::INLINE_QUERY );
-		
-		
+
+		list( $query, $params ) = QueryProcessor::getQueryAndParamsFromFunctionParams(
+			$rawparams, SMW_OUTPUT_WIKI, QueryProcessor::INLINE_QUERY, false
+		);
+
+		$result = QueryProcessor::getResultFromQuery(
+			$query, $params, SMW_OUTPUT_WIKI, QueryProcessor::INLINE_QUERY
+		);
+
+
 		$values = $this->getFormattedValuesFrom( $sep, $result );
 
 		return json_encode( [
