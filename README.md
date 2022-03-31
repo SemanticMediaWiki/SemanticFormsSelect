@@ -1,6 +1,6 @@
 # Semantic Forms Select
 
-[![Build Status](https://secure.travis-ci.org/SemanticMediaWiki/SemanticFormsSelect.svg?branch=master)](http://travis-ci.org/SemanticMediaWiki/SemanticFormsSelect)
+[![CI](https://github.com/SemanticMediaWiki/SemanticFormsSelect/actions/workflows/main.yml/badge.svg)](https://github.com/SemanticMediaWiki/SemanticFormsSelect/actions/workflows/main.yml)
 [![Code Coverage](https://scrutinizer-ci.com/g/SemanticMediaWiki/SemanticFormsSelect/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/SemanticMediaWiki/SemanticFormsSelect/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/SemanticMediaWiki/SemanticFormsSelect/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/SemanticMediaWiki/SemanticFormsSelect/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/mediawiki/semantic-forms-select/version.png)](https://packagist.org/packages/mediawiki/semantic-forms-select)
