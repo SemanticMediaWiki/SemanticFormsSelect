@@ -22,14 +22,14 @@ class ApiSemanticFormsSelectRequestProcessorTest
 
 	private $ApiSFSRP;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$parser = $this->getMockBuilder( '\Parser' )
 			->disableOriginalConstructor()->getMock();
 		$this->ApiSFSRP = new ApiSemanticFormsSelectRequestProcessor( $parser );
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		unset( $this->ApiSFSRP );
 		parent::tearDown();
 	}

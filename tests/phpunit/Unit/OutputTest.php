@@ -16,14 +16,14 @@ use SFS\Output;
 class OutputTest extends \PHPUnit_Framework_TestCase {
 	private $data;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->data = [];
 		$this->data['Foo'] = 'Bar';
 		$this->data['Spam'] = 'Eggs';
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		unset( $this->data );
 		parent::tearDown();
 	}

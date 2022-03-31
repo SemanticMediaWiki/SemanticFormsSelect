@@ -250,7 +250,7 @@ class SelectFieldTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->parser = $GLOBALS['wgParser'];
 		$this->parser->setTitle( Title::newFromText( 'NO TITLE' ) );
@@ -260,7 +260,7 @@ class SelectFieldTest extends \PHPUnit_Framework_TestCase {
 		$this->SelectField = new SelectField( $this->parser );
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		unset( $this->SelectField );
 		parent::tearDown();
 	}
