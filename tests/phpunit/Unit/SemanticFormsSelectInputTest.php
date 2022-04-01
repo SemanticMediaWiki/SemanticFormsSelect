@@ -56,8 +56,8 @@ class SemanticFormsSelectInputTest extends \PHPUnit_Framework_TestCase {
 
 	public function testGetHTMLText() {
 
-		$this->assertInternalType(
-			'string', $this->SFSInput->getHtmlText()
+		$this->assertIsString(
+			$this->SFSInput->getHtmlText()
 		);
 	}
 
@@ -70,7 +70,7 @@ class SemanticFormsSelectInputTest extends \PHPUnit_Framework_TestCase {
 
 	public function testGetParameters() {
 
-		$this->assertInternalType( 'array', $this->SFSInput->getParameters() );
+		$this->assertIsArray( $this->SFSInput->getParameters() );
 	}
 
 

@@ -8,11 +8,11 @@
 
 namespace SFS\Tests;
 
-use       SFS\SelectField;
-
+use MediaWiki\MediaWikiServices;
 use Parser;
+use SFS\SelectField;
+
 use ParserOptions;
-use ParserOutput;
 use Title;
 
 /**
@@ -240,19 +240,20 @@ class SelectFieldTest extends \PHPUnit_Framework_TestCase {
 
 	public function testSetWgPageFormsListSeparator_keyExistTrue() {
 
-		$g_args = [ "Global_delimiter" => ";" ];
+		$g_args = [ "delimiter" => ";" ];
 		$this->SelectField->setDelimiter( $g_args );
 		$this->assertEquals(
-			$this->SelectField->getDelimiter(), $g_args["Global_delimiter"]
+			$this->SelectField->getDelimiter(), $g_args["delimiter"]
 		);
 		$this->assertEquals(
-			$this->SelectField->getData()["sep"], $g_args["Global_delimiter"]
+			$this->SelectField->getData()["sep"], $g_args["delimiter"]
 		);
 	}
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->parser = $GLOBALS['wgParser'];
+		$this->parser = MediaWikiServices::getInstance()->getParser();
+		$this->parser->setOutputType(Parser::OT_HTML);
 		$this->parser->setTitle( Title::newFromText( 'NO TITLE' ) );
 		$this->parser->mOptions = new ParserOptions();
 		$this->parser->resetOutput();
