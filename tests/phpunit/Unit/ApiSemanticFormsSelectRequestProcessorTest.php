@@ -44,7 +44,7 @@ class ApiSemanticFormsSelectRequestProcessorTest
 
 		$parameters = [];
 
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->ApiSFSRP->getJsonDecodedResultValuesForRequestParameters(
 			$parameters
 		);
@@ -54,8 +54,7 @@ class ApiSemanticFormsSelectRequestProcessorTest
 
 		$parameters = [ 'query' => 'foo', 'sep' => ',' ];
 
-		$this->assertInternalType(
-			'object',
+		$this->assertIsObject(
 			$this->ApiSFSRP->getJsonDecodedResultValuesForRequestParameters(
 				$parameters
 			)
@@ -68,8 +67,7 @@ class ApiSemanticFormsSelectRequestProcessorTest
 		$parameters = [ 'approach' => 'smw', 'query' => 'foo, baa, gaah',
 		                     'sep'      => ',' ];
 
-		$this->assertInternalType(
-			'object',
+		$this->assertIsObject(
 			$this->ApiSFSRP->getJsonDecodedResultValuesForRequestParameters(
 				$parameters
 			)
@@ -80,8 +78,7 @@ class ApiSemanticFormsSelectRequestProcessorTest
 		$this->ApiSFSRP->setDebugFlag( true );
 		$parameters = [ 'query' => 'foo , function', 'sep' => ',' ];
 
-		$this->assertInternalType(
-			'object',
+		$this->assertIsObject(
 			$this->ApiSFSRP->getJsonDecodedResultValuesForRequestParameters(
 				$parameters
 			)
@@ -93,8 +90,7 @@ class ApiSemanticFormsSelectRequestProcessorTest
 		$parameters = [ 'approach' => 'smw', 'query' => 'my Query,query2',
 		                     'sep'      => ',' ];
 
-		$this->assertInternalType(
-			'object',
+		$this->assertIsObject(
 			$this->ApiSFSRP->getJsonDecodedResultValuesForRequestParameters(
 				$parameters
 			)
