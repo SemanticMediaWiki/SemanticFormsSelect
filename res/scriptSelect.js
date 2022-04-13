@@ -172,23 +172,6 @@ function SFSelect_arrayEqual(a, b) {
         // get the objects from PHP using mw.config helper
     var SFSelect_fobjs = JSON.parse(mw.config.get('sf_select'));
 
-	/**
-	 * Lookup the Title corresponding to a (possibly disambiguated) Display Title used in a PageForms element
-	 *
-	 * @param {string} autocompletesettings the 'autocompletesettings' attribute of the PageForms element
-	 * @returns {function(string): string} a function performing the lookup of the corresponding Title in mw.config
-	 */
-	function lookupTitleIn(autocompletesettings) {
-		var mapping = mw.config.get('wgPageFormsAutocompleteValues')[autocompletesettings];
-		return function(disambiguatedDisplayTitle) {
-			for (const key in mapping || {}) {
-				if (mapping[key] === disambiguatedDisplayTitle)
-					return key;
-			}
-			return disambiguatedDisplayTitle;
-		}
-	}
-
     /**
      * changeHandler
      * @param src
@@ -220,7 +203,7 @@ function SFSelect_arrayEqual(a, b) {
 
 	    const autocompletesettings = selectElement.attr('autocompletesettings');
 		const srcName = SFSelect_parseName(name, autocompletesettings);
-		v = v.map(lookupTitleIn(autocompletesettings));
+		v = v.map(pf.lookupOriginalValueFor(selectElement));
 
 	    for (let i = 0; i < SFSelect_fobjs.length; i++) {
 			if ( SFSelect_fobjs[i].hasOwnProperty("staticvalue") && SFSelect_fobjs[i].staticvalue ) {
