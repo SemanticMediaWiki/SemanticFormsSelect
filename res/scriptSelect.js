@@ -71,17 +71,17 @@ function SFSelect_parseName(name) {
 }
 
 function SFSelect_setDependentValues(nameobj, fobj, values) {
-    
+
     var selectPat = SFSelect_getSelectFieldPat(nameobj, fobj);
 
     jQuery(selectPat).each(function (index, element) {
         //keep selected values;
         var selectedValues = jQuery(element).val();
-        
+
 		if ( !selectedValues && fobj.hasOwnProperty("curvalues") ) {
 			selectedValues = fobj.curvalues;
 		}
-		
+
         if (!selectedValues) {
             selectedValues = [];
         } else if (!jQuery.isArray(selectedValues)) {
@@ -127,61 +127,16 @@ function SFSelect_setDependentValues(nameobj, fobj, values) {
 }
 
 /** Function for turning name values from 'Page (property)' results **/
-
 function SFSelect_processNameValues( values ) {
-
-	var namevalues = [];
-	
-	for(var i=0; i<values.length; i++){
-
-		var openBr = 0;
-		var doneBr = 0;
-		var num = 0;
-		
-		var label = values[i];
-		
-		var labelArr = label.split("");
-		
-		var end = labelArr.length - 1;
-		var iter = end;
-		
-		var endBr = end;
-		var startBr = 0;
-		
-		while ( doneBr === 0 && iter >= 0 ) {
-			
-			var charLabel = labelArr[ iter ];
-							
-			if ( charLabel === ")" ) {
-				openBr = openBr - 1;
-				
-				if ( num === 0 ) {
-					endBr = iter;
-					num = num + 1;
-				}
-			}
-			
-			if ( charLabel === "(" ) {
-				openBr = openBr + 1;
-				
-				if ( num > 0 && openBr === 0 ) {
-					startBr = iter;
-					doneBr = 1;
-				}
-			}
-			
-			iter = iter - 1;
-		}
-		
-		labelValue = ( labelArr.slice( startBr+1, endBr ) ).join("");
-		labelKey = ( labelArr.slice( 0, startBr - 1 ) ).join("");
-
-		namevalues.push( [ labelKey, labelValue ] );
-	
-	}
-
-	return namevalues;
-
+	return values.map(function(value) {
+		value = value || '';
+		var cutAt = value.lastIndexOf('(');
+		return cutAt === -1
+			? [value, value]
+			: [value.substring(0, cutAt).trim(),
+			   value.substring(cutAt + 1, value.length - 1)
+			  ];
+	});
 }
 
 function SFSelect_arrayEqual(a, b) {
@@ -217,134 +172,77 @@ function SFSelect_arrayEqual(a, b) {
         // get the objects from PHP using mw.config helper
     var SFSelect_fobjs = JSON.parse(mw.config.get('sf_select'));
 
+	/**
+	 * Lookup the Title corresponding to a (possibly disambiguated) Display Title used in a PageForms element
+	 *
+	 * @param {string} autocompletesettings the 'autocompletesettings' attribute of the PageForms element
+	 * @returns {function(string): string} a function performing the lookup of the corresponding Title in mw.config
+	 */
+	function lookupTitleIn(autocompletesettings) {
+		var mapping = mw.config.get('wgPageFormsAutocompleteValues')[autocompletesettings];
+		return function(disambiguatedDisplayTitle) {
+			for (const key in mapping || {}) {
+				if (mapping[key] === disambiguatedDisplayTitle)
+					return key;
+			}
+			return disambiguatedDisplayTitle;
+		}
+	}
+
     /**
      * changeHandler
      * @param src
      */
     function SFSelect_changeHandler(src) {
-
-        //console.log("change is called for " + src.name);
-
-        if (src.tagName.toLowerCase() != 'select' && src.tagName.toLowerCase() != 'input') {
+        if (src.tagName.toLowerCase() !== 'select' && src.tagName.toLowerCase() !== 'input') {
             return;
         }
 
-        var v = [];
-        
-        var selectElement =  jQuery(src);
-        var select2enabled = false;
-        var name = src.name;
+        let v = [];
+        const selectElement =  jQuery(src);
+	    let name = src.name;
+	    let selectedValue = selectElement.val();
 
-        if (typeof selectElement.select2 === "function" && selectElement.hasClass('select2-hidden-accessible')) {
-            // safe to use the function
-
-            var select2Data = selectElement.select2('data');
-            var value_initial = selectElement.attr('data-value-initial');
-            select2enabled = true;
-        }
-
-        // field empty?
-        if ( selectElement.val() && select2enabled ) {
-
-            // do we have a version of Page Forms that supports 'value-initial'?
-            if (typeof value_initial === 'string') {
-
-                // if select2('data') exists
-                if ((select2Data.hasOwnProperty('id') && select2Data.hasOwnProperty('text')) || (select2Data[0].hasOwnProperty('id') && select2Data[0].hasOwnProperty('text'))) {
-
-                    // Combobox
-                    // lookup values in wgPageFormsAutocompleteValues
-                    if (selectElement.hasClass('pfComboBox')) {
-                        var autocompletesettings = selectElement.attr('autocompletesettings');
-                        if (autocompletesettings !== null) {
-                            // In case of initial page load and label is used, select2Data.id holds a value
-                            // and not an id. In this case, use 'data-value-initial' instead
-                            if (typeof select2Data.id === 'string') {
-                                // change triggered by initial page load
-                                v.push(value_initial);
-                            } else {
-                                // change triggered by user
-                                v.push(Object.keys(mw.config.get('wgPageFormsAutocompleteValues')[autocompletesettings])[select2Data.id - 1]);
-                            }
-                        }
-                    }
-
-                    // Tokens
-                    else if (selectElement.hasClass('pfTokens')) {
-                        var autocompletesettings = selectElement.attr('autocompletesettings');
-                        if (autocompletesettings !== null) {
-                            select2Data.forEach(function (i) {
-                                v.push(i.id);
-                            });
-                        }
-                    }
-
-                } else {	// if select2('data') does not exist, use initial value
-                    v = value_initial.split(';');
-                }
-
+	    if ( selectedValue ) {
+            if (jQuery.isArray(selectedValue)) {
+                v = selectedValue;
             } else {
-
-                // Page Forms does not support 'data-value-initial' -> old behaviour without support for mapping
-                if (jQuery.isArray(selectElement.val())) {
-                    v = selectElement.val();
-                } else {
-                    if (selectElement.attr('type') === "checkbox") {
-                        v = (selectElement.is(":checked")) ? ["true"] : ["false"];
-
-                        // cut of [value] component from name
-                        name = src.name.substr(0,src.name.indexOf("[value]"));
-                    } else {
-                        //split and trim
-                        v = $.map(selectElement.val().split(";"), $.trim);
-                    }
-                }
-            }
-        } else {
-            
-            v = selectElement.val();
-
-            if (jQuery.isArray(v)){
-                // That's OK
-            } else if (v==null) {
-                
-                v=[];
-                
-            }  else {
-                
-                v=[v];
-                
+	            if (selectElement.attr('type') === "checkbox") {
+		            v = (selectElement.is(":checked")) ? ["true"] : ["false"];
+		            // cut off [value] component from name
+		            name = src.name.substr(0, src.name.indexOf("[value]"));
+	            } else {
+		            //split and trim
+		            v = $.map(selectedValue.split(";"), $.trim);
+	            }
             }
         }
 
-        var srcName = SFSelect_parseName(name);
+	    const autocompletesettings = selectElement.attr('autocompletesettings');
+		const srcName = SFSelect_parseName(name, autocompletesettings);
+		v = v.map(lookupTitleIn(autocompletesettings));
 
-        for (var i = 0; i < SFSelect_fobjs.length; i++) {
-            
+	    for (let i = 0; i < SFSelect_fobjs.length; i++) {
 			if ( SFSelect_fobjs[i].hasOwnProperty("staticvalue") && SFSelect_fobjs[i].staticvalue ) {
-
 				SFSelect_changeSelected( SFSelect_fobjs[i], srcName );
-
 			} else {
-				
 				SFSelect_prepareQuery( SFSelect_fobjs[i], srcName, v );
-
 			}
         }
     }
-    
+
 	function SFSelect_changeSelected( fobj, nameobj ) {
-		
+
 		var selectPat=SFSelect_getSelectFieldPat(nameobj, fobj);
 
-		jQuery(selectPat).each(function(index, element){	
+		jQuery(selectPat).each(function(index, element){
 			//keep selected values;
 			var selectedValues=jQuery(element).val();
-	
+
 			if ( !selectedValues && fobj.hasOwnProperty("curvalues") ) {
 				selectedValues = fobj.curvalues;
 			}
-			
+
 			if (!selectedValues){
 				selectedValues=[];
 			} else if (!jQuery.isArray(selectedValues)){
@@ -352,27 +250,27 @@ function SFSelect_arrayEqual(a, b) {
 			}
 
 			if ( element.options && element.options.length > 0 ) {
-				
+
 				var options = jQuery.map( element.options ,function(option) {
 					return option.value;});
-			
+
 				for ( var c = 0; c < selectedValues.length; c++ ) {
-			
+
 					if ( jQuery.inArray( selectedValues[c], options ) ) {
 
 						var changed = jQuery( element ).attr( "data-changed" );
-						
+
 						if ( changed ) {
 
 							jQuery( element ).val( selectedValues[c] ).trigger('change');
 
 						}
-						
+
 					}
 				}
-				
+
 			}
-	
+
 		});
 
 	}
