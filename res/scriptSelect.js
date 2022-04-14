@@ -180,7 +180,7 @@ function SFSelect_arrayEqual(a, b) {
      * @param src
      */
     function SFSelect_changeHandler(src) {
-        if (src.tagName.toLowerCase() !== 'select' && src.tagName.toLowerCase() !== 'input') {
+		if (src.tagName.toLowerCase() !== 'select' && src.tagName.toLowerCase() !== 'input') {
             return;
         }
 
@@ -337,39 +337,27 @@ function SFSelect_arrayEqual(a, b) {
     SFSelect_fobjs = SFSelect_removeDuplicateFobjs(SFSelect_fobjs);
 
     // register change handler
-	$("form#pfForm").change(function (event) {
-		SFSelect_changeHandler(event.target);
+	$(document).ready(() => {
+		$("form#pfForm").change(function (event) {
+			SFSelect_changeHandler(event.target);
+		});
+
+		var objs = null;
+
+		// populate Select fields at load time
+		for (var i = 0; i < SFSelect_fobjs.length; i++) {
+
+			var fobj = SFSelect_fobjs[i];
+			const objs =
+				// support multi instance templates: select all "input" items starting with fobj.valuetemplate
+				// and containing fobj.valuefield
+				$('[name^="' + fobj.valuetemplate + '"][name*="' + fobj.valuefield + '"]')
+				// but skip the hidden templates
+				.not('input[name*=map_field]');
+
+			objs.trigger("change");
+		}
 	});
-
-    var objs = null;
-
-    // populate Select fields at load time
-    for (var i = 0; i < SFSelect_fobjs.length; i++) {
-
-        var fobj = SFSelect_fobjs[i];
-
-        //var valuepat = "input[name='" + fobj.valuetemplate + "\\["+ fobj.valuefield + "\\]']";
-
-        // support multi instance templates: select all "input" items starting with fobj.valuetemplate
-        // and containing fobj.valuefield
-        // example name attribute: name="myTemplate[0a][myField]"
-        var valuepat = 'input[name^="' + fobj.valuetemplate + '"]' + '[name*="' + fobj.valuefield + '"]';
-
-        if ($(valuepat).val()) {
-            // get Select fields, skipping 'map_fields'
-            objs = jQuery(valuepat).not('input[name*=map_field]');
-        } else {
-            //valuepat= "select[name='" + fobj.valuetemplate + "\\["+ fobj.valuefield + "\\]']";
-
-            // support multi instance templates: select all "select" items starting with fobj.valuetemplate
-            // and containing fobj.valuefield
-            // example name attribute: name="myTemplate[0a][myField]"
-            var valuepat = 'select[name^="' + fobj.valuetemplate + '"]' + '[name*="' + fobj.valuefield + '"]';
-
-            objs = jQuery(valuepat).not('select[name*=map_field]');
-        }
-        objs.trigger("change");
-    }
 
 //}( jQuery, mediaWiki ) );
 }(jQuery) );
