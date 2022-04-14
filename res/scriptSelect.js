@@ -156,6 +156,9 @@ function SFSelect_arrayEqual(a, b) {
 ( function ($) {
     'use strict';
 
+	// Use the real originalValueLookup if PF supports it
+	const originalValueLookup = pf.originalValueLookup || (() => value => value);
+
     /**
      * valuetemplate:string,
      * valuefield:string, value is the form field on which other select element depends on. change
@@ -203,7 +206,8 @@ function SFSelect_arrayEqual(a, b) {
 
 	    const autocompletesettings = selectElement.attr('autocompletesettings');
 		const srcName = SFSelect_parseName(name, autocompletesettings);
-		v = v.map(pf.lookupOriginalValueFor(selectElement));
+		const lookupOriginalValue = originalValueLookup(selectElement);
+		v = v.map(lookupOriginalValue);
 
 	    for (let i = 0; i < SFSelect_fobjs.length; i++) {
 			if ( SFSelect_fobjs[i].hasOwnProperty("staticvalue") && SFSelect_fobjs[i].staticvalue ) {
@@ -333,9 +337,9 @@ function SFSelect_arrayEqual(a, b) {
     SFSelect_fobjs = SFSelect_removeDuplicateFobjs(SFSelect_fobjs);
 
     // register change handler
-    $("form#pfForm").change(function (event) {
-        SFSelect_changeHandler(event.target);
-    });
+	$("form#pfForm").change(function (event) {
+		SFSelect_changeHandler(event.target);
+	});
 
     var objs = null;
 

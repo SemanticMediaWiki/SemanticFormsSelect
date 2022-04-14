@@ -46,7 +46,9 @@ class SemanticFormsSelectInput extends PFFormInput {
 	public function getResourceModuleNames() {
 		return [
 			'ext.sf_select.scriptselect',
-			'ext.pageforms.lookupOriginalValueFor'
+			// Will get the module if PF provides it, fail silently otherwise; the JavaScript
+			// part knows how to handle this case
+			'ext.pageforms.originalValueLookup'
 		];
 	}
 
