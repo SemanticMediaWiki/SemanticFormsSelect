@@ -48,37 +48,32 @@ class SemanticFormsSelectInputTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testCanConstruct() {
-
 		$this->assertInstanceOf(
 			'\SFS\SemanticFormsSelectInput', $this->SFSInput
 		);
 	}
 
 	public function testGetHTMLText() {
-
 		$this->assertIsString(
 			$this->SFSInput->getHtmlText()
 		);
 	}
 
 	public function testGetName() {
-
 		$this->assertEquals(
 			'SF_Select', $this->SFSInput->getName()
 		);
 	}
 
 	public function testGetParameters() {
-
 		$this->assertIsArray( $this->SFSInput->getParameters() );
 	}
 
 
 	public function testGetResourceModuleNames() {
-		$rsmn = [ 'ext.sf_select.scriptselect' ];
+		$result = $this->SFSInput->getResourceModuleNames();
 
-		$this->assertEquals( $rsmn, $this->SFSInput->getResourceModuleNames() );
+		$this->assertEquals( [ 'ext.sf_select.scriptselect', 'ext.pageforms.originalValueLookup' ],
+			$result );
 	}
-
 }
-

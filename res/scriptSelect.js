@@ -205,9 +205,9 @@ function SFSelect_arrayEqual(a, b) {
         }
 
 	    const autocompletesettings = selectElement.attr('autocompletesettings');
-		const srcName = SFSelect_parseName(name, autocompletesettings);
 		const lookupOriginalValue = originalValueLookup(selectElement);
 		v = v.map(lookupOriginalValue);
+	    const srcName = SFSelect_parseName(name);
 
 	    for (let i = 0; i < SFSelect_fobjs.length; i++) {
 			if ( SFSelect_fobjs[i].hasOwnProperty("staticvalue") && SFSelect_fobjs[i].staticvalue ) {

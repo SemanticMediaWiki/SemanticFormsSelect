@@ -12,7 +12,7 @@
 namespace SFS;
 
 use Parser;
-use SMWQueryProcessor as QueryProcessor;
+use SMWQueryProcessor;
 use InvalidArgumentException;
 use MWDebug;
 
@@ -28,13 +28,18 @@ class ApiSemanticFormsSelectRequestProcessor {
 	 */
 	private $debugFlag = false;
 
+	private $getSmwResultFromFunctionParams;
+
 	/**
+	 * @param Parser $parser
+	 * @param null $getSmwResultFromFunctionParams
 	 * @since 1.3
 	 *
-	 * @param Parser $parser
 	 */
-	public function __construct( Parser $parser ) {
+	public function __construct( Parser $parser, $getSmwResultFromFunctionParams = null ) {
 		$this->parser = $parser;
+		$this->getSmwResultFromFunctionParams = $getSmwResultFromFunctionParams
+			?? '\SFS\ApiSemanticFormsSelectRequestProcessor::defaultGetSmwResultFromFunctionParams';
 	}
 
 	/**
@@ -89,9 +94,7 @@ class ApiSemanticFormsSelectRequestProcessor {
 			error_log( implode( "|", $rawparams ) );
 		}
 
-		list( $query, $params ) = QueryProcessor::getQueryAndParamsFromFunctionParams( $rawparams, SMW_OUTPUT_WIKI, QueryProcessor::INLINE_QUERY, false );
-
-		$result = QueryProcessor::getResultFromQuery( $query, $params, SMW_OUTPUT_WIKI, QueryProcessor::INLINE_QUERY );
+		$result = ($this->getSmwResultFromFunctionParams)($rawparams);
 
 		$values = $this->getFormattedValuesFrom( $sep, $result );
 
@@ -103,7 +106,7 @@ class ApiSemanticFormsSelectRequestProcessor {
 
 	private function extractRawParameters( $querystr ) {
 		$ensureParameter = function($name, $value) use (&$rawparams) {
-			$rawparams = array_filter($rawparams, function($param) {
+			$rawparams = array_filter($rawparams, function($param) use ($name) {
 				return substr_compare( $param, "$name=", 0, strlen( "$name=" ) ) !== 0;
 			});
 			if ($value !== null)
@@ -113,8 +116,6 @@ class ApiSemanticFormsSelectRequestProcessor {
 		$rawparams = explode( ";", $querystr );
 		// The JavaScript part expects plainlist format for parsing
 		$ensureParameter('format', 'plainlist');
-		// Prevent mainlabel from being removed ('mainlabel=-')
-		$ensureParameter('mainlabel', null);
 
 		return $rawparams;
 	}
@@ -159,5 +160,21 @@ class ApiSemanticFormsSelectRequestProcessor {
 		array_unshift( $values, "" );
 
 		return $values;
+	}
+
+	/**
+	 * @param $rawparams
+	 * @return string
+	 */
+	private static function defaultGetSmwResultFromFunctionParams( $rawparams ): string {
+		list( $query, $params ) =
+			SMWQueryProcessor::getQueryAndParamsFromFunctionParams( $rawparams, SMW_OUTPUT_WIKI,
+				SMWQueryProcessor::INLINE_QUERY, false );
+
+		$result =
+			SMWQueryProcessor::getResultFromQuery( $query, $params, SMW_OUTPUT_WIKI,
+				SMWQueryProcessor::INLINE_QUERY );
+
+		return $result;
 	}
 }
