@@ -90,7 +90,7 @@ window.semanticformsselect = function ($, mw, pf) {
 				v = selectedValue;
 			} else {
 				if (selectElement.attr('type') === "checkbox") {
-					v = (selectElement.is(":checked")) ? ["true"] : ["false"];
+					v = (selectElement.is(":checked")) ? [ "true" ] : [ "false" ];
 					// cut off [value] component from name
 					name = src.name.substr(0, src.name.indexOf("[value]"));
 				} else {
@@ -118,7 +118,7 @@ window.semanticformsselect = function ($, mw, pf) {
 	 * of the given element; returns the identity function otherwise
 	 *
 	 * @param element
-	 * @returns (function(*): *)
+	 * @return (function(*): *)
 	 */
 	function originalValueLookup(element) {
 		// Use the real originalValueLookup if PF supports it
@@ -132,7 +132,7 @@ window.semanticformsselect = function ($, mw, pf) {
 	 * { template: "TEMPLATE", index: "INDEX", isList: false, property: "PROPERTY" }
 	 *
 	 * @param name
-	 * @returns {{index: string, isList: boolean, property: string, template: string}}
+	 * @return {{index: string, isList: boolean, property: string, template: string}}
 	 */
 	function parseFieldIdentifier(name) {
 		const names = name.split('[');
@@ -178,7 +178,7 @@ window.semanticformsselect = function ($, mw, pf) {
 			if (!selectedValues) {
 				selectedValues = [];
 			} else if (!$.isArray(selectedValues)) {
-				selectedValues = [selectedValues];
+				selectedValues = [ selectedValues ];
 			}
 
 			if (element.options && element.options.length > 0) {
@@ -226,6 +226,7 @@ window.semanticformsselect = function ($, mw, pf) {
 					// Let's pass values
 					setDependentValues(srcName, sfsObject, data["sformsselect"].values);
 				}).fail(function () {
+					// eslint-disable-next-line no-console
 					console.log("Error!");
 				});
 			}
@@ -246,7 +247,7 @@ window.semanticformsselect = function ($, mw, pf) {
 			if (!selectedValues) {
 				selectedValues = [];
 			} else if (!$.isArray(selectedValues)) {
-				selectedValues = [selectedValues];
+				selectedValues = [ selectedValues ];
 			}
 
 			element.options.length = values.length;
@@ -324,15 +325,15 @@ window.semanticformsselect = function ($, mw, pf) {
 	 * Parse the query result of the api call (in plaintext format)
 	 *
 	 * @param values
-	 * @returns array of two element arrays containing [title, property]
+	 * @return array of two element arrays containing [title, property]
 	 */
 	function parsePlainlistQueryResult(values) {
 		return values.map(function (value) {
 			value = value || '';
 			const cutAt = value.lastIndexOf('(');
 			return cutAt === -1
-				? [value, value]
-				: [value.substring(0, cutAt).trim(),
+				? [ value, value ]
+				: [ value.substring(0, cutAt).trim(),
 					value.substring(cutAt + 1, value.length - 1)
 				];
 		});
