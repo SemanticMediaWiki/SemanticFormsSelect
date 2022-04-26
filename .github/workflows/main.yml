@@ -112,5 +112,5 @@ jobs:
         uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ${{ env.MW_INST_PATH }}/docs/coverage.xml,${{ env.MW_EXT_PATH }}/coverage/clover.xml
+          files: ${{ env.MW_INST_PATH }}/docs/coverage.xml,${{ env.MW_EXT_PATH }}/${{ env.EXT_NAME }}/coverage/clover.xml
         if: matrix.coverage == true
