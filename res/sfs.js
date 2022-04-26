@@ -1,37 +1,34 @@
-(function ($, mw, pf) {
+window.semanticformsselect = function ($, mw, pf) {
 	'use strict';
 
-	$(document).ready(initialize);
-
-	// Use the real originalValueLookup if PF supports it
-	const originalValueLookup = pf.originalValueLookup || (() => value => value);
-
-	/**
-	 * valuetemplate:string,
-	 * valuefield:string, value is the form field on which other select element depends on. change
-	 *  on this field will trigger a load event for selectfield.
-	 * selecttemplate:string
-	 * selectfield:string
-	 * selectismultiple:boolean, Whether this template is a multiple template.
-	 * selectquery or selectfunciton: the query ot function to execute
-	 * selectrm:boolean remove the div if the selected value for a field is not valid any more.
-	 * label: boolean, process ending content () as label in option values.
-	 * sep: Separator for the list of retrieved values, default ','
-	 */
-	const sfsObjects = getSfsObjects();
-
 	function initialize() {
-		registerChangeHandlers();
-		populateSelectFields();
+		$(document).ready(() => {
+			/**
+			 * valuetemplate: string,
+			 * valuefield: string, value is the form field on which other select element depends on. change
+			 *  on this field will trigger a load event for selectfield.
+			 * selecttemplate: string
+			 * selectfield: string
+			 * selectismultiple: boolean, Whether this template is a multiple template.
+			 * selectquery or selectfunction: the query ot function to execute
+			 * selectrm: boolean remove the div if the selected value for a field is not valid any more.
+			 * label: boolean, process ending content () as label in option values.
+			 * sep: Separator for the list of retrieved values, default ','
+			 */
+			const sfsObjects = getSfsObjects();
+
+			registerChangeHandlers(sfsObjects);
+			populateSelectFields(sfsObjects);
+		});
 	}
 
-	function registerChangeHandlers() {
+	function registerChangeHandlers(sfsObjects) {
 		$("form#pfForm").change(function (event) {
 			handleChange(event.target, sfsObjects);
 		});
 	}
 
-	function populateSelectFields() {
+	function populateSelectFields(sfsObjects) {
 		for (let i = 0; i < sfsObjects.length; i++) {
 			const sfsObject = sfsObjects[i];
 			const objs =
@@ -105,7 +102,7 @@
 
 		const lookupOriginalValue = originalValueLookup(selectElement);
 		v = v.map(lookupOriginalValue);
-		const srcName = parseName(name);
+		const srcName = parseFieldIdentifier(name);
 
 		for (let i = 0; i < sfsObjects.length; i++) {
 			if (sfsObjects[i].hasOwnProperty("staticvalue") && sfsObjects[i].staticvalue) {
@@ -117,13 +114,27 @@
 	}
 
 	/**
+	 * Uses pf.originalValueLookup to lookup original values from displayed values in the context
+	 * of the given element; returns the identity function otherwise
+	 *
+	 * @param element
+	 * @returns (function(*): *)
+	 */
+	function originalValueLookup(element) {
+		// Use the real originalValueLookup if PF supports it
+		return pf.originalValueLookup
+			? pf.originalValueLookup(element)
+			: value => value;
+	}
+
+	/**
 	 * Parses a string of the form "TEMPLATE[INDEX][PROPERTY]" to an object
 	 * { template: "TEMPLATE", index: "INDEX", isList: false, property: "PROPERTY" }
 	 *
 	 * @param name
 	 * @returns {{index: string, isList: boolean, property: string, template: string}}
 	 */
-	function parseName(name) {
+	function parseFieldIdentifier(name) {
 		const names = name.split('[');
 		const nameObj = {template: names[0]};
 		if (names[names.length - 1] === ']') {
@@ -242,7 +253,7 @@
 			const newselected = [];
 
 			if (sfsObject.label) {
-				const namevalues = processNameValues(values);
+				const namevalues = parsePlainlistQueryResult(values);
 				for (let i = 0; i < namevalues.length; i++) {
 					element.options[i] = new Option(namevalues[i][1], namevalues[i][0]);
 					if ($.inArray(namevalues[i][0], selectedValues) !== -1) {
@@ -309,8 +320,13 @@
 		return selectpat;
 	}
 
-	/** Function for turning name values from 'Page (property)' results **/
-	function processNameValues(values) {
+	/**
+	 * Parse the query result of the api call (in plaintext format)
+	 *
+	 * @param values
+	 * @returns array of two element arrays containing [title, property]
+	 */
+	function parsePlainlistQueryResult(values) {
 		return values.map(function (value) {
 			value = value || '';
 			const cutAt = value.lastIndexOf('(');
@@ -333,4 +349,15 @@
 		}
 		return true;
 	}
-}(jQuery, mediaWiki, pageforms));
+
+	return {
+		initialize: initialize,
+
+		// Exporting the following functions here only serves testing purposes:
+		private: {
+			parseFieldIdentifier: parseFieldIdentifier,
+			originalValueLookup: originalValueLookup,
+			parsePlainlistQueryResult: parsePlainlistQueryResult
+		}
+	};
+};

@@ -35,9 +35,10 @@
 		]
 	},
 	"ResourceModules": {
-		"ext.sf_select.scriptselect": {
+		"ext.sfs": {
 			"scripts": [
-				"res/scriptSelect.js"
+				"res/sfs.js",
+				"res/index.js"
 			],
 			"styles": [
 				"res/select2.css"
@@ -56,6 +57,9 @@
 	"Hooks": {
 		"ParserFirstCallInit": [
 			"SFS\\Hooks::onSemanticFormsSelectSetup"
+		],
+		"ResourceLoaderTestModules":[
+			"SFS\\Hooks::onResourceLoaderTestModules"
 		]
 	},
 	"load_composer_autoloader":true,

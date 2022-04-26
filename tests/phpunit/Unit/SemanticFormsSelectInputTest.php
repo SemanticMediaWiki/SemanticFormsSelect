@@ -73,7 +73,7 @@ class SemanticFormsSelectInputTest extends \PHPUnit_Framework_TestCase {
 	public function testGetResourceModuleNames() {
 		$result = $this->SFSInput->getResourceModuleNames();
 
-		$this->assertEquals( [ 'ext.sf_select.scriptselect', 'ext.pageforms.originalValueLookup' ],
+		$this->assertEquals( [ 'ext.sfs', 'ext.pageforms.originalValueLookup' ],
 			$result );
 	}
 }
