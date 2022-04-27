@@ -1,8 +1,14 @@
 This file contains the RELEASE-NOTES of the Semantic Forms Select (a.k.a. SFS) extension.
 
-### 3.1.0
+### 4.0.0-beta
 
-This is not a realease yet.
+* Dropped support for MediaWiki 1.34 and lower
+* Dropped support for PHP 7.2 and lower
+* Dropped support for Page Forms 5.3 and lower
+* Added support for Page Forms 5.3 OOUI input types
+* Added support for Semantic MediaWiki 4.x
+* Added QUnit tests (node-qunit)
+* Fixed PHPUnit tests
 
 ### 3.0.0
 

@@ -1,8 +1,7 @@
 # Semantic Forms Select
 
 [![CI](https://github.com/SemanticMediaWiki/SemanticFormsSelect/actions/workflows/main.yml/badge.svg)](https://github.com/SemanticMediaWiki/SemanticFormsSelect/actions/workflows/main.yml)
-[![Code Coverage](https://scrutinizer-ci.com/g/SemanticMediaWiki/SemanticFormsSelect/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/SemanticMediaWiki/SemanticFormsSelect/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/SemanticMediaWiki/SemanticFormsSelect/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/SemanticMediaWiki/SemanticFormsSelect/?branch=master)
+[![codecov](https://codecov.io/gh/SemanticMediaWiki/SemanticFormsSelect/branch/master/graph/badge.svg?token=sSjXlzUDXI)](https://codecov.io/gh/SemanticMediaWiki/SemanticFormsSelect)
 [![Latest Stable Version](https://poser.pugx.org/mediawiki/semantic-forms-select/version.png)](https://packagist.org/packages/mediawiki/semantic-forms-select)
 [![Packagist download count](https://poser.pugx.org/mediawiki/semantic-forms-select/d/total.png)](https://packagist.org/packages/mediawiki/semantic-forms-select)
 
@@ -10,10 +9,10 @@ Semantic Forms Select (a.k.a. SFS) can generate a select form element with value
 
 ## Requirements
 
-- PHP 5.6 or later
-- MediaWiki 1.27 or later
-- [Semantic MediaWiki][smw] 2.5 or later
-- [Page Forms][pf] 4.0.2 or later
+- PHP 7.3 or later
+- MediaWiki 1.35 or later
+- [Semantic MediaWiki][smw] 3.0.0 or later
+- [Page Forms][pf] 5.3.0 or later
 
 ## Installation
 
@@ -38,7 +37,7 @@ If you do not have a "composer.local.json" file yet, create one and add the foll
 ```
 {
 	"require": {
-		"mediawiki/semantic-forms-select": "~3.0"
+		"mediawiki/semantic-forms-select": "~4.0"
 	}
 }
 ```
@@ -46,7 +45,7 @@ If you do not have a "composer.local.json" file yet, create one and add the foll
 If you already have a "composer.local.json" file add the following line to the end of the "require"
 section in your file:
 
-    "mediawiki/semantic-forms-select": "~3.0"
+    "mediawiki/semantic-forms-select": "~4.0"
 
 Remember to add a comma to the end of the preceding line in this section.
 
@@ -87,8 +86,8 @@ Original code from https://code.google.com/p/semanticformsselect/downloads/list
 
 ## Tests
 
-This extension provides unit and integration tests that are run by a [continues integration platform][travis]
-but can also be executed using `composer phpunit` from the extension base directory.
+This extension provides PHP and JavaScript tests that are run by continues integration platform
+but can also be executed using `composer phpunit` and `npm ci && npm test` from the extension base directory.
 
 ## License
 
@@ -96,6 +95,5 @@ but can also be executed using `composer phpunit` from the extension base direct
 
 [gpl-licence]: https://www.gnu.org/copyleft/gpl.html
 [smw]: https://github.com/SemanticMediaWiki/SemanticMediaWiki
-[travis]: https://travis-ci.org/SemanticMediaWiki/SemanticFormsSelect
 [pf]: https://www.mediawiki.org/wiki/Extension:Page_Forms
 [composer]: https://getcomposer.org/

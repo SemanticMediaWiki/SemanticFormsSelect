@@ -80,9 +80,6 @@ window.semanticformsselect = function ($, mw, pf) {
 			return;
 		}
 
-		console.log('handleChange');
-		console.log(src);
-
 		let v = [];
 		const selectElement = $(src);
 		let name = src.name;
