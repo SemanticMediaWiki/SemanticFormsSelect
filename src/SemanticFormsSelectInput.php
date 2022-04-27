@@ -11,6 +11,7 @@
 
 namespace SFS;
 
+use MediaWiki\MediaWikiServices;
 use SMWQueryProcessor as QueryProcessor;
 use Parser;
 use PFFormInput;
@@ -31,7 +32,8 @@ class SemanticFormsSelectInput extends PFFormInput {
 		parent::__construct( $inputNumber, $curValue, $inputName, $disabled, $otherArgs );
 
 		// SelectField is a simple value object - we accept creating it in the constructor
-		$this->mSelectField = new SelectField( $GLOBALS['wgParser'] );
+		$parser = MediaWikiServices::getInstance()->getParser();
+		$this->mSelectField = new SelectField( $parser );
 	}
 
 	public static function getName() {

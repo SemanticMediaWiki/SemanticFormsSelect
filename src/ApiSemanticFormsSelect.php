@@ -13,6 +13,7 @@
 namespace SFS;
 
 use ApiBase;
+use MediaWiki\MediaWikiServices;
 use Parser;
 use ParserOptions;
 use ParserOutput;
@@ -25,9 +26,6 @@ class ApiSemanticFormsSelect extends ApiBase {
 	 */
 	public function execute() {
 		$parser = $this->getParser();
-		$parser->setTitle( Title::newFromText( 'NO TITLE' ) );
-		$parser->mOptions = new ParserOptions();
-		$parser->resetOutput();
 
 		$apiRequestProcessor = new \SFS\ApiSemanticFormsSelectRequestProcessor( $parser );
 		$apiRequestProcessor->setDebugFlag( $GLOBALS['wgSF_Select_debug'] );
@@ -90,15 +88,15 @@ class ApiSemanticFormsSelect extends ApiBase {
 		return __CLASS__ . ': 1.1';
 	}
 
-	// Compatibility helper for MW < 1.32
-	private function getParser(): Parser {
-		if ( class_exists( \MediaWiki\MediaWikiServices::class ) ) {
-			$services = \MediaWiki\MediaWikiServices::getInstance();
-			if ( is_callable( $services, 'getParserFactory' ) ) {
-				return $services->getParserFactory()->create();
-			}
-		}
-		return new Parser( $GLOBALS['wgParserConf'] );
-	}
+	/**
+	 * @return Parser
+	 */
+	protected function getParser(): Parser {
+		$parser = MediaWikiServices::getInstance()->getParserFactory()->create();
+		$parser->setTitle( Title::newFromText( 'NO TITLE' ) );
+		$parser->setOptions( new ParserOptions() );
+		$parser->resetOutput();
 
+		return $parser;
+	}
 }
