@@ -34,9 +34,9 @@ window.semanticformsselect = function ($, mw, pf) {
 			const objs =
 				// support multi instance templates: select all "input" items starting with sfsObject.valuetemplate
 				// and containing sfsObject.valuefield
-				$('[name^="' + sfsObject.valuetemplate + '"][name*="' + sfsObject.valuefield + '"]')
+				$('[name^="' + sfsObject.valuetemplate + '"][name*="[' + sfsObject.valuefield + ']"]')
 					// but skip the hidden templates
-					.not('input[name*=map_field]');
+					.not('[name*="[map_field]"]');
 
 			objs.trigger("change");
 		}
@@ -79,6 +79,9 @@ window.semanticformsselect = function ($, mw, pf) {
 		if (src.tagName.toLowerCase() !== 'select' && src.tagName.toLowerCase() !== 'input') {
 			return;
 		}
+
+		console.log('handleChange');
+		console.log(src);
 
 		let v = [];
 		const selectElement = $(src);
