@@ -1,1 +1,1 @@
-window.semanticformsselect(jQuery, mediaWiki, pageforms).initialize();
+window.semanticformsselect.initialize();

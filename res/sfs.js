@@ -1,5 +1,12 @@
-window.semanticformsselect = function ($, mw, pf) {
+(function ($, mw, pf, sfs) {
 	'use strict';
+
+	window.semanticformsselect = {
+		initialize: initialize,
+		// Exporting the following functions here only serves testing purposes:
+		_parseFieldIdentifier: parseFieldIdentifier,
+		_parsePlainlistQueryResult: parsePlainlistQueryResult
+	};
 
 	function initialize() {
 		$(document).ready(() => {
@@ -100,7 +107,7 @@ window.semanticformsselect = function ($, mw, pf) {
 			}
 		}
 
-		const lookupOriginalValue = originalValueLookup(selectElement);
+		const lookupOriginalValue = pf.originalValueLookup(selectElement);
 		v = v.map(lookupOriginalValue);
 		const srcName = parseFieldIdentifier(name);
 
@@ -111,20 +118,6 @@ window.semanticformsselect = function ($, mw, pf) {
 				executeQuery(sfsObjects[i], srcName, v);
 			}
 		}
-	}
-
-	/**
-	 * Uses pf.originalValueLookup to lookup original values from displayed values in the context
-	 * of the given element; returns the identity function otherwise
-	 *
-	 * @param element
-	 * @return (function(*): *)
-	 */
-	function originalValueLookup(element) {
-		// Use the real originalValueLookup if PF supports it
-		return pf.originalValueLookup
-			? pf.originalValueLookup(element)
-			: value => value;
 	}
 
 	/**
@@ -350,15 +343,4 @@ window.semanticformsselect = function ($, mw, pf) {
 		}
 		return true;
 	}
-
-	return {
-		initialize: initialize,
-
-		// Exporting the following functions here only serves testing purposes:
-		private: {
-			parseFieldIdentifier: parseFieldIdentifier,
-			originalValueLookup: originalValueLookup,
-			parsePlainlistQueryResult: parsePlainlistQueryResult
-		}
-	};
-};
+})(jQuery, mediaWiki, pageforms);

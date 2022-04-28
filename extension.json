@@ -37,6 +37,7 @@
 	"ResourceModules": {
 		"ext.sfs": {
 			"scripts": [
+				"res/pf.originalValueLookup.js",
 				"res/sfs.js",
 				"res/index.js"
 			],
