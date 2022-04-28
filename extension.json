@@ -1,6 +1,6 @@
 {
 	"name": "Semantic Forms Select",
-	"version": "3.1.0-alpha",
+	"version": "4.0.0-alpha",
 	"author": [
 		"Jason Zhang",
 		"James Hong Kong",
@@ -14,7 +14,7 @@
 	"license-name": "GPL-2.0-or-later",
 	"type": "semantic",
 	"requires": {
-		"MediaWiki": ">= 1.27"
+		"MediaWiki": ">= 1.35"
 	},
 	"AutoloadClasses": {
 		"SFS\\Hooks": "SemanticFormsSelect.hooks.php",
@@ -35,9 +35,11 @@
 		]
 	},
 	"ResourceModules": {
-		"ext.sf_select.scriptselect": {
+		"ext.sfs": {
 			"scripts": [
-				"res/scriptSelect.js"
+				"res/pf.originalValueLookup.js",
+				"res/sfs.js",
+				"res/index.js"
 			],
 			"styles": [
 				"res/select2.css"
@@ -56,6 +58,9 @@
 	"Hooks": {
 		"ParserFirstCallInit": [
 			"SFS\\Hooks::onSemanticFormsSelectSetup"
+		],
+		"ResourceLoaderTestModules":[
+			"SFS\\Hooks::onResourceLoaderTestModules"
 		]
 	},
 	"load_composer_autoloader":true,

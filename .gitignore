@@ -10,3 +10,8 @@ composer.lock
 !.*
 .idea/
 .phpunit.result.cache
+
+node_modules/
+.eslintcache
+.nyc_output
+coverage

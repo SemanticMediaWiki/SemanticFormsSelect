@@ -24,9 +24,7 @@ class ApiSemanticFormsSelectRequestProcessorTest
 
 	protected function setUp(): void {
 		parent::setUp();
-		$parser = $this->getMockBuilder( '\Parser' )
-			->disableOriginalConstructor()->getMock();
-		$this->ApiSFSRP = new ApiSemanticFormsSelectRequestProcessor( $parser );
+		$this->ApiSFSRP = new ApiSemanticFormsSelectRequestProcessor( $this->getParser() );
 	}
 
 	protected function tearDown(): void {
@@ -107,16 +105,32 @@ class ApiSemanticFormsSelectRequestProcessorTest
 		$this->assertEquals( $result, $formattedValues );
 	}
 
+	public function testExistingSmwFormatIsOverwrittenByPlainlist() {
+		$calledWithRawparams = [];
+		$getResultFromFunctionParams = function ( $rawparams ) use ( &$calledWithRawparams ) {
+			array_push( $calledWithRawparams, ...$rawparams );
+		};
+		$processor = new ApiSemanticFormsSelectRequestProcessor( $this->getParser(), $getResultFromFunctionParams );
+
+		$processor->getJsonDecodedResultValuesForRequestParameters( [
+			'query' => 'x;format=list',
+			'sep' => '-',
+			'approach' => 'smw',
+		] );
+
+		$this->assertEquals( 'format=plainlist', $calledWithRawparams[1] );
+	}
+
 	/**
 	 * Call protected/private method of a class.
 	 *
 	 * @param object &$object Instantiated object that we will run method on.
 	 * @param string $methodName Method name to call
-	 * @param array  $parameters Array of parameters to pass into method.
+	 * @param array $parameters Array of parameters to pass into method.
 	 *
 	 * @return mixed Method return.
 	 */
-	public function invokeMethod( &$object, $methodName,
+	public function invokeMethod(&$object, $methodName,
 		array $parameters = []
 	) {
 		$reflection = new \ReflectionClass( get_class( $object ) );
@@ -126,5 +140,10 @@ class ApiSemanticFormsSelectRequestProcessorTest
 		return $method->invokeArgs( $object, $parameters );
 	}
 
-
+	/**
+	 * @return \Parser|\PHPUnit\Framework\MockObject\MockObject
+	 */
+	protected function getParser() {
+		return $this->getMockBuilder( '\Parser' )->disableOriginalConstructor()->getMock();
+	}
 }

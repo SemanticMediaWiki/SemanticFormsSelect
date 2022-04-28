@@ -1,0 +1,18 @@
+{
+	"private": true,
+	"scripts": {
+		"test": "npm run eslint && npm run node-qunit",
+		"test-coverage": "npm run eslint && npm run node-qunit-coverage",
+		"eslint": "eslint res/**.js tests/node-qunit/**.js",
+		"node-qunit": "qunit tests/node-qunit",
+		"node-qunit-coverage": "nyc --reporter=html --reporter=clover --all --include='res/**' npm run node-qunit"
+	},
+	"devDependencies": {
+		"eslint-config-wikimedia": "0.20.0",
+		"jsdom": "^19.0.0",
+		"nyc": "^15.1.0",
+		"qunit": "^2.18.1",
+		"sinon": "^13.0.2"
+	},
+	"dependencies": {}
+}

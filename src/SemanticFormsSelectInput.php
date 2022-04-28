@@ -11,6 +11,7 @@
 
 namespace SFS;
 
+use MediaWiki\MediaWikiServices;
 use SMWQueryProcessor as QueryProcessor;
 use Parser;
 use PFFormInput;
@@ -31,7 +32,8 @@ class SemanticFormsSelectInput extends PFFormInput {
 		parent::__construct( $inputNumber, $curValue, $inputName, $disabled, $otherArgs );
 
 		// SelectField is a simple value object - we accept creating it in the constructor
-		$this->mSelectField = new SelectField( $GLOBALS['wgParser'] );
+		$parser = MediaWikiServices::getInstance()->getParser();
+		$this->mSelectField = new SelectField( $parser );
 	}
 
 	public static function getName() {
@@ -44,14 +46,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 	}
 
 	public function getResourceModuleNames() {
-		/**
-		 * Loading modules this way currently fails with:
-		 * "mw.loader.state({"ext.sf_select.scriptselect":"loading"});"
-		 */
-
-		return [
-			'ext.sf_select.scriptselect'
-		];
+		return [ 'ext.sfs' ];
 	}
 
 	/**
@@ -88,7 +83,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 		} elseif ( array_key_exists( "function", $other_args ) ) {
 			$selectField->setFunction( $other_args );
 		}
-		
+
 		if ( array_key_exists( "label", $other_args ) ) {
 			$selectField->setLabel( $other_args );
 		}
@@ -163,7 +158,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 			$curvalues = [];
 		}
 
-		
+
 		$labelArray = [];
 		if ( array_key_exists( "label", $other_args ) && $curvalues ) {
 			// $labelArray = $this->getLabels( $curvalues );
@@ -173,29 +168,29 @@ class SemanticFormsSelectInput extends PFFormInput {
 		$ret .= "<option></option>";
 
 		if ( $selectField->hasStaticValues() ) {
-			
+
 			$values = $selectField->getValues();
-			
+
 			if ( array_key_exists( "label", $other_args ) && $values ) {
 				$labelArray = $this->getLabels( $values );
 			}
-			
+
 			if ( is_array( $values ) ) {
-				
+
 				foreach ( $values as $val ) {
-					
+
 					$selected = "";
-											
+
 					if ( array_key_exists( $val, $labelArray ) ) {
-					
+
 						if ( in_array( $labelArray[ $val ][0], $curvalues ) ) {
 							$selected = " selected='selected'";
 						}
-						
+
 						$ret.="<option".$selected." value='".$labelArray[ $val ][0]."'>".$labelArray[ $val ][1]."</option>";
-					
+
 					} else {
-						
+
 						if ( in_array( $val, $curvalues ) ) {
 							$selected = " selected='selected'";
 						}
@@ -205,18 +200,18 @@ class SemanticFormsSelectInput extends PFFormInput {
 				}
 			}
 		} else {
-			
+
 			foreach ( $curvalues as $cur ) {
 				$selected = "";
-				
+
 				if ( array_key_exists( $cur, $labelArray ) ) {
-					
+
 					if ( in_array( $labelArray[ $cur ][0], $curvalues ) ) {
 						$selected = " selected='selected'";
 					}
-					
+
 					$ret.="<option".$selected." value='".$labelArray[ $cur ][0]."'>".$labelArray[ $cur ][1]."</option>";
-					
+
 				} else {
 					if ( in_array( $cur, $curvalues ) ) {
 						$selected = " selected='selected'";
@@ -237,71 +232,71 @@ class SemanticFormsSelectInput extends PFFormInput {
 
 		return $ret;
 	}
-	
-		
+
+
 	private function getLabels( $labels ) {
-		
+
 		$labelArray = [ ];
 
 		if ( is_array( $labels ) ) {
 			foreach ( $labels as $label ) {
-				
+
 				$labelKey = $label;
 				$labelValue = $label;
-				
+
 				// Tricky thing if ( ) already in name
 				if ( strpos( $label, ")" ) && strpos( $label, "(" ) ) {
-				
+
 					// Check Break
 					$openBr = 0;
 					$doneBr = 0;
 					$num = 0;
-					
+
 					$labelArr = str_split ( $label );
-					
+
 					$end = count( $labelArr ) - 1;
 					$iter = $end;
-					
+
 					$endBr = $end;
 					$startBr = 0;
-					
+
 					while ( $doneBr == 0 && $iter >= 0 ) {
-					
+
 						$char = $labelArr[ $iter ];
-						
+
 						if ( $char == ")" ) {
 							$openBr = $openBr - 1;
-							
+
 							if ( $num == 0 ) {
 								$endBr = $iter;
 								$num = $num + 1;
 							}
 						}
-						
+
 						if ( $char == "(" ) {
 							$openBr = $openBr + 1;
-							
+
 							if ( $num > 0 && $openBr == 0 ) {
 								$startBr = $iter;
 								$doneBr = 1;
 							}
 						}
-						
+
 						$iter = $iter - 1;
-						
+
 					}
-					
-					$labelValue = implode( "", array_slice( $labelArr, $startBr+1, $endBr-$startBr-1 ) );			
+
+					$labelValue = implode( "", array_slice( $labelArr, $startBr+1, $endBr-$startBr-1 ) );
 					$labelKey = implode( "", array_slice( $labelArr, 0, $startBr-1 ) );
-				
+
 				}
-				
+
 				$labelArray[ $label ] = [ $labelKey, $labelValue ] ;
 			}
-		
+
 		}
-		
+
 		return $labelArray;
-		
+
 	}
 }

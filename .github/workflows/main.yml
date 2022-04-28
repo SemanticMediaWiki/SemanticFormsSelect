@@ -20,6 +20,21 @@ jobs:
             page_forms_version: 5.3.4
             coverage: true
             experimental: true
+          - mediawiki_version: '1.35'
+            semantic_mediawiki_version: dev-master
+            page_forms_version: master
+            coverage: false
+            experimental: true
+          - mediawiki_version: '1.36'
+            semantic_mediawiki_version: dev-master
+            page_forms_version: master
+            coverage: false
+            experimental: true
+          - mediawiki_version: '1.37'
+            semantic_mediawiki_version: dev-master
+            page_forms_version: master
+            coverage: false
+            experimental: true
 
     container:
       image: gesinn/docker-mediawiki:${{ matrix.mediawiki_version }}
@@ -79,17 +94,38 @@ jobs:
           tail -n5 ${{ env.MW_INST_PATH }}/LocalSettings.php
           php ${{ env.MW_INST_PATH }}/maintenance/update.php --quick
 
-      - name: Run Tests
+      - name: Run PHPUnit Tests
         run: >
           php ${{ env.MW_INST_PATH }}/tests/phpunit/phpunit.php
           --configuration ${{ env.MW_EXT_PATH }}/${{ env.EXT_NAME }}
           --testdox
         if: matrix.coverage == false
 
-      - name: Run Tests With Coverage
+      - name: Run PHPUnit Tests With Coverage
         run: >
           php ${{ env.MW_INST_PATH }}/tests/phpunit/phpunit.php
           --configuration ${{ env.MW_EXT_PATH }}/${{ env.EXT_NAME }}
           --testdox
           --coverage-clover ${{ env.MW_INST_PATH }}/docs/coverage.xml
+        if: matrix.coverage == true
+
+      - name: Install Node Modules
+        run: >
+          cd ${{ env.MW_EXT_PATH }}/${{ env.EXT_NAME }} && npm ci
+
+      - name: Run Node.js Tests
+        run: >
+          cd ${{ env.MW_EXT_PATH }}/${{ env.EXT_NAME }} && npm test
+        if: matrix.coverage == false
+
+      - name: Run Node.js Tests With Coverage
+        run: >
+          cd ${{ env.MW_EXT_PATH }}/${{ env.EXT_NAME }} && npm run test-coverage
+        if: matrix.coverage == true
+
+      - name: Upload code coverage
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ${{ env.MW_INST_PATH }}/docs/coverage.xml,${{ env.MW_EXT_PATH }}/${{ env.EXT_NAME }}/coverage/clover.xml
         if: matrix.coverage == true
