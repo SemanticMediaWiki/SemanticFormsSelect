@@ -2,6 +2,8 @@ This file contains the RELEASE-NOTES of the Semantic Forms Select (a.k.a. SFS) e
 
 ### 4.0.0-beta
 
+Released on April 28, 2022.
+
 * Dropped support for MediaWiki 1.34 and lower
 * Dropped support for PHP 7.2 and lower
 * Dropped support for Page Forms 5.3 and lower
