@@ -46,7 +46,11 @@
 				"ext.pageforms.main",
 				"ext.pageforms.select2"
 			],
-			"position": "bottom"
+			"position": "bottom",
+			"targets": [
+				"desktop",
+				"mobile"
+			]
 		}
 	},
 	"ResourceFileModulePaths": {
