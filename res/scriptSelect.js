@@ -451,40 +451,42 @@ function SFSelect_arrayEqual(a, b) {
     //simplify duplicated object.
     SFSelect_fobjs = SFSelect_removeDuplicateFobjs(SFSelect_fobjs);
 
-    // register change handler
-    $("form#pfForm").change(function (event) {
-        SFSelect_changeHandler(event.target);
-    });
+    $(document).ready(function () {
+        // register change handler
+        $("form#pfForm").change(function (event) {
+            SFSelect_changeHandler(event.target);
+        });
 
-    var objs = null;
+        var objs = null;
 
-    // populate Select fields at load time
-    for (var i = 0; i < SFSelect_fobjs.length; i++) {
+        // populate Select fields at load time
+        for (var i = 0; i < SFSelect_fobjs.length; i++) {
 
-        var fobj = SFSelect_fobjs[i];
+            var fobj = SFSelect_fobjs[i];
 
-        //var valuepat = "input[name='" + fobj.valuetemplate + "\\["+ fobj.valuefield + "\\]']";
+            //var valuepat = "input[name='" + fobj.valuetemplate + "\\["+ fobj.valuefield + "\\]']";
 
-        // support multi instance templates: select all "input" items starting with fobj.valuetemplate
-        // and containing fobj.valuefield
-        // example name attribute: name="myTemplate[0a][myField]"
-        var valuepat = 'input[name^="' + fobj.valuetemplate + '"]' + '[name*="' + fobj.valuefield + '"]';
-
-        if ($(valuepat).val()) {
-            // get Select fields, skipping 'map_fields'
-            objs = jQuery(valuepat).not('input[name*=map_field]');
-        } else {
-            //valuepat= "select[name='" + fobj.valuetemplate + "\\["+ fobj.valuefield + "\\]']";
-
-            // support multi instance templates: select all "select" items starting with fobj.valuetemplate
+            // support multi instance templates: select all "input" items starting with fobj.valuetemplate
             // and containing fobj.valuefield
             // example name attribute: name="myTemplate[0a][myField]"
-            var valuepat = 'select[name^="' + fobj.valuetemplate + '"]' + '[name*="' + fobj.valuefield + '"]';
+            var valuepat = 'input[name^="' + fobj.valuetemplate + '"]' + '[name*="' + fobj.valuefield + '"]';
 
-            objs = jQuery(valuepat).not('select[name*=map_field]');
+            if ($(valuepat).val()) {
+                // get Select fields, skipping 'map_fields'
+                objs = jQuery(valuepat).not('input[name*=map_field]');
+            } else {
+                //valuepat= "select[name='" + fobj.valuetemplate + "\\["+ fobj.valuefield + "\\]']";
+
+                // support multi instance templates: select all "select" items starting with fobj.valuetemplate
+                // and containing fobj.valuefield
+                // example name attribute: name="myTemplate[0a][myField]"
+                var valuepat = 'select[name^="' + fobj.valuetemplate + '"]' + '[name*="' + fobj.valuefield + '"]';
+
+                objs = jQuery(valuepat).not('select[name*=map_field]');
+            }
+            objs.trigger("change");
         }
-        objs.trigger("change");
-    }
+    });
 
 //}( jQuery, mediaWiki ) );
 }(jQuery) );
