@@ -81,8 +81,9 @@
 
 	/**
 	 * Extract raw name and values depending on the type of the element
-	 * @param {*} $element 
-	 * @returns 
+	 *
+	 * @param {*} $element
+	 * @return
 	 */
 	const getRawNameAndValues = function($element) {
 		let name = $element.attr('name');

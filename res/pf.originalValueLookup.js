@@ -2,7 +2,7 @@
 The functionality of originalValueLookup should better be defined in PF itself.
 As it is only used by SFS by now, add it here for simplicity to be able to profit when
 using different PF versions.
-*/
+ */
 (function ($, mw, pf) {
 
 	/**

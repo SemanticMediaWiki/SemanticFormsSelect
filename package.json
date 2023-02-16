@@ -3,6 +3,7 @@
 	"scripts": {
 		"test": "npm run eslint && npm run node-qunit",
 		"test-coverage": "npm run eslint && npm run node-qunit-coverage",
+		"fix": "npm run eslint -- --fix",
 		"eslint": "eslint res/**.js tests/node-qunit/**.js",
 		"node-qunit": "qunit tests/node-qunit",
 		"node-qunit-coverage": "nyc --reporter=html --reporter=clover --all --include='res/**' npm run node-qunit"
