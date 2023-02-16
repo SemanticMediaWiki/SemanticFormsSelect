@@ -1,4 +1,4 @@
-(function ($, mw, pf, sfs) {
+(function ($, mw, pf) {
 	'use strict';
 
 	window.semanticformsselect = {
@@ -78,6 +78,34 @@
 		return distinctObjects;
 	}
 
+
+	/**
+	 * Extract raw name and values depending on the type of the element
+	 * @param {*} $element 
+	 * @returns 
+	 */
+	const getRawNameAndValues = function($element) {
+		let name = $element.attr('name');
+		let values;
+		if ($element.attr("type") === "checkbox") {
+			// cut off [value] component from name
+			name = name.substr(0, name.indexOf("[value]"));
+			values = $element.is(":checked") ? [ "true" ] : [ "false" ];
+		} else {
+			let selectedValue = $element.val();
+			if (selectedValue) {
+				if (Array.isArray(selectedValue)) {
+					values = selectedValue;
+				} else {
+					values = $.map(selectedValue.split(";"), $.trim);
+				}
+			} else {
+				values = [];
+			}
+		}
+		return { name, values };
+	};
+
 	/**
 	 * @param src
 	 * @param sfsObjects
@@ -87,35 +115,17 @@
 			return;
 		}
 
-		let v = [];
-		const selectElement = $(src);
-		let name = src.name;
-		let selectedValue = selectElement.val();
-
-		if (selectedValue) {
-			if ($.isArray(selectedValue)) {
-				v = selectedValue;
-			} else {
-				if (selectElement.attr('type') === "checkbox") {
-					v = (selectElement.is(":checked")) ? [ "true" ] : [ "false" ];
-					// cut off [value] component from name
-					name = src.name.substr(0, src.name.indexOf("[value]"));
-				} else {
-					//split and trim
-					v = $.map(selectedValue.split(";"), $.trim);
-				}
-			}
-		}
-
-		const lookupOriginalValue = pf.originalValueLookup(selectElement);
-		v = v.map(lookupOriginalValue);
-		const srcName = parseFieldIdentifier(name);
+		const $src = $(src);
+		const raw = getRawNameAndValues($src);
+		const lookupOriginalValue = pf.originalValueLookup($src);
+		const originalValues = raw.values.map(lookupOriginalValue);
+		const srcName = parseFieldIdentifier(raw.name);
 
 		for (let i = 0; i < sfsObjects.length; i++) {
 			if (sfsObjects[i].hasOwnProperty("staticvalue") && sfsObjects[i].staticvalue) {
 				changeSelected(sfsObjects[i], srcName);
 			} else {
-				executeQuery(sfsObjects[i], srcName, v);
+				executeQuery(sfsObjects[i], srcName, originalValues);
 			}
 		}
 	}
