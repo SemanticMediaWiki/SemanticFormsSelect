@@ -85,7 +85,7 @@
 	 * @param {*} $element
 	 * @return
 	 */
-	const getRawNameAndValues = function($element) {
+	const getRawNameAndValues = function ($element) {
 		let name = $element.attr('name');
 		let values;
 		if ($element.attr("type") === "checkbox") {
@@ -140,7 +140,7 @@
 	 */
 	function parseFieldIdentifier(name) {
 		const names = name.split('[');
-		const nameObj = {template: names[0]};
+		const nameObj = { template: names[0] };
 		if (names[names.length - 1] === ']') {
 			nameObj.isList = true;
 			let property = names[names.length - 2]
@@ -332,14 +332,37 @@
 	 * @return array of two element arrays containing [title, property]
 	 */
 	function parsePlainlistQueryResult(values) {
+		// "0()3(5())9" -> {left: 4, right: 8}
+		const lastToplevelBracketPair = function (text) {
+			let depth = 0;
+			let right;
+			for (let i = text.length - 1; i >= 0; i--) {
+				if (text[i] === ")") {
+					depth += 1;
+					if (depth === 1) {
+						right = i;
+					}
+				} else if (text[i] === "(") {
+					if (depth > 0) {
+						depth -= 1;
+						if (depth === 0) {
+							return { left: i, right };
+						}
+					}
+				}
+			}
+		};
+
 		return values.map(function (value) {
 			value = value || '';
-			const cutAt = value.lastIndexOf('(');
-			return cutAt === -1
-				? [ value, value ]
-				: [ value.substring(0, cutAt).trim(),
-					value.substring(cutAt + 1, value.length - 1)
-				];
+			const pair = lastToplevelBracketPair(value);
+			if (pair === undefined) {
+				return [ value, value ];
+			}
+			return [
+				value.slice(0, pair.left - 1),
+				value.slice(pair.left + 1, pair.right)
+			].map(s => s.trim());
 		});
 	}
 

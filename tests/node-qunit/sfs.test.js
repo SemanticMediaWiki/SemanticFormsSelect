@@ -22,8 +22,14 @@ QUnit.test("parseFieldIdentifier works as expected", assert => {
 });
 
 QUnit.test("parsePlainlistQueryResult parses in title -> display-title", assert => {
-	const result = sfs._parsePlainlistQueryResult([ "X (Y)", "Y (A) (Z)" ]);
-	assert.deepEqual(result, [ [ "X", "Y" ], [ "Y (A)", "Z" ] ]);
+	const parse = sfs._parsePlainlistQueryResult;
+
+	assert.deepEqual(parse([ "X (Y)" ]), [ [ "X", "Y" ] ]);
+	assert.deepEqual(parse([ "X (Y) 1" ]), [ [ "X", "Y" ] ]);
+	assert.deepEqual(parse([ " X  ( Y  ) " ]), [ [ "X", "Y" ] ]);
+	assert.deepEqual(parse([ "Y (A) (Z)" ]), [ [ "Y (A)", "Z" ] ]);
+	assert.deepEqual(parse([ "X (Y(5)) (Z(1))" ]), [ [ "X (Y(5))", "Z(1)" ] ]);
+	assert.deepEqual(parse([ "X (1 (Y)" ]), [ [ "X (1", "Y" ] ]);
 });
 
 QUnit.test("parsePlainlistQueryResult parses in the property ('mainlabel=-') case", assert => {
