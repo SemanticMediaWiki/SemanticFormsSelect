@@ -94,7 +94,7 @@ class ApiSemanticFormsSelect extends ApiBase {
 	protected function getParser(): Parser {
 		$parser = MediaWikiServices::getInstance()->getParserFactory()->create();
 		$parser->setTitle( Title::newFromText( 'NO TITLE' ) );
-		$parser->setOptions( new ParserOptions() );
+		$parser->setOptions( new ParserOptions( $this->getUser() ) );
 		$parser->resetOutput();
 
 		return $parser;
