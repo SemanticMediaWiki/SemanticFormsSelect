@@ -1,8 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
+			"LittlePaw365",
 			"Liuxinyu970226"
 		]
 	},
-	"sfs-desc": "允许在从查询检索值的表单中生成选择字段"
+	"sfs-desc": "允许在表单内生成从查询中检索值的选择字段"
 }
