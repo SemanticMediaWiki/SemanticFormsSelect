@@ -253,7 +253,7 @@ class SelectFieldTest extends \PHPUnit_Framework_TestCase {
 		$parser = MediaWikiServices::getInstance()->getParser();
 		$parser->setOutputType(Parser::OT_HTML);
 		$parser->setTitle( Title::newFromText( 'NO TITLE' ) );
-		$parser->mOptions = new ParserOptions();
+		$parser->setOptions( new ParserOptions() );
 		$parser->resetOutput();
 		$parser->clearState();
 		$this->selectField = new SelectField( $parser );
