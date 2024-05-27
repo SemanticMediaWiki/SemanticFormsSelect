@@ -64,6 +64,10 @@ class ApiSemanticFormsSelectRequestProcessor {
 			throw new InvalidArgumentException( 'Missing an query parameter' );
 		}
 
+		if ( !isset( $parameters['query'] ) || !isset( $parameters['sep'] ) ) {
+			throw new InvalidArgumentException( 'Missing an query parameter' );
+		}
+
 		$this->parser->firstCallInit();
 		$json = [];
 
@@ -147,7 +151,7 @@ class ApiSemanticFormsSelectRequestProcessor {
 
 	private function getFormattedValuesFrom( $sep, $values ) {
 
-		if ( strpos( $values, $sep ) === false ) {
+		if ( strpos( $values ?? '', $sep ) === false ) {
 			return [ $values ];
 		}
 

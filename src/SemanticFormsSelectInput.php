@@ -54,8 +54,8 @@ class SemanticFormsSelectInput extends PFFormInput {
 	 * This is currently just a wrapper for getHTML().
 	 */
 	public function getHtmlText() {
-		return self::getHTML( $this->mCurrentValue, $this->mInputName, $this->mIsMandatory, $this->mIsDisabled,
-			$this->mOtherArgs );
+		return self::getHTML( $this->mIsMandatory, $this->mIsDisabled,
+			$this->mOtherArgs, $this->mCurrentValue, $this->mInputName );
 	}
 
 	/**
@@ -69,7 +69,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 	 * @param    string[] $other_args Array of other field parameters
 	 * @return string
 	 */
-	public function getHTML( $cur_value = "", $input_name = "", $is_mandatory, $is_disabled, Array $other_args ) {
+	public function getHTML( $is_mandatory, $is_disabled, Array $other_args, $cur_value = "", $input_name = "" ) {
 		global $wgPageFormsFieldNum, $wgUser;
 
 		// shortcut to the SelectField object

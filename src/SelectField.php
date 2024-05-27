@@ -40,7 +40,7 @@ class SelectField {
 	/**
 	 * Convenience function to process all parameters at once
 	 */
-	public function processParameters( $input_name = "", $other_args ) {
+	public function processParameters( $other_args, $input_name = "" ) {
 		if ( array_key_exists( "query", $other_args ) ) {
 			$this->setQuery( $other_args );
 		} elseif ( array_key_exists( "function", $other_args ) ) {
