@@ -38,7 +38,7 @@ class SelectFieldTest extends \PHPUnit_Framework_TestCase {
 	public function testProcessParameters_Query() {
 
 		$this->selectField->processParameters(
-			"", $this->other_args_query_parametrized
+			$this->other_args_query_parametrized, ""
 		);
 		$this->assertTrue(
 			array_key_exists( "query", $this->other_args_query_parametrized )
@@ -48,7 +48,7 @@ class SelectFieldTest extends \PHPUnit_Framework_TestCase {
 	public function testProcessParameters_Function() {
 
 		$this->selectField->processParameters(
-			"", $this->other_args_function_parametrized
+			$this->other_args_function_parametrized, ""
 		);
 		$this->assertArrayHasKey(
 			"function", $this->other_args_function_parametrized
@@ -250,10 +250,23 @@ class SelectFieldTest extends \PHPUnit_Framework_TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
+		$user = $this->getMockBuilder( 'MediaWiki\User\UserIdentity' )
+			->disableOriginalConstructor()
+			->getMock();
+		$name = $user->getName();
+		$parserOption;
+
+		if ( version_compare( MW_VERSION, '1.39', '>=' ) ) {
+			//check if version is higher than 1.39, or the same (the getOption() function within ParserOptions is different then in MW 1.35)
+			$parserOption = new ParserOptions( $user );
+		} else {
+			//if MW version is lower than 1.39
+			$parserOption = new ParserOptions( $name );
+		}
 		$parser = MediaWikiServices::getInstance()->getParser();
 		$parser->setOutputType(Parser::OT_HTML);
 		$parser->setTitle( Title::newFromText( 'NO TITLE' ) );
-		$parser->mOptions = new ParserOptions();
+		$parser->setOptions($parserOption);
 		$parser->resetOutput();
 		$parser->clearState();
 		$this->selectField = new SelectField( $parser );
