@@ -1,6 +1,6 @@
 # Semantic Forms Select
 
-[![CI](https://github.com/SemanticMediaWiki/SemanticFormsSelect/actions/workflows/main.yml/badge.svg)](https://github.com/SemanticMediaWiki/SemanticFormsSelect/actions/workflows/main.yml)
+[![CI](https://github.com/SemanticMediaWiki/SemanticFormsSelect/actions/workflows/ci.yml/badge.svg)](https://github.com/SemanticMediaWiki/SemanticFormsSelect/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/SemanticMediaWiki/SemanticFormsSelect/branch/master/graph/badge.svg?token=sSjXlzUDXI)](https://codecov.io/gh/SemanticMediaWiki/SemanticFormsSelect)
 [![Latest Stable Version](https://poser.pugx.org/mediawiki/semantic-forms-select/version.png)](https://packagist.org/packages/mediawiki/semantic-forms-select)
 [![Packagist download count](https://poser.pugx.org/mediawiki/semantic-forms-select/d/total.png)](https://packagist.org/packages/mediawiki/semantic-forms-select)
