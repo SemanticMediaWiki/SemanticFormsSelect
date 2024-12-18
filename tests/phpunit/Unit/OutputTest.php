@@ -13,7 +13,7 @@ use SFS\Output;
  *
  * @author  mwjames
  */
-class OutputTest extends \PHPUnit_Framework_TestCase {
+class OutputTest extends \PHPUnit\Framework\TestCase {
 	private $data;
 
 	protected function setUp(): void {
