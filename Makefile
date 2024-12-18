@@ -18,7 +18,7 @@ DB_IMAGE?=""
 
 # extensions
 SMW_VERSION?=4.2.0
-PF_VERSION?=5.9.0
+PF_VERSION?=5.9
 
 # composer
 # Enables "composer update" inside of extension
