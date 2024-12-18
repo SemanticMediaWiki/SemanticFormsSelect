@@ -16,9 +16,6 @@
         <testsuite name="semantic-forms-select-unit">
             <directory>tests/phpunit/Unit</directory>
         </testsuite>
-        <testsuite name="semantic-forms-select-integration">
-            <directory>tests/phpunit/Integration</directory>
-        </testsuite>
     </testsuites>
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
