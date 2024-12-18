@@ -20,7 +20,7 @@ use Title;
  * @group  semantic-forms-select
  * @author FelixAba
  */
-class SelectFieldTest extends \PHPUnit_Framework_TestCase {
+class SelectFieldTest extends \PHPUnit\Framework\TestCase {
 	private $selectField;
 	
 	private $other_args_query_parametrized = [ 'query' => '((Category:Building Complex))((Part Of Site::@@@@));?Display Title;format~list;sort~Display Title;sep~,;link~none;headers~hide;limit~500' ];

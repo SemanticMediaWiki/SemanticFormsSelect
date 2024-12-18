@@ -13,7 +13,7 @@ use SFS\SemanticFormsSelectInput;
  *
  * @author  FelixAba
  */
-class SemanticFormsSelectInputTest extends \PHPUnit_Framework_TestCase {
+class SemanticFormsSelectInputTest extends \PHPUnit\Framework\TestCase {
 
 	private $SFSInput;
 
