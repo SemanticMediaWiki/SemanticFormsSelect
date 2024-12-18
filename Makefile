@@ -11,13 +11,13 @@ endif
 EXTENSION := SemanticFormsSelect
 
 # docker images
-MW_VERSION?=1.35
+MW_VERSION?=1.39
 PHP_VERSION?=7.4
 DB_TYPE?=sqlite
 DB_IMAGE?=""
 
 # extensions
-SMW_VERSION?=4.1.2
+SMW_VERSION?=4.2.0
 PF_VERSION?=5.5.1
 
 # composer
