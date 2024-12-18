@@ -18,7 +18,7 @@ use FauxRequest;
  * @author  FelixAba
  */
 class ApiSemanticFormsSelectRequestProcessorTest
-	extends \PHPUnit_Framework_TestCase {
+	extends \PHPUnit\Framework\TestCase {
 
 	private $ApiSFSRP;
 

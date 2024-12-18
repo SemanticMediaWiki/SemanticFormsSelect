@@ -17,7 +17,7 @@ use FauxRequest;
  *
  * @author  mwjames
  */
-class ApiSemanticFormsSelectTest extends \PHPUnit_Framework_TestCase {
+class ApiSemanticFormsSelectTest extends \PHPUnit\Framework\TestCase {
 
 	private $ApiSFS;
 	private $ApiMain;
