@@ -25,5 +25,3 @@ if ( ExtensionRegistry::getInstance()->isLoaded( 'SemanticFormsSelect' ) ) {
 
 $autoloader = require $autoloaderClassPath;
 $autoloader->addPsr4( 'SFS\\Tests\\', __DIR__ . '/phpunit/Unit' );
-// $autoloader->addPsr4( 'SFS\\Tests\\Integration\\', __DIR__ . '/phpunit/Integration' );
-unset( $autoloader );
