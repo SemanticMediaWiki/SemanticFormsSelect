@@ -24,6 +24,4 @@ if ( ExtensionRegistry::getInstance()->isLoaded( 'SemanticFormsSelect' ) ) {
 //print sprintf( "%-20s%s\n", "Page Forms: ", SemanticFormsSelect::getVersion( 'PageForms' ) );
 
 $autoloader = require $autoloaderClassPath;
-//$autoloader->addPsr4( 'SFS\\Tests\\', __DIR__ . '/phpunit/Unit' );
-//$autoloader->addPsr4( 'SFS\\Tests\\Integration\\', __DIR__ . '/phpunit/Integration' );
-unset( $autoloader );
+$autoloader->addPsr4( 'SFS\\Tests\\', __DIR__ . '/phpunit/Unit' );
