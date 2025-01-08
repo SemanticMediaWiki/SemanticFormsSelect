@@ -25,8 +25,12 @@
 		"SFS\\ApiSemanticFormsSelect": "src/ApiSemanticFormsSelect.php"
 	},
 	"config": {
-		"ScriptSelectCount": 0,
-		"SF_Select_debug": false
+		"ScriptSelectCount": {
+			"value": 0
+		},
+		"SF_Select_debug": {
+			"value": false
+		},
 	},
 	"callback": "SFS\\Hooks::onRegistration",
 	"MessagesDirs": {
