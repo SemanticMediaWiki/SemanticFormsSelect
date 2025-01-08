@@ -30,7 +30,7 @@
 		},
 		"SF_Select_debug": {
 			"value": false
-		},
+		}
 	},
 	"callback": "SFS\\Hooks::onRegistration",
 	"MessagesDirs": {
