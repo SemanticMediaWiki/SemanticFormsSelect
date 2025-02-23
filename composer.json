@@ -38,7 +38,7 @@
 	],
 	"require": {
 		"php": ">=7.4",
-		"composer/installers": "1.*,>=1.0.1"
+		"composer/installers": ">=1.0.1"
 	},
 	"require-dev": {
 		"mediawiki/semantic-media-wiki": "@dev",
@@ -57,7 +57,10 @@
 		}
 	},
 	"config": {
-		"process-timeout": 0
+		"process-timeout": 0,
+		"allow-plugins": {
+			"composer/installers": true
+		}
 	},
 	"scripts":{
 		"test": [
@@ -68,8 +71,12 @@
 		"test-coverage": [
 			"@phpunit-coverage"
 		],
-		"lint": "parallel-lint . --exclude vendor --exclude node_modules",
+		"lint": "parallel-lint . --exclude vendor --exclude node_modules --exclude extensions",
 		"phpunit": "php ../../tests/phpunit/phpunit.php -c phpunit.xml.dist",
-		"phpunit-coverage": "php ../../tests/phpunit/phpunit.php -c phpunit.xml.dist --testdox --coverage-text --coverage-html coverage/php --coverage-clover coverage/php/coverage.xml"
+		"phpunit-coverage": "php ../../tests/phpunit/phpunit.php -c phpunit.xml.dist --testdox --coverage-text --coverage-html coverage/php --coverage-clover coverage/php/coverage.xml",
+		"post-test-coverage": [
+			"sed -i 's|/var/www/html/extensions/SemanticFormsSelect/||g' coverage/php/coverage.xml",
+			"find coverage/php -type f -name '*.html' -exec sed -i 's|/var/www/html/extensions/||g' {} +"
+		]
 	}
 }
