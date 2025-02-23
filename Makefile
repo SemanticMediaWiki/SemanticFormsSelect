@@ -12,12 +12,12 @@ EXTENSION := SemanticFormsSelect
 
 # docker images
 MW_VERSION?=1.39
-PHP_VERSION?=7.4
+PHP_VERSION?=8.1
 DB_TYPE?=sqlite
 DB_IMAGE?=""
 
 # extensions
-SMW_VERSION?=4.2.0
+SMW_VERSION?=dev-master
 PF_VERSION?=5.9
 
 # composer
