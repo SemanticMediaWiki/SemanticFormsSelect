@@ -191,6 +191,15 @@ class SemanticFormsSelectInput extends PFFormInput {
 
 					} else {
 
+						// Check if $val contains a long HTML-formatted string instead of a raw value.
+						// If so, extract the actual value from within the <span class="smw-value"> tag.
+						if ( strpos( $val, '<span class="smw-value">' ) !== false ) {
+							preg_match( '/<span class="smw-value">(.*?)<\/span>/', $val, $matches );
+							if ( isset( $matches[1] ) ) {
+								$val = $matches[1];
+							}
+						}
+
 						if ( in_array( $val, $curvalues ) ) {
 							$selected = " selected='selected'";
 						}
