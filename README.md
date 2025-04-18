@@ -2,8 +2,11 @@
 
 [![CI](https://github.com/SemanticMediaWiki/SemanticFormsSelect/actions/workflows/ci.yml/badge.svg)](https://github.com/SemanticMediaWiki/SemanticFormsSelect/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/SemanticMediaWiki/SemanticFormsSelect/branch/master/graph/badge.svg?token=sSjXlzUDXI)](https://codecov.io/gh/SemanticMediaWiki/SemanticFormsSelect)
+[![Latest Stable Version](https://poser.pugx.org/mediawiki/semantic-forms-select/v/stable)](https://packagist.org/packages/mediawiki/semantic-forms-select)
+[![Download count](https://poser.pugx.org/mediawiki/semantic-forms-select/downloads)](https://packagist.org/packages/mediawiki/semantic-forms-select)
+[![License](https://poser.pugx.org/mediawiki/semantic-forms-select/license)](LICENSE)
 
-Semantic Forms Select (a.k.a. SFS) can generate a select form element with values retrieved from a `#ask` query or a parser function.
+Semantic Forms Select can generate a select form element with values retrieved from a `#ask` query or a parser function.
 
 ## Requirements
 
@@ -29,7 +32,7 @@ in your shell:
     wget https://getcomposer.org/composer.phar
 
 ### Step 2
-    
+
 If you do not have a "composer.local.json" file yet, create one and add the following content to it:
 
 ```
