@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Stefan2255"
+		]
+	},
+	"sfs-desc": "Tillåter generering av ett urvalsfält i ett formulär vars värden hämtas från en fråga"
+}
