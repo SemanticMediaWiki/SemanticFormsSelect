@@ -14,10 +14,10 @@ namespace SFS;
 
 use ApiBase;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
 use Parser;
 use ParserOptions;
 use ParserOutput;
-use Title;
 
 class ApiSemanticFormsSelect extends ApiBase {
 
