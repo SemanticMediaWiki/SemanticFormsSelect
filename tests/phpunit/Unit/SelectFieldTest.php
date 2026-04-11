@@ -9,11 +9,10 @@
 namespace SFS\Tests;
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
 use Parser;
-use SFS\SelectField;
-
 use ParserOptions;
-use Title;
+use SFS\SelectField;
 
 /**
  * @covers \SFS\SelectField
