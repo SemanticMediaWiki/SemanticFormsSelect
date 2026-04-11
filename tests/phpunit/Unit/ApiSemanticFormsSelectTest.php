@@ -2,11 +2,11 @@
 
 namespace SFS\Tests;
 
+use MediaWiki\Api\ApiMain;
+use MediaWiki\Context\RequestContext;
+use MediaWiki\Request\WebRequest;
+use MediaWiki\Request\FauxRequest;
 use SFS\ApiSemanticFormsSelect;
-use ApiMain;
-use RequestContext;
-use WebRequest;
-use FauxRequest;
 
 /**
  * @covers  \SFS\ApiSemanticFormsSelect
