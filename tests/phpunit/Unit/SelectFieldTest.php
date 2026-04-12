@@ -9,11 +9,10 @@
 namespace SFS\Tests;
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
 use Parser;
-use SFS\SelectField;
-
 use ParserOptions;
-use Title;
+use SFS\SelectField;
 
 /**
  * @covers \SFS\SelectField
@@ -256,13 +255,7 @@ class SelectFieldTest extends \PHPUnit\Framework\TestCase {
 		$name = $user->getName();
 		$parserOption;
 
-		if ( version_compare( MW_VERSION, '1.39', '>=' ) ) {
-			//check if version is higher than 1.39, or the same (the getOption() function within ParserOptions is different then in MW 1.35)
-			$parserOption = new ParserOptions( $user );
-		} else {
-			//if MW version is lower than 1.39
-			$parserOption = new ParserOptions( $name );
-		}
+		$parserOption = new ParserOptions( $user );
 		$parser = MediaWikiServices::getInstance()->getParser();
 		$parser->setOutputType(Parser::OT_HTML);
 		$parser->setTitle( Title::newFromText( 'NO TITLE' ) );
@@ -276,6 +269,5 @@ class SelectFieldTest extends \PHPUnit\Framework\TestCase {
 		unset( $this->selectField );
 		parent::tearDown();
 	}
-
 
 }
