@@ -7,10 +7,10 @@ Semantic Forms Select (a.k.a. SFS) can generate a select form element with value
 
 ## Requirements
 
-- PHP 7.4 or later
-- MediaWiki 1.39 or later
-- [Semantic MediaWiki][smw] 4.0.0 or later
-- [Page Forms][pf] 5.9.0 or later
+- PHP 8.1 or later
+- MediaWiki 1.43 or later
+- [Semantic MediaWiki][smw] 6.0 or later
+- [Page Forms][pf] 6.0.0 or later
 
 ## Installation
 
