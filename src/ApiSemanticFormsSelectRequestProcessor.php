@@ -68,9 +68,6 @@ class ApiSemanticFormsSelectRequestProcessor {
 			throw new InvalidArgumentException( 'Missing an query parameter' );
 		}
 
-		$this->parser->firstCallInit();
-		$this->parser->clearState();
-		$this->parser->setOutputType(Parser::OT_HTML);
 		$json = [];
 
 		if ( isset( $parameters['approach'] ) && $parameters['approach'] == 'smw' ) {

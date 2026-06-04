@@ -93,9 +93,19 @@ class ApiSemanticFormsSelect extends ApiBase {
 	 */
 	protected function getParser(): Parser {
 		$parser = MediaWikiServices::getInstance()->getParserFactory()->create();
-		$parser->setTitle( Title::newFromText( 'NO TITLE' ) );
-		$parser->setOptions( new ParserOptions( $this->getUser() ) );
-		$parser->resetOutput();
+
+		// The request processor uses Parser::replaceVariables() directly rather
+		// than a full parse, so the parser must be put into a usable state first.
+		// startExternalParse() is the supported public entry point for this: it
+		// sets the page and options, sets the output type, and clears parser
+		// state. Without it, properties such as Parser::$ot and
+		// Parser::$mIncludeSizes are uninitialized and fatal under MW 1.43+
+		// (https://github.com/SemanticMediaWiki/SemanticFormsSelect/issues/139).
+		$parser->startExternalParse(
+			Title::newFromText( 'NO TITLE' ),
+			new ParserOptions( $this->getUser() ),
+			Parser::OT_HTML
+		);
 
 		return $parser;
 	}
