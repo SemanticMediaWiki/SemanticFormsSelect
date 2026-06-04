@@ -16,7 +16,8 @@
 	"requires": {
 		"MediaWiki": ">= 1.43",
 		"extensions": {
-			"SemanticMediaWiki": ">= 6.0"
+			"SemanticMediaWiki": ">= 6.0",
+			"PageForms": ">= 6.0"
 		}
 	},
 	"AutoloadClasses": {

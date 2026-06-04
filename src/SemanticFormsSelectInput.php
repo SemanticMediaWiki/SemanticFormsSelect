@@ -29,19 +29,6 @@ class SemanticFormsSelectInput extends PFFormInput {
 	 */
 	private static $data = [];
 
-	private $mSelectField;
-
-	public function __construct( $inputNumber, $curValue, $inputName, $disabled, $otherArgs ) {
-		parent::__construct( $inputNumber, $curValue, $inputName, $disabled, $otherArgs );
-
-		// SelectField is a simple value object - we accept creating it in the constructor.
-		// Use a local variable: SelectField::__construct() takes the parser by
-		// reference, and passing a method return value directly would emit an
-		// "Only variables should be passed by reference" notice.
-		$parser = $this->newInitializedParser();
-		$this->mSelectField = new SelectField( $parser );
-	}
-
 	/**
 	 * Create a dedicated, fully-initialized parser for SelectField.
 	 *
@@ -106,8 +93,15 @@ class SemanticFormsSelectInput extends PFFormInput {
 	public function getHTML( $is_mandatory, $is_disabled, Array $other_args, $cur_value = "", $input_name = "" ) {
 		global $wgPageFormsFieldNum, $wgUser;
 
-		// shortcut to the SelectField object
-		$selectField = $this->mSelectField;
+		// Build the SelectField (and its dedicated, initialized parser) lazily
+		// here rather than overriding the constructor. This keeps the class
+		// agnostic to PFFormInput's constructor signature, which Page Forms
+		// changed in 6.0.6 (a leading OutputPage parameter); inheriting the
+		// parent constructor verbatim avoids the resulting ArgumentCountError.
+		// SelectField::__construct() takes the parser by reference, so pass a
+		// variable rather than the method-call result.
+		$parser = $this->newInitializedParser();
+		$selectField = new SelectField( $parser );
 
 		// get 'delimiter' before 'query' or 'function'
 		$selectField->setDelimiter( $other_args );

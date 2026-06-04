@@ -20,30 +20,18 @@ class SemanticFormsSelectInputTest extends \PHPUnit\Framework\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$value = '';
-		$inputName = '';
-		$isMandatory = false;
-		$isDisabled = false;
 
 		$otherArgs = [ 'template' => 'Foo', 'field' => '',
 		                    'function' => 'Bar', 'is_list' => true ];
 
-		$parserOutput = $this->getMockBuilder( '\ParserOutput' )
-			->disableOriginalConstructor()->getMock();
-
-		$parser = $this->getMockBuilder( '\Parser' )
-			->disableOriginalConstructor()->getMock();
-
-		$parser->expects( $this->any() )->method( 'getOutput' )->will(
-				$this->returnValue( $parserOutput )
-			);
+		// $inputNumber, $curValue, $inputName, $disabled, $otherArgs
 		$this->SFSInput = new SemanticFormsSelectInput(
-			$value, $inputName, $isMandatory, $isDisabled, $otherArgs
+			1, '', 'TestTemplate[Field]', false, $otherArgs
 		);
 	}
 
 	protected function tearDown(): void {
-		unset( $this->SelectField );
+		unset( $this->SFSInput );
 		parent::tearDown();
 	}
 
