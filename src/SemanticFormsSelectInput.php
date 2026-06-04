@@ -11,9 +11,12 @@
 
 namespace SFS;
 
+use MediaWiki\Context\RequestContext;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
 use SMWQueryProcessor as QueryProcessor;
 use Parser;
+use ParserOptions;
 use PFFormInput;
 use MWDebug;
 
@@ -31,9 +34,40 @@ class SemanticFormsSelectInput extends PFFormInput {
 	public function __construct( $inputNumber, $curValue, $inputName, $disabled, $otherArgs ) {
 		parent::__construct( $inputNumber, $curValue, $inputName, $disabled, $otherArgs );
 
-		// SelectField is a simple value object - we accept creating it in the constructor
-		$parser = MediaWikiServices::getInstance()->getParser();
+		// SelectField is a simple value object - we accept creating it in the constructor.
+		// Use a local variable: SelectField::__construct() takes the parser by
+		// reference, and passing a method return value directly would emit an
+		// "Only variables should be passed by reference" notice.
+		$parser = $this->newInitializedParser();
 		$this->mSelectField = new SelectField( $parser );
+	}
+
+	/**
+	 * Create a dedicated, fully-initialized parser for SelectField.
+	 *
+	 * SelectField (for the "function=" parameter) calls Parser::replaceVariables()
+	 * directly. That requires a parser whose output type and parse state are
+	 * already initialized, otherwise typed properties such as Parser::$ot and
+	 * Parser::$mIncludeSizes are accessed before initialization and fatal under
+	 * MW 1.43+ (cf. issue #139, which fixed the equivalent path in the
+	 * sformsselect API).
+	 *
+	 * The shared global parser (MediaWikiServices::getParser()) must NOT be used
+	 * here: if it has not started a parse it is uninitialized, and if it is
+	 * mid-parse calling replaceVariables() on it re-entrantly would corrupt that
+	 * parse. Use a separate instance primed via startExternalParse() instead.
+	 *
+	 * @return Parser
+	 */
+	private function newInitializedParser(): Parser {
+		$parser = MediaWikiServices::getInstance()->getParserFactory()->create();
+		$parser->startExternalParse(
+			Title::newFromText( 'NO TITLE' ),
+			new ParserOptions( RequestContext::getMain()->getUser() ),
+			Parser::OT_HTML
+		);
+
+		return $parser;
 	}
 
 	public static function getName() {
