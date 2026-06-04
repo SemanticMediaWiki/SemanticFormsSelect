@@ -2,9 +2,9 @@ This file contains the RELEASE-NOTES of the Semantic Forms Select (a.k.a. SFS) e
 
 ### 4.0.0
 
-Released on x x, x.
+Released on June 4, 2026.
 
-Compatible with MediaWiki 1.43 up to 1.45, PHP 8.1 up to 8.4, and SMW 6.0 up to 7.x.
+Compatible with MediaWiki 1.43 up to 1.45, PHP 8.1 up to 8.4, and SMW 6.0 up to 6.x.
 
 * Dropped support for MediaWiki 1.42 and lower
 * Dropped support for PHP 8.0 and lower
