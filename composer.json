@@ -51,11 +51,6 @@
 			"dev-master": "5.x-dev"
 		}
 	},
-	"autoload": {
-		"psr-4": {
-			"SFS\\": "src/"
-		}
-	},
 	"config": {
 		"process-timeout": 0,
 		"allow-plugins": {
