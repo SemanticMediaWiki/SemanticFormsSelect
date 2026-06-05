@@ -10,6 +10,8 @@ Compatible with MediaWiki 1.43 up to 1.45, PHP 8.1 up to 8.4, and Semantic Media
 * Raised the minimum required Page Forms version to 6.0.6
 * Added support for Semantic MediaWiki 7.0
 * Migrated the query processing to Semantic MediaWiki 7.0's namespaced `SMW\Query\QueryProcessor` API
+* Completed the migration of extension registration to `extension.json` (declarative API module and autoloading, removed the procedural registration callback and the root entry-point file)
+* Removed the unused `$wgScriptSelectCount` configuration setting (it was read nowhere)
 
 ### 4.0.0
 

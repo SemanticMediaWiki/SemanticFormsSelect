@@ -20,54 +20,46 @@
 			"PageForms": ">= 6.0.6"
 		}
 	},
-	"AutoloadClasses": {
-		"SFS\\Hooks": "SemanticFormsSelect.hooks.php",
-		"SFS\\SemanticFormsSelectInput": "src/SemanticFormsSelectInput.php",
-		"SFS\\Output": "src/Output.php",
-		"SFS\\SelectField": "src/SelectField.php",
-		"SFS\\ApiSemanticFormsSelectRequestProcessor": "src/ApiSemanticFormsSelectRequestProcessor.php",
-		"SFS\\ApiSemanticFormsSelect": "src/ApiSemanticFormsSelect.php"
+	"AutoloadNamespaces": {
+		"SFS\\": "src/"
 	},
 	"config": {
-		"ScriptSelectCount": {
-			"value": 0
-		},
 		"SF_Select_debug": {
 			"value": false
 		}
 	},
-	"callback": "SFS\\Hooks::onRegistration",
+	"APIModules": {
+		"sformsselect": "SFS\\ApiSemanticFormsSelect"
+	},
 	"MessagesDirs": {
 		"SemanticFormsSelect": [
 			"i18n"
 		]
 	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "res",
+		"remoteExtPath": "SemanticFormsSelect/res"
+	},
 	"ResourceModules": {
 		"ext.sfs": {
 			"scripts": [
-				"res/pf.originalValueLookup.js",
-				"res/sfs.js",
-				"res/index.js"
+				"pf.originalValueLookup.js",
+				"sfs.js",
+				"index.js"
 			],
 			"styles": [
-				"res/select2.css"
+				"select2.css"
 			],
 			"dependencies": [
 				"ext.pageforms.main",
 				"ext.pageforms.select2"
-			],
-			"position": "bottom"
+			]
 		}
-	},
-	"ResourceFileModulePaths": {
-		"localBasePath": "",
-		"remoteExtPath": "SemanticFormsSelect"
 	},
 	"Hooks": {
 		"ParserFirstCallInit": [
 			"SFS\\Hooks::onSemanticFormsSelectSetup"
 		]
 	},
-	"load_composer_autoloader":true,
 	"manifest_version": 2
 }

@@ -13,8 +13,6 @@
 		<exclude name="MediaWiki.Commenting.PropertyDocumentation.WrongStyle" />
 		<exclude name="MediaWiki.Commenting.MissingCovers.MissingCovers" />
 		<exclude name="MediaWiki.WhiteSpace.SpaceBeforeSingleLineComment.NewLineComment" />
-		<!-- Legacy entry-point filename (SemanticFormsSelect.hooks.php holds class Hooks). -->
-		<exclude name="MediaWiki.Files.ClassMatchesFilename.NotMatch" />
 		<!-- $IP in the test bootstrap is a MediaWiki core global. -->
 		<exclude name="MediaWiki.NamingConventions.ValidGlobalName.allowedPrefix" />
 		<exclude name="Generic.Files.LineLength.TooLong" />
