@@ -1,6 +1,6 @@
 {
 	"name": "Semantic Forms Select",
-	"version": "4.0.0",
+	"version": "5.0.0-alpha",
 	"author": [
 		"Jason Zhang",
 		"James Hong Kong",
@@ -16,8 +16,8 @@
 	"requires": {
 		"MediaWiki": ">= 1.43",
 		"extensions": {
-			"SemanticMediaWiki": ">= 6.0",
-			"PageForms": ">= 6.0"
+			"SemanticMediaWiki": ">= 7.0",
+			"PageForms": ">= 6.0.6"
 		}
 	},
 	"AutoloadClasses": {
@@ -66,9 +66,6 @@
 	"Hooks": {
 		"ParserFirstCallInit": [
 			"SFS\\Hooks::onSemanticFormsSelectSetup"
-		],
-		"ResourceLoaderTestModules":[
-			"SFS\\Hooks::onResourceLoaderTestModules"
 		]
 	},
 	"load_composer_autoloader":true,

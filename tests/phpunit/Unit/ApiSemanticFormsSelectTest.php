@@ -4,15 +4,15 @@ namespace SFS\Tests;
 
 use MediaWiki\Api\ApiMain;
 use MediaWiki\Context\RequestContext;
-use MediaWiki\Request\WebRequest;
 use MediaWiki\Request\FauxRequest;
+use MediaWiki\Request\WebRequest;
 use SFS\ApiSemanticFormsSelect;
 
 /**
  * @covers  \SFS\ApiSemanticFormsSelect
  * @group   semantic-forms-select
  *
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @since   1.3
  *
  * @author  mwjames
@@ -25,7 +25,7 @@ class ApiSemanticFormsSelectTest extends \PHPUnit\Framework\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$parameters = [ 'action' => 'sformsselect', 'approach' => 'smw',
-		                     'query'  => 'abc', 'sep' => ',' ];
+							 'query'  => 'abc', 'sep' => ',' ];
 
 		$this->ApiMain = new ApiMain(
 			$this->newRequestContext( $parameters ), true
@@ -41,9 +41,7 @@ class ApiSemanticFormsSelectTest extends \PHPUnit\Framework\TestCase {
 		parent::tearDown();
 	}
 
-
 	public function testCanConstruct() {
-
 		$apiMain = new ApiMain( $this->newRequestContext( [] ), true );
 
 		$instance = new ApiSemanticFormsSelect(
@@ -56,7 +54,6 @@ class ApiSemanticFormsSelectTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testExecute() {
-
 		$this->assertTrue(
 			$this->ApiSFS->execute()
 		);
@@ -69,7 +66,7 @@ class ApiSemanticFormsSelectTest extends \PHPUnit\Framework\TestCase {
 
 	public function testGetParamDescription() {
 		$tdata = [ 'approach' => 'The actual approach: function or smw',
-		                'query'    => 'The query of the former' ];
+						'query'    => 'The query of the former' ];
 		$this->assertEquals( $this->ApiSFS->getParamDescription(), $tdata );
 	}
 
@@ -78,9 +75,7 @@ class ApiSemanticFormsSelectTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals( $this->ApiSFS->getVersion(), $tdata );
 	}
 
-
 	private function newRequestContext( $request = [] ) {
-
 		$context = new RequestContext();
 
 		if ( $request instanceof WebRequest ) {

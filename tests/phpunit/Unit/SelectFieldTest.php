@@ -21,7 +21,7 @@ use SFS\SelectField;
  */
 class SelectFieldTest extends \PHPUnit\Framework\TestCase {
 	private $selectField;
-	
+
 	private $other_args_query_parametrized = [ 'query' => '((Category:Building Complex))((Part Of Site::@@@@));?Display Title;format~list;sort~Display Title;sep~,;link~none;headers~hide;limit~500' ];
 	private $expected_result_parametrized_setQuery = "[[Category:Building Complex]][[Part Of Site::@@@@]];?Display Title;format=list;sort=Display Title;sep=,;link=none;headers=hide;limit=500";
 	private $other_args_query_unparametrized = [ 'query' => '((Category:Building Complex));?Display Title;format~list;sort~Display Title;sep~,;link~none;headers~hide;limit~500' ];
@@ -30,22 +30,19 @@ class SelectFieldTest extends \PHPUnit\Framework\TestCase {
 	private $other_args_function_unparametrized = [ 'function' => 'ask:((Category:Building Complex));?Display Title;format~list;sort~Display Title;sep~@@;link~none;headers~hide;limit~500' ];
 
 	public function testCanConstruct() {
-
 		$this->assertInstanceOf( '\SFS\SelectField', $this->selectField );
 	}
 
 	public function testProcessParameters_Query() {
-
 		$this->selectField->processParameters(
 			$this->other_args_query_parametrized, ""
 		);
-		$this->assertTrue(
-			array_key_exists( "query", $this->other_args_query_parametrized )
+		$this->assertArrayHasKey(
+			"query", $this->other_args_query_parametrized
 		);
 	}
 
 	public function testProcessParameters_Function() {
-
 		$this->selectField->processParameters(
 			$this->other_args_function_parametrized, ""
 		);
@@ -55,7 +52,6 @@ class SelectFieldTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testParametrized_setQuery() {
-
 		$this->selectField->setQuery( $this->other_args_query_parametrized );
 
 		$this->assertEquals(
@@ -80,7 +76,6 @@ class SelectFieldTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testUnparametrized_setQuery() {
-
 		$this->selectField->setQuery( $this->other_args_query_unparametrized );
 
 		$this->assertTrue( $this->selectField->getValues() !== null );
@@ -88,7 +83,6 @@ class SelectFieldTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testParametrized_setFunction() {
-
 		$this->selectField->setFunction(
 			$this->other_args_function_parametrized
 		);
@@ -101,7 +95,6 @@ class SelectFieldTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testUnparametrized_setFunction() {
-
 		$this->selectField->setFunction(
 			$this->other_args_function_unparametrized
 		);
@@ -116,7 +109,6 @@ class SelectFieldTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testSetSelectIsMultiple_keyExistFalse() {
-
 		$other_args = [ "Not_part_of_multiple" => "blas blas blas" ];
 		$this->selectField->setSelectIsMultiple( $other_args );
 		$this->assertFalse( $this->selectField->getData()["selectismultiple"] );
@@ -176,7 +168,6 @@ class SelectFieldTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testSetValueTemplate_containsOtherArgsTemplate() {
-
 		$other_args = [ "template" => "test values" ];
 
 		$this->selectField->setValueTemplate( $other_args );
@@ -204,7 +195,6 @@ class SelectFieldTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testSetSelectRemove_keyExistFalse() {
-
 		$other_args = [ "no_rmdiv" => "test data" ];
 		$this->selectField->setSelectRemove( $other_args );
 		$this->assertFalse( $this->selectField->getData()["selectrm"] );
@@ -217,7 +207,6 @@ class SelectFieldTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testSetLabel_keyExistFalse() {
-
 		$other_args = [ "no_label" => "test data" ];
 		$this->selectField->setLabel( $other_args );
 		$this->assertArrayHasKey( "label", $this->selectField->getData() );
@@ -236,7 +225,6 @@ class SelectFieldTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testSetWgPageFormsListSeparator_keyExistTrue() {
-
 		$g_args = [ "delimiter" => ";" ];
 		$this->selectField->setDelimiter( $g_args );
 		$this->assertEquals(
@@ -257,9 +245,9 @@ class SelectFieldTest extends \PHPUnit\Framework\TestCase {
 
 		$parserOption = new ParserOptions( $user );
 		$parser = MediaWikiServices::getInstance()->getParser();
-		$parser->setOutputType(Parser::OT_HTML);
+		$parser->setOutputType( Parser::OT_HTML );
 		$parser->setTitle( Title::newFromText( 'NO TITLE' ) );
-		$parser->setOptions($parserOption);
+		$parser->setOptions( $parserOption );
 		$parser->resetOutput();
 		$parser->clearState();
 		$this->selectField = new SelectField( $parser );

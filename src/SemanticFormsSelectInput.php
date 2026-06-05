@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @since 1.3
  *
  * @author Jason Zhang
@@ -14,11 +14,9 @@ namespace SFS;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Title\Title;
-use SMWQueryProcessor as QueryProcessor;
 use Parser;
 use ParserOptions;
 use PFFormInput;
-use MWDebug;
 
 class SemanticFormsSelectInput extends PFFormInput {
 
@@ -90,8 +88,8 @@ class SemanticFormsSelectInput extends PFFormInput {
 	 * @param    string[] $other_args Array of other field parameters
 	 * @return string
 	 */
-	public function getHTML( $is_mandatory, $is_disabled, Array $other_args, $cur_value = "", $input_name = "" ) {
-		global $wgPageFormsFieldNum, $wgUser;
+	public function getHTML( $is_mandatory, $is_disabled, array $other_args, $cur_value = "", $input_name = "" ) {
+		global $wgPageFormsFieldNum;
 
 		// Build the SelectField (and its dedicated, initialized parser) lazily
 		// here rather than overriding the constructor. This keeps the class
@@ -125,7 +123,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 			$selectField->setValueField( $other_args );
 			$selectField->setSelectRemove( $other_args );
 
-			$item = Output::addToHeadItem( $selectField->getData() );
+			Output::addToHeadItem( $selectField->getData() );
 		}
 
 		Output::commitToParserOutput();
@@ -167,13 +165,13 @@ class SemanticFormsSelectInput extends PFFormInput {
 		// TODO Use Html::
 
 		$spanextra = $is_mandatory ? 'mandatoryFieldSpan' : '';
-		$is_single_select = (!$is_list) ? 'select-sfs-single' : '' ;
+		$is_single_select = ( !$is_list ) ? 'select-sfs-single' : '';
 		$ret = "<span class=\"inputSpan select-sfs $is_single_select $spanextra\"><select name='$inname' id='input_$wgPageFormsFieldNum' $extraatt>";
 
 		$curvalues = null;
 		if ( $cur_value ) {
 			if ( $cur_value === 'current user' ) {
-				$cur_value = $wgUser->getName();
+				$cur_value = RequestContext::getMain()->getUser()->getName();
 			}
 			if ( is_array( $cur_value ) ) {
 				$curvalues = $cur_value;
@@ -185,7 +183,6 @@ class SemanticFormsSelectInput extends PFFormInput {
 		} else {
 			$curvalues = [];
 		}
-
 
 		$labelArray = [];
 		if ( array_key_exists( "label", $other_args ) && $curvalues ) {
@@ -215,7 +212,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 							$selected = " selected='selected'";
 						}
 
-						$ret.="<option".$selected." value='".$labelArray[ $val ][0]."'>".$labelArray[ $val ][1]."</option>";
+						$ret .= "<option" . $selected . " value='" . $labelArray[ $val ][0] . "'>" . $labelArray[ $val ][1] . "</option>";
 
 					} else {
 
@@ -232,7 +229,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 							$selected = " selected='selected'";
 						}
 
-						$ret .= "<option".$selected.">$val</option>";
+						$ret .= "<option" . $selected . ">$val</option>";
 					}
 				}
 			}
@@ -247,13 +244,13 @@ class SemanticFormsSelectInput extends PFFormInput {
 						$selected = " selected='selected'";
 					}
 
-					$ret.="<option".$selected." value='".$labelArray[ $cur ][0]."'>".$labelArray[ $cur ][1]."</option>";
+					$ret .= "<option" . $selected . " value='" . $labelArray[ $cur ][0] . "'>" . $labelArray[ $cur ][1] . "</option>";
 
 				} else {
 					if ( in_array( $cur, $curvalues ) ) {
 						$selected = " selected='selected'";
 					}
-					$ret.="<option".$selected.">$cur</option>";
+					$ret .= "<option" . $selected . ">$cur</option>";
 				}
 			}
 
@@ -270,10 +267,8 @@ class SemanticFormsSelectInput extends PFFormInput {
 		return $ret;
 	}
 
-
 	private function getLabels( $labels ) {
-
-		$labelArray = [ ];
+		$labelArray = [];
 
 		if ( is_array( $labels ) ) {
 			foreach ( $labels as $label ) {
@@ -289,7 +284,7 @@ class SemanticFormsSelectInput extends PFFormInput {
 					$doneBr = 0;
 					$num = 0;
 
-					$labelArr = str_split ( $label );
+					$labelArr = str_split( $label );
 
 					$end = count( $labelArr ) - 1;
 					$iter = $end;
@@ -323,17 +318,16 @@ class SemanticFormsSelectInput extends PFFormInput {
 
 					}
 
-					$labelValue = implode( "", array_slice( $labelArr, $startBr+1, $endBr-$startBr-1 ) );
-					$labelKey = implode( "", array_slice( $labelArr, 0, $startBr-1 ) );
+					$labelValue = implode( "", array_slice( $labelArr, $startBr + 1, $endBr - $startBr - 1 ) );
+					$labelKey = implode( "", array_slice( $labelArr, 0, $startBr - 1 ) );
 
 				}
 
-				$labelArray[ $label ] = [ $labelKey, $labelValue ] ;
+				$labelArray[ $label ] = [ $labelKey, $labelValue ];
 			}
 
 		}
 
 		return $labelArray;
-
 	}
 }

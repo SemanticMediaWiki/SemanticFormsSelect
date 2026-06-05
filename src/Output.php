@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @since 1.3
  *
  * @author mwjames
@@ -10,7 +10,7 @@
 
 namespace SFS;
 
-//use MWDebug;
+// use MWDebug;
 
 class Output {
 
@@ -26,22 +26,22 @@ class Output {
 	 *
 	 * @param array $data
 	 */
-	public static function addToHeadItem( Array $data = [] ) {
-		return self::$headItems[] = $data;
+	public static function addToHeadItem( array $data = [] ) {
+		self::$headItems[] = $data;
+		return $data;
 	}
 
 	/**
 	 * Commit all SF_Select field parameters to Output
-	 *
 	 */
 	public static function commitToParserOutput() {
 		global $wgOut;	# is there a better way to get $output/$parser without using a global? (testability!)
 
 		// to be used in JS like:
 		// var SFSelect_fobjs = $.parseJSON( mw.config.get( 'sf_select' ) );
-		$wgOut->addJsConfigVars('sf_select', json_encode( self::$headItems ));
+		$wgOut->addJsConfigVars( 'sf_select', json_encode( self::$headItems ) );
 
-		//self::$resourceModules = array();
+		// self::$resourceModules = array();
 		//self::$headItems = array();
 	}
 }

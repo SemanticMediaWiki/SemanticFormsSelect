@@ -2,17 +2,13 @@
 
 namespace SFS\Tests;
 
-use MediaWiki\Api\ApiMain;
-use MediaWiki\Context\RequestContext;
-use MediaWiki\Request\WebRequest;
-use MediaWiki\Request\FauxRequest;
 use SFS\ApiSemanticFormsSelectRequestProcessor;
 
 /**
  * @covers  \SFS\ApiSemanticFormsSelectRequestProcessor
  * @group   semantic-forms-select
  *
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @since   3.0.0
  *
  * @author  FelixAba
@@ -39,7 +35,6 @@ class ApiSemanticFormsSelectRequestProcessorTest
 	}
 
 	public function testMissingParametersThrowsException() {
-
 		$parameters = [];
 
 		$this->expectException( 'InvalidArgumentException' );
@@ -49,7 +44,6 @@ class ApiSemanticFormsSelectRequestProcessorTest
 	}
 
 	public function testJsonResultValuesFromRequestParameters() {
-
 		$parameters = [ 'query' => 'foo', 'sep' => ',' ];
 
 		$this->assertIsObject(
@@ -59,11 +53,9 @@ class ApiSemanticFormsSelectRequestProcessorTest
 		);
 	}
 
-	public function testJsonResultValuesFromRequestParameters_doProcessQueryFor(
-	) {
-
+	public function testJsonResultValuesFromRequestParameters_doProcessQueryFor() {
 		$parameters = [ 'approach' => 'smw', 'query' => 'foo, baa, gaah',
-		                     'sep'      => ',' ];
+							 'sep'      => ',' ];
 
 		$this->assertIsObject(
 			$this->ApiSFSRP->getJsonDecodedResultValuesForRequestParameters(
@@ -86,7 +78,7 @@ class ApiSemanticFormsSelectRequestProcessorTest
 	public function testSetDebugFlag_doProcessQueryFor() {
 		$this->ApiSFSRP->setDebugFlag( true );
 		$parameters = [ 'approach' => 'smw', 'query' => 'my Query,query2',
-		                     'sep'      => ',' ];
+							 'sep'      => ',' ];
 
 		$this->assertIsObject(
 			$this->ApiSFSRP->getJsonDecodedResultValuesForRequestParameters(
@@ -107,7 +99,7 @@ class ApiSemanticFormsSelectRequestProcessorTest
 
 	public function testExistingSmwFormatIsOverwrittenByPlainlist() {
 		$calledWithRawparams = [];
-		$getResultFromFunctionParams = function ( $rawparams ) use ( &$calledWithRawparams ) {
+		$getResultFromFunctionParams = static function ( $rawparams ) use ( &$calledWithRawparams ) {
 			array_push( $calledWithRawparams, ...$rawparams );
 		};
 		$processor = new ApiSemanticFormsSelectRequestProcessor( $this->getParser(), $getResultFromFunctionParams );
@@ -130,7 +122,7 @@ class ApiSemanticFormsSelectRequestProcessorTest
 	 *
 	 * @return mixed Method return.
 	 */
-	public function invokeMethod(&$object, $methodName,
+	public function invokeMethod( &$object, $methodName,
 		array $parameters = []
 	) {
 		$reflection = new \ReflectionClass( get_class( $object ) );
