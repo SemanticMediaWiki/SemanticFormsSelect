@@ -2,22 +2,20 @@
 
 /**
  * Represents a Select Field.
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @since 3.0.0
  * @author: Alexander Gesinn
  */
 
 namespace SFS;
 
-use SMWQueryProcessor as QueryProcessor;
-use Parser;
-use MWDebug;
+use SMW\Query\QueryProcessor;
 
 class SelectField {
 
 	private $mParser = null;
 
-	//private $mSelectField = array();
+	// private $mSelectField = array();
 	private $mValues = null;
 	private $mHasStaticValues = false;
 
@@ -33,7 +31,7 @@ class SelectField {
 	private $mLabel = false;
 	private $mDelimiter = ",";
 
-	public function __construct( & $parser ) {
+	public function __construct( &$parser ) {
 		$this->mParser = $parser;
 	}
 
@@ -61,7 +59,7 @@ class SelectField {
 		$querystr = $other_args["query"];
 		$querystr = str_replace( [ "~", "(", ")" ], [ "=", "[", "]" ], $querystr );
 
-		//$this->mSelectField["query"] = $query;
+		// $this->mSelectField["query"] = $query;
 		$this->mQuery = $querystr;
 		$this->mData['selectquery'] = $querystr;
 
@@ -72,24 +70,24 @@ class SelectField {
 			// there is no need to run the parser, $query has been parsed already
 			//$params[0] = $wgParser->replaceVariables( $params[0] );
 
-			list( $query, $params ) = QueryProcessor::getQueryAndParamsFromFunctionParams( $rawparams, SMW_OUTPUT_WIKI, QueryProcessor::INLINE_QUERY, false );
-			
+			[ $query, $params ] = QueryProcessor::getQueryAndParamsFromFunctionParams( $rawparams, SMW_OUTPUT_WIKI, QueryProcessor::INLINE_QUERY, false );
+
 			$result = QueryProcessor::getResultFromQuery( $query, $params, SMW_OUTPUT_WIKI, QueryProcessor::INLINE_QUERY );
-		
+
 			$this->mValues = $this->getFormattedValuesFrom( $this->mDelimiter, $result );
-		
+
 			$this->setHasStaticValues( true );
 		}
 	}
 
 	public function setFunction( $other_args ) {
-		#global $wgParser;
+		# global $wgParser;
 
 		$function = $other_args["function"];
 		$function = '{{#' . $function . '}}';
 		$function = str_replace( [ "~", "(", ")" ], [ "=", "[", "]" ], $function );
 
-		//$this->mSelectField["function"] = $function;
+		// $this->mSelectField["function"] = $function;
 		$this->mFunction = $function;
 		$this->mData['selectfunction'] = $function;
 
@@ -103,7 +101,7 @@ class SelectField {
 		}
 	}
 
-	public function setSelectIsMultiple( Array $other_args ) {
+	public function setSelectIsMultiple( array $other_args ) {
 		$this->mSelectIsMultiple = array_key_exists( "part_of_multiple", $other_args );
 		$this->mData["selectismultiple"] = $this->mSelectIsMultiple;
 	}
@@ -120,24 +118,23 @@ class SelectField {
 		$this->mData['selectfield'] = $this->mSelectField;
 	}
 
-	public function setValueTemplate( Array $other_args ) {
+	public function setValueTemplate( array $other_args ) {
 		$this->mValueTemplate =
 			array_key_exists( "sametemplate", $other_args ) ? $this->mSelectTemplate : $other_args["template"];
 		$this->mData["valuetemplate"] = $this->mValueTemplate;
 	}
 
-	public function setValueField( Array $other_args ) {
+	public function setValueField( array $other_args ) {
 		$this->mValueField = $other_args["field"];
 		$this->mData["valuefield"] = $this->mValueField;
-
 	}
 
-	public function setSelectRemove( Array $other_args ) {
+	public function setSelectRemove( array $other_args ) {
 		$this->mSelectRemove = array_key_exists( 'rmdiv', $other_args );
 		$this->mData['selectrm'] = $this->mSelectRemove;
 	}
 
-	public function setLabel( Array $other_args ) {
+	public function setLabel( array $other_args ) {
 		$this->mLabel = array_key_exists( 'label', $other_args );
 		$this->mData['label'] = $this->mLabel;
 	}
@@ -146,10 +143,9 @@ class SelectField {
 	 * setDelimiter
 	 * @param array $other_args
 	 */
-	public function setDelimiter( Array $other_args ) {
-		
+	public function setDelimiter( array $other_args ) {
 		$this->mDelimiter = $GLOBALS['wgPageFormsListSeparator'];
-		
+
 		if ( array_key_exists( 'sep', $other_args ) ) {
 			$this->mDelimiter = $other_args['sep'];
 		} else {
@@ -188,11 +184,10 @@ class SelectField {
 	private function setHasStaticValues( $StaticValues ) {
 		$this->mHasStaticValues = $StaticValues;
 	}
-	
-	/** Copied from ApiSemanticFormsSelectRequestProcessor */
-	
-	private function getFormattedValuesFrom( $sep, $values ) {
 
+	/** Copied from ApiSemanticFormsSelectRequestProcessor */
+
+	private function getFormattedValuesFrom( $sep, $values ) {
 		if ( strpos( $values, $sep ) === false ) {
 			return [ $values ];
 		}

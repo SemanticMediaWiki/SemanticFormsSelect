@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @since 1.3
  *
  * @author Jason Zhang
@@ -11,10 +11,9 @@
 
 namespace SFS;
 
-use Parser;
-use SMWQueryProcessor;
 use InvalidArgumentException;
-use MWDebug;
+use Parser;
+use SMW\Query\QueryProcessor;
 
 class ApiSemanticFormsSelectRequestProcessor {
 
@@ -24,7 +23,7 @@ class ApiSemanticFormsSelectRequestProcessor {
 	private $parser;
 
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	private $debugFlag = false;
 
@@ -34,7 +33,6 @@ class ApiSemanticFormsSelectRequestProcessor {
 	 * @param Parser $parser
 	 * @param null $getSmwResultFromFunctionParams
 	 * @since 1.3
-	 *
 	 */
 	public function __construct( Parser $parser, $getSmwResultFromFunctionParams = null ) {
 		$this->parser = $parser;
@@ -45,7 +43,7 @@ class ApiSemanticFormsSelectRequestProcessor {
 	/**
 	 * @since 1.3
 	 *
-	 * @param boolean $debugFlag
+	 * @param bool $debugFlag
 	 */
 	public function setDebugFlag( $debugFlag ) {
 		$this->debugFlag = $debugFlag;
@@ -59,7 +57,6 @@ class ApiSemanticFormsSelectRequestProcessor {
 	 * @return string
 	 */
 	public function getJsonDecodedResultValuesForRequestParameters( array $parameters ) {
-
 		if ( !isset( $parameters['query'] ) || !isset( $parameters['sep'] ) ) {
 			throw new InvalidArgumentException( 'Missing an query parameter' );
 		}
@@ -82,7 +79,6 @@ class ApiSemanticFormsSelectRequestProcessor {
 	}
 
 	private function doProcessQueryFor( $querystr, $sep = "," ) {
-
 		$querystr = str_replace(
 			[ "&lt;", "&gt;", "sep=;" ],
 			[ "<", ">", "sep={$sep};" ],
@@ -97,7 +93,7 @@ class ApiSemanticFormsSelectRequestProcessor {
 			error_log( implode( "|", $rawparams ) );
 		}
 
-		$result = ($this->getSmwResultFromFunctionParams)($rawparams);
+		$result = ( $this->getSmwResultFromFunctionParams )( $rawparams );
 
 		$values = $this->getFormattedValuesFrom( $sep, $result );
 
@@ -108,23 +104,23 @@ class ApiSemanticFormsSelectRequestProcessor {
 	}
 
 	private function extractRawParameters( $querystr ) {
-		$ensureParameter = function($name, $value) use (&$rawparams) {
-			$rawparams = array_filter($rawparams, function($param) use ($name) {
+		$ensureParameter = static function ( $name, $value ) use ( &$rawparams ) {
+			$rawparams = array_filter( $rawparams, static function ( $param ) use ( $name ) {
 				return substr_compare( $param, "$name=", 0, strlen( "$name=" ) ) !== 0;
-			});
-			if ($value !== null)
+			} );
+			if ( $value !== null ) {
 				$rawparams[] = "$name=$value";
+			}
 		};
 
 		$rawparams = explode( ";", $querystr );
 		// The JavaScript part expects plainlist format for parsing
-		$ensureParameter('format', 'plainlist');
+		$ensureParameter( 'format', 'plainlist' );
 
 		return $rawparams;
 	}
 
 	private function doProcessFunctionFor( $query, $sep = "," ) {
-
 		$query = str_replace(
 			[ "&lt;", "&gt;", "sep=;" ],
 			[ "<", ">", "sep={$sep};" ],
@@ -149,7 +145,6 @@ class ApiSemanticFormsSelectRequestProcessor {
 	}
 
 	private function getFormattedValuesFrom( $sep, $values ) {
-
 		if ( strpos( $values ?? '', $sep ) === false ) {
 			return [ $values ];
 		}
@@ -170,13 +165,13 @@ class ApiSemanticFormsSelectRequestProcessor {
 	 * @return string
 	 */
 	private static function defaultGetSmwResultFromFunctionParams( $rawparams ): string {
-		list( $query, $params ) =
-			SMWQueryProcessor::getQueryAndParamsFromFunctionParams( $rawparams, SMW_OUTPUT_WIKI,
-				SMWQueryProcessor::INLINE_QUERY, false );
+		[ $query, $params ] =
+			QueryProcessor::getQueryAndParamsFromFunctionParams( $rawparams, SMW_OUTPUT_WIKI,
+				QueryProcessor::INLINE_QUERY, false );
 
 		$result =
-			SMWQueryProcessor::getResultFromQuery( $query, $params, SMW_OUTPUT_WIKI,
-				SMWQueryProcessor::INLINE_QUERY );
+			QueryProcessor::getResultFromQuery( $query, $params, SMW_OUTPUT_WIKI,
+				QueryProcessor::INLINE_QUERY );
 
 		return $result;
 	}

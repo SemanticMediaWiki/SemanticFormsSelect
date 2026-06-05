@@ -2,13 +2,14 @@
 
 namespace SFS\Tests;
 
+use MediaWiki\Context\RequestContext;
 use SFS\SemanticFormsSelectInput;
 
 /**
  * @covers  \SFS\SemanticFormsSelectInput
  * @group   semantic-forms-select
  *
- * @license GNU GPL v2+
+ * @license GPL-2.0-or-later
  * @since   3.0.0
  *
  * @author  FelixAba
@@ -17,16 +18,17 @@ class SemanticFormsSelectInputTest extends \PHPUnit\Framework\TestCase {
 
 	private $SFSInput;
 
-
 	protected function setUp(): void {
 		parent::setUp();
 
 		$otherArgs = [ 'template' => 'Foo', 'field' => '',
-		                    'function' => 'Bar', 'is_list' => true ];
+							'function' => 'Bar', 'is_list' => true ];
 
-		// $inputNumber, $curValue, $inputName, $disabled, $otherArgs
+		// Page Forms 6.0.6+ takes the OutputPage as the leading constructor argument.
+		// $out, $inputNumber, $curValue, $inputName, $disabled, $otherArgs
+		$out = RequestContext::getMain()->getOutput();
 		$this->SFSInput = new SemanticFormsSelectInput(
-			1, '', 'TestTemplate[Field]', false, $otherArgs
+			$out, 1, '', 'TestTemplate[Field]', false, $otherArgs
 		);
 	}
 
@@ -56,7 +58,6 @@ class SemanticFormsSelectInputTest extends \PHPUnit\Framework\TestCase {
 	public function testGetParameters() {
 		$this->assertIsArray( $this->SFSInput->getParameters() );
 	}
-
 
 	public function testGetResourceModuleNames() {
 		$result = $this->SFSInput->getResourceModuleNames();
