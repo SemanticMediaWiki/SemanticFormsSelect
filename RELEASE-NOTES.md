@@ -1,8 +1,8 @@
 This file contains the RELEASE-NOTES of the Semantic Forms Select (a.k.a. SFS) extension.
 
-### 5.0.0-alpha
+### 5.0.0
 
-Released on TBD.
+Released on June 8, 2026.
 
 Compatible with MediaWiki 1.43 up to 1.45, PHP 8.1 up to 8.4, and Semantic MediaWiki 7.0.
 

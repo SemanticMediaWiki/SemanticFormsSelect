@@ -9,8 +9,8 @@ Semantic Forms Select (a.k.a. SFS) can generate a select form element with value
 
 - PHP 8.1 or later
 - MediaWiki 1.43 or later
-- [Semantic MediaWiki][smw] 6.0 or later
-- [Page Forms][pf] 6.0.0 or later
+- [Semantic MediaWiki][smw] 7.0 or later
+- [Page Forms][pf] 6.0.6 or later
 
 ## Installation
 
@@ -35,7 +35,7 @@ If you do not have a "composer.local.json" file yet, create one and add the foll
 ```
 {
 	"require": {
-		"mediawiki/semantic-forms-select": "~4.0"
+		"mediawiki/semantic-forms-select": "~5.0"
 	}
 }
 ```
@@ -43,7 +43,7 @@ If you do not have a "composer.local.json" file yet, create one and add the foll
 If you already have a "composer.local.json" file add the following line to the end of the "require"
 section in your file:
 
-    "mediawiki/semantic-forms-select": "~4.0"
+    "mediawiki/semantic-forms-select": "~5.0"
 
 Remember to add a comma to the end of the preceding line in this section.
 
@@ -84,7 +84,7 @@ Original code from https://code.google.com/p/semanticformsselect/downloads/list
 
 ## Tests
 
-This extension provides PHP and JavaScript tests that are run by continues integration platform
+This extension provides PHP and JavaScript tests that are run by a continuous integration platform
 but can also be executed using `composer phpunit` and `npm ci && npm test` from the extension base directory.
 
 ## License
