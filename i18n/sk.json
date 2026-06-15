@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Wizzard"
+		]
+	},
+	"sfs-desc": "Umožňuje vygenerovať vo formulári výberové pole, ktorého hodnoty sa získavajú z dotazu"
+}
