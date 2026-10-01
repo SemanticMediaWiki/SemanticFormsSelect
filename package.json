@@ -11,7 +11,7 @@
 	"devDependencies": {
 		"eslint-config-wikimedia": "0.20.0",
 		"jsdom": "^19.0.0",
-		"nyc": "^15.1.0",
+		"nyc": "^18.0.0",
 		"qunit": "^2.18.1",
 		"sinon": "^13.0.2"
 	},
