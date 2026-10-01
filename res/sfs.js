@@ -225,7 +225,7 @@
 					param['approach'] = 'function';
 				}
 
-				const posting = $.get(mw.config.get('wgScriptPath') + "/api.php", param);
+				const posting = $.ajax(mw.config.get('wgScriptPath') + "/api.php", {data: param, async: false});
 				posting.done(function (data) {
 					// Let's pass values
 					setDependentValues(srcName, sfsObject, data["sformsselect"].values);
